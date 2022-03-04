@@ -14,7 +14,7 @@ var version = 1;
 
 var currency;
 var a, b;
-
+var k;
 
 var init = () => {
   currency = theory.createCurrency();
@@ -63,6 +63,22 @@ var init = () => {
   //// Story chapters
   
   updateAvailability();
+}
+var updateAvailability = () => {
+    
+}
+var tick = (elapsedTime, multiplier) => {
+    let dt = BigNumber.from(elapsedTime * multiplier);
+    let bonus = theory.publicationMultiplier;
+
+    let k = getQ1(q1.level) ** 2
+
+    var exponentialSum = getSummation(n.level);
+
+    var tickSum = bonus * dt * k * a * b;
+    currency.value += tickSum;
+
+    theory.invalidatePrimaryEquation();
 }
 
 var getPrimaryEquation = () => {
