@@ -43,8 +43,8 @@ var init = () => {
 
     {
         a = theory.createMilestoneUpgrade(0, 1);
-        a.description = Localization.getUpgradeIncCustomExpDesc("a", `${aExp}`);
-        a.info = Localization.getUpgradeIncCustomExpInfo("a", `${aExp}`);
+        a.description = Localization.getUpgradeIncCustomExpDesc("a", `${a}`);
+        a.info = Localization.getUpgradeIncCustomExpInfo("a", `${a}`);
         a.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
 
