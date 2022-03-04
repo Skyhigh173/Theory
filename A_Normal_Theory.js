@@ -48,3 +48,25 @@ var init = () => {
   //// Milestone Upgrades
   theory.setMilestoneCost(new LinearCost(25, 25));
   
+  {
+    a1Exp = theory.createMilestoneUpgrade(0, 3);
+    a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.05");
+    a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.05");
+    a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+  }
+
+  {
+    a2Exp = theory.createMilestoneUpgrade(1, 3);
+    a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.05");
+    a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.05");
+    a2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+  }
+  
+  /////////////////
+  //// Achievements
+  achievement1 = theory.createAchievement(0, "A new start", "Buy a1", () => a1.level > 1);
+  
+  ///////////////////
+  //// Story chapters
+  chapter1 = theory.createStoryChapter(0, "News", "One day morning,\nyou see a strange formula.\nWhat is it?nYou decided to research it.", () => currency.value == 0);
+  
