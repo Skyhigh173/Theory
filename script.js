@@ -5,7 +5,7 @@ import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
 
-var id = 1;
+var id = 123432124;
 var name = "My Theory";
 var description = "Welcome! In this theory, you need to #%&#@=$#=)&*#$";
 var authors = "skyhigh173#3120";
