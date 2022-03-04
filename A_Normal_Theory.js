@@ -86,7 +86,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = c_1";
+    let result = "\\dot{\\rho} = a_1";
 
     if (a1Exp.level == 1) result += "^{0.05}";
     if (a1Exp.level == 2) result += "^{0.1}";
