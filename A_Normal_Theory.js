@@ -18,7 +18,7 @@ var achievement1;
 var chapter1;
 
 var init = () => {
-  currency = theory.createCurrency()
+  currency = theory.createCurrency();
   
   ///////////////////
   // Regular Upgrades
