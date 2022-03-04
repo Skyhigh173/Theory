@@ -70,3 +70,36 @@ var init = () => {
   //// Story chapters
   chapter1 = theory.createStoryChapter(0, "News", "One day morning,\nyou see a strange formula.\nWhat is it?nYou decided to research it.", () => currency.value == 0);
   
+  updateAvailability();
+}
+
+var updateAvailability = () => {
+  a2Exp.isAvailable = a1Exp.level > 0;
+}
+
+var tick = (elapsedTime, multiplier) => {
+  let dt = BigNumber.from(elapsedTime * multiplier);
+  let bonus = theory.publicationMultiplier;
+  currency.value += bonus * dt *getA1(a1.level).pow(getA1Exponent(a1Exp.level)) * getB1(b1.level).pow(getB1Exponent(b1Exp.level));
+}
+
+var getPrimaryEquation = () => {
+    let result = "\\dot{\\rho} = c_1";
+
+    if (c1Exp.level == 1) result += "^{0.05}";
+    if (c1Exp.level == 2) result += "^{0.1}";
+    if (c1Exp.level == 3) result += "^{0.15}";
+    return result;
+}
+
+var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
+var getTau = () => currency.value;
+var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
+
+var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getB1 = (level) => BigNumber.TWO.pow(level);
+var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
+var getB1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
+
+init();
