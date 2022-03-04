@@ -8,17 +8,18 @@ import { Utils } from "./api/Utils";
 var id = "sus";
 var name = "My Theory";
 var description = "Welcome! In this theory, you need to #%&#@=$#=)&*#$";
-var authors = skyhigh173#3120;
+var authors = "skyhigh173#3120";
 var version = 0;
 
 
 var currency;
 var a;
-theory.primaryEquationHeight=1;
 
-cat = theory.createAchievementCategory(0, "My Theory");
+
 var init = () => {
-  currency = theory.createCurrency()
+  currency = theory.createCurrency();
+  theory.primaryEquationHeight=1;
+  a = 1;
   /////////////////
   //Regular Upgrades
 
@@ -46,6 +47,6 @@ var init = () => {
 }
 
 var getPrimaryEquation = () => {
-  let result = "a\\sqrt{a}
+  let result = "a\\sqrt{a}";
   return result;
 }
