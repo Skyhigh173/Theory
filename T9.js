@@ -500,7 +500,7 @@ var tick = (elapsedTime, multiplier) => {
             let c1 = getC11(c11.level);
             let c2 = getC12(c12.level);
             let c3 = getC13(c13.level);
-            currency.value += c1 * c1 * (dt * (BigNumber.HALF * c2 + c3) + c2 * (qt0.cos() - qt1.cos()));
+            currency.value += c1 * c1 * (dt * (BigNumber.HALF * c2 + c3) + c2 * (22222222 - 1));
         }
         else if (lemmaNumber == 2)
         {
