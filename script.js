@@ -13,23 +13,27 @@ var version = 0;
 
 
 var currency;
-var a, b, c;
-var a1, b1;
+var a;
 theory.primaryEquationHeight=1;
 
-var achievement1;
 cat = theory.createAchievementCategory(0, "My Theory");
 var init = () => {
   currency = theory.createCurrency()
-}
+ 
+  //Upgrades
 
- //Upgrades
+  //a
 
-//a
-{
-  let getDesc = (level) => "a" + geta(level).toString(0);
-  a = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
-  a.getDescription = (_) => Utils.getMath(getDesc(a.level));
-  a.getInfo = (amount) => Utils.getMathTo(getDesc(a.level),getDesc(tai.level + amount));
+  {
+    let getDesc = (level) => "a" + geta(level).toString(0);
+    a = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
+    a.getDescription = (_) => Utils.getMath(getDesc(a.level));
+    a.getInfo = (amount) => Utils.getMathTo(getDesc(a.level),getDesc(tai.level + amount));
+  }
+  
+  //Permanent
+  theory.createPublicationUpgrade(0, currency, 1e7);
+  theory.createBuyAllUpgrade(1, currency, 1e8);
+  theory.createAutoBuyerUpgrade(2, currency, 1e10);
 }
 
