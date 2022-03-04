@@ -13,24 +13,28 @@ var version = 1;
 
 
 var currency;
-var a;
-var aExp;
+var a, b;
 
 
 var init = () => {
   currency = theory.createCurrency();
-  theory.primaryEquationHeight=1;
-  a = 1;
+  theory.primaryEquationHeight=100;
   /////////////////
   //Regular Upgrades
 
   //a
-
   {
-    let getDesc = (level) => "a" + geta(level).toString(0);
+    let getDesc = (level) => "a" + getA(level).toString(0);
     a = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
     a.getDescription = (_) => Utils.getMath(getDesc(a.level));
     a.getInfo = (amount) => Utils.getMathTo(getDesc(a.level),getDesc(a.level + amount));
+  }
+   //b
+  {
+    let getDesc = (level) => "b" + getB(level).toString(0);
+    b = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
+    b.getDescription = (_) => Utils.getMath(getDesc(b.level));
+    b.getInfo = (amount) => Utils.getMathTo(getDesc(b.level),getDesc(b.level + amount));
   }
  
   /////////////////
