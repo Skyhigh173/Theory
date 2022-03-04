@@ -4,8 +4,8 @@ import { BigNumber, parseBigNumber } from "../api/BigNumber";
 import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
-var id = "convergence_test"
-var name = "Convergence Test";
+var id = "convergence_test_lol"
+var name = "Convergence Test ?";
 var description = "An implementation of the 'Convergence Test' theory from the game.";
 var authors = "Gilles-Philippe Paillé";
 var version = 1;
