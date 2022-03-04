@@ -41,7 +41,7 @@ var init = () => {
     {
         let getDesc = (level) => "c_1=" + getC11(level).toString(0);
         let getInfo = (level) => "c_1=" + getC11(level).toString(0);
-        c11 = theory.createUpgrade(baseId + 0, currency, new FirstFreeCost(new ExponentialCost(0, Math.log2(1.5))));
+        c11 = theory.createUpgrade(baseId + 0, currency, new FirstFreeCost(new ExponentialCost(0, 0)));
         c11.getDescription = (amount) => Utils.getMath(getDesc(c11.level));
         c11.getInfo = (amount) => Utils.getMathTo(getInfo(c11.level), getInfo(c11.level + amount));
     }
