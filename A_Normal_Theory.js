@@ -4,9 +4,6 @@ import { BigNumber, parseBigNumber } from "../api/BigNumber";
 import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
-//for exponential idle
-//By skyhigh173
-// skyhigh173#3120
 
 var id = "Nothin";
 var name = "A normal theory";
@@ -15,10 +12,10 @@ var version = "Alpha 0.0.1";
 
 var currency;
 var a1, b1;
-var a1Exp, a2Exp;
+var a1Exp, b1Exp;
 
 var achievement1;
-var chapter 1;
+var chapter1;
 
 var init = () => {
   currency = theory.createCurrency()
