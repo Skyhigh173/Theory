@@ -15,6 +15,7 @@ var version = 1;
 var currency;
 var a, b;
 var k;
+b = 1;
 
 var init = () => {
   currency = theory.createCurrency();
@@ -29,13 +30,7 @@ var init = () => {
     a.getDescription = (_) => Utils.getMath(getDesc(a.level));
     a.getInfo = (amount) => Utils.getMathTo(getDesc(a.level),getDesc(a.level + amount));
   }
-   //b
-  {
-    let getDesc = (level) => "b" + getB(level).toString(0);
-    b = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
-    b.getDescription = (_) => Utils.getMath(getDesc(b.level));
-    b.getInfo = (amount) => Utils.getMathTo(getDesc(b.level),getDesc(b.level + amount));
-  }
+   
  
   /////////////////
   //Permanent Upgrades
