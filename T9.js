@@ -6,7 +6,7 @@ import { Utils } from "../api/Utils";
 
 var id = "convergence_test_lol"
 var name = "C?";
-var description = "An implementation of the 'NNNNN' theory from the game.";
+var description = "An implementation of the 'NNNNN' theory from the game.wait, what???";
 var authors = "nvm";
 var version = 1;
 
@@ -41,7 +41,7 @@ var init = () => {
     {
         let getDesc = (level) => "c_1=" + getC11(level).toString(0);
         let getInfo = (level) => "c_1=" + getC11(level).toString(0);
-        c11 = theory.createUpgrade(baseId + 0, currency, new FirstFreeCost(new ExponentialCost(10, Math.log2(1.5))));
+        c11 = theory.createUpgrade(baseId + 0, currency, new FirstFreeCost(new ExponentialCost(0, Math.log2(1.5))));
         c11.getDescription = (amount) => Utils.getMath(getDesc(c11.level));
         c11.getInfo = (amount) => Utils.getMathTo(getInfo(c11.level), getInfo(c11.level + amount));
     }
@@ -50,7 +50,7 @@ var init = () => {
     {
         let getDesc = (level) => "c_2=2^{" + level + "}";
         let getInfo = (level) => "c_2=" + getC12(level).toString(0);
-        c12 = theory.createUpgrade(baseId + 1, currency, new ExponentialCost(30, Math.log2(3)));
+        c12 = theory.createUpgrade(baseId + 1, currency, new ExponentialCost(0, Math.log2(3)));
         c12.getDescription = (amount) => Utils.getMath(getDesc(c12.level));
         c12.getInfo = (amount) => Utils.getMathTo(getInfo(c12.level), getInfo(c12.level + amount));
     }
@@ -634,7 +634,7 @@ var getPrimaryEquation = () => {
             result += "&";
         }
 
-        if (lemma.level == 0) result += "\\scriptstyle{\\lim\\limits_{t \\to \\infty}} b\\: >\\: 0";
+        if (lemma.level == 0) result += "\\scriptstyle{\\lim\\limits_{t \\to \\infty}} b <\\ 0 b\\: >\\: 0";
         if (lemma.level == 1) result += "\\scriptstyle{\\lim\\limits_{t \\to \\infty}} dt\\: >\\: 0";
         if (lemma.level == 2) result += "\\scriptstyle{\\lim\\limits_{t \\to \\infty}} x\\: >\\: 0";
         if (lemma.level == 3) result += "\\scriptstyle{\\lim\\limits_{t \\to \\infty}} \\varphi\\: >\\: 0";
@@ -663,7 +663,7 @@ var getSecondaryEquation = () => {
     if (lemmaNumber == 1)
     {
         result += "\\begin{matrix}";
-        result += "\\dot{\\rho}=c_1\\left(c_2(\\sin\\left(q\\right)+\\frac{1}{2})+c_3\\right)";
+        result += "\\dot{\\rho}=c_1\\left(c_2(\\tan\\left(q\\right)+\\frac{1}{2})+c_3\\right)";
         result += "\\\\";
         result += "\\dot{q}=1";
         result += "\\end{matrix}";
