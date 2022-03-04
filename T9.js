@@ -5,7 +5,7 @@ import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
 var id = "convergence_test_lol"
-var name = "Convergence Test ?";
+var name = "C?";
 var description = "An implementation of the 'NNNNN' theory from the game.";
 var authors = "nvm";
 var version = 1;
