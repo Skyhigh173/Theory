@@ -19,8 +19,8 @@ theory.primaryEquationHeight=1;
 cat = theory.createAchievementCategory(0, "My Theory");
 var init = () => {
   currency = theory.createCurrency()
- 
-  //Upgrades
+  /////////////////
+  //Regular Upgrades
 
   //a
 
@@ -30,10 +30,22 @@ var init = () => {
     a.getDescription = (_) => Utils.getMath(getDesc(a.level));
     a.getInfo = (amount) => Utils.getMathTo(getDesc(a.level),getDesc(tai.level + amount));
   }
-  
-  //Permanent
+ 
+  /////////////////
+  //Permanent Upgrades
   theory.createPublicationUpgrade(0, currency, 1e7);
   theory.createBuyAllUpgrade(1, currency, 1e8);
   theory.createAutoBuyerUpgrade(2, currency, 1e10);
+  /////////////////
+  //// Achievements
+
+  ///////////////////
+  //// Story chapters
+  
+  updateAvailability();
 }
 
+var getPrimaryEquation = () => {
+  let result = "a\\sqrt{a}
+  return result;
+}
