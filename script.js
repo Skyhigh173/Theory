@@ -66,6 +66,6 @@ var init = () => {
 }
 
 var getPrimaryEquation = () => {
-  let result = "a\\sqrt{a}";
+  let result = "a\\sqrt{a}^b";
   return result;
 }
