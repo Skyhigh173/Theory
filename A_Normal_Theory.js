@@ -42,7 +42,7 @@ var init = () => {
   
   /////////////////////
   // Permanent Upgrades
-  theory.createPublicationUpgrade(0, currency, 10000);
+  theory.createPublicationUpgrade(0, currency, 1e4);
   theory.createBuyAllUpgrade(1, currency, 1e10);
   theory.createAutoBuyerUpgrade(2, currency, 1e18);
   
@@ -82,7 +82,7 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
   let bonus = theory.publicationMultiplier;
-  currency.value += bonus * dt *getA1(a1.level).pow(getA1Exponent(a1Exp.level)) * getB1(b1.level).pow(getB1Exponent(b1Exp.level));
+  currency.value += bonus * dt * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) * getB1(b1.level).pow(getB1Exponent(b1Exp.level));
 }
 
 var getPrimaryEquation = () => {
