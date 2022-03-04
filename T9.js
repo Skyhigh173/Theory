@@ -386,13 +386,13 @@ var init = () => {
 
         switch(level+1)
         {
-            case 1: cost = 1e10; break;
-            case 2: cost = 1e8; break;
-            case 3: cost = 1e20; break;
-            case 4: cost = 1.0001e10; break; // To compensate for numerical errors
-            case 5: cost = 1e25; break;
-            case 6: cost = 1e15; break;
-            case 7: cost = 1e15; break;
+            case 1: cost = 1; break;
+            case 2: cost = 1; break;
+            case 3: cost = 1; break;
+            case 4: cost = 1; break; // To compensate for numerical errors
+            case 5: cost = 1; break;
+            case 6: cost = 1; break;
+            case 7: cost = 1; break;
         }
 
         return BigNumber.from(cost);
