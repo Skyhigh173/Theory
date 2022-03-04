@@ -1,6 +1,6 @@
 import { ExponentialCost, FirstFreeCost, LinearCost } from "../api/Costs";
 import { Localization } from "../api/Localization";
-import { BigNumber, parseBigNumber } from "../api/BigNumber";
+import { BigNumber } from "../api/BigNumber";
 import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
@@ -8,7 +8,7 @@ import { Utils } from "../api/Utils";
 var id = "Nothin";
 var name = "A normal theory";
 var description = "This theory is normal. Your goal is to ██████. Thats cool! GLHF ";
-var version = 0.0.1;
+var version = 0.01;
 
 var currency;
 var a1, b1;
