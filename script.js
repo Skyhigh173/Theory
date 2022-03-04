@@ -13,9 +13,8 @@ var version = 1;
 
 
 var currency;
-var a, b;
+var a;
 var k;
-b = 1;
 
 var init = () => {
   currency = theory.createCurrency();
@@ -70,7 +69,7 @@ var tick = (elapsedTime, multiplier) => {
 
     var exponentialSum = getSummation(n.level);
 
-    var tickSum = bonus * dt * k * a * b;
+    var tickSum = bonus * dt * k * a * a;
     currency.value += tickSum;
 
     theory.invalidatePrimaryEquation();
