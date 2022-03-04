@@ -414,43 +414,43 @@ var updateAvailability = () => {
     c12.isAvailable = lemma.level == 0;
     c13.isAvailable = lemma.level == 0;
 
-    c21.isAvailable = lemma.level == 0;
-    c22.isAvailable = lemma.level == 0;
-    c23.isAvailable = lemma.level == 0;
-    c24.isAvailable = lemma.level == 0;
+    c21.isAvailable = lemma.level == 1;
+    c22.isAvailable = lemma.level == 1;
+    c23.isAvailable = lemma.level == 1;
+    c24.isAvailable = lemma.level == 1;
 
-    q31.isAvailable = lemma.level == 0;
-    q32.isAvailable = lemma.level == 0;
-    c31.isAvailable = lemma.level == 0;
-    c32.isAvailable = lemma.level == 0;
-    c33.isAvailable = lemma.level == 0;
+    q31.isAvailable = lemma.level == 2;
+    q32.isAvailable = lemma.level == 2;
+    c31.isAvailable = lemma.level == 2;
+    c32.isAvailable = lemma.level == 2;
+    c33.isAvailable = lemma.level == 2;
 
-    c41.isAvailable = lemma.level == 0;
-    c42.isAvailable = lemma.level == 0;
-    c43.isAvailable = lemma.level == 0;
+    c41.isAvailable = lemma.level == 3;
+    c42.isAvailable = lemma.level == 3;
+    c43.isAvailable = lemma.level == 3;
 
-    q51.isAvailable = lemma.level == 0;
-    q52.isAvailable = lemma.level == 0;
-    c51.isAvailable = lemma.level == 0;
-    c52.isAvailable = lemma.level == 0;
-    c53.isAvailable = lemma.level == 0;
-    c54.isAvailable = lemma.level == 0;
-    c55.isAvailable = lemma.level == 0;
-    c56.isAvailable = lemma.level == 0;
-    c57.isAvailable = lemma.level == 0;
-    c58.isAvailable = lemma.level == 0;
+    q51.isAvailable = lemma.level == 4;
+    q52.isAvailable = lemma.level == 4;
+    c51.isAvailable = lemma.level == 4;
+    c52.isAvailable = lemma.level == 4;
+    c53.isAvailable = lemma.level == 4;
+    c54.isAvailable = lemma.level == 4;
+    c55.isAvailable = lemma.level == 4;
+    c56.isAvailable = lemma.level == 4;
+    c57.isAvailable = lemma.level == 4;
+    c58.isAvailable = lemma.level == 4;
 
-    q61.isAvailable = lemma.level == 0;
-    q62.isAvailable = lemma.level == 0;
-    c61.isAvailable = lemma.level == 0;
-    c62.isAvailable = lemma.level == 0;
-    c63.isAvailable = lemma.level == 0;
-    c64.isAvailable = lemma.level == 0;
+    q61.isAvailable = lemma.level == 5;
+    q62.isAvailable = lemma.level == 5;
+    c61.isAvailable = lemma.level == 5;
+    c62.isAvailable = lemma.level == 5;
+    c63.isAvailable = lemma.level == 5;
+    c64.isAvailable = lemma.level == 5;
 
-    q71.isAvailable = lemma.level == 0;
-    q72.isAvailable = lemma.level == 0;
-    c71.isAvailable = lemma.level == 0;
-    c72.isAvailable = lemma.level == 0;
+    q71.isAvailable = lemma.level == 6;
+    q72.isAvailable = lemma.level == 6;
+    c71.isAvailable = lemma.level == 6;
+    c72.isAvailable = lemma.level == 6;
 }
 
 var onLemmaChanged = () => {
