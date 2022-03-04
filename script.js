@@ -85,3 +85,4 @@ var getPrimaryEquation = () => {
   let result = "a\\sqrt{a}^b";
   return result;
 }
+init();
