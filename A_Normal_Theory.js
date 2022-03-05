@@ -28,7 +28,6 @@ var init = () => {
   {
     let getDesc = (level) => "n=" + getN(level).toString(0);
     n = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(0, 0);
-    
     n.getDescription = (_) => Utils.getMath(getDesc(n.level));
     n.getInfo = (amount) => Utils.getMathTo(getDesc(n.level), getDesc(n.level + amount));
   }
@@ -36,7 +35,6 @@ var init = () => {
   {
     let getDesc = (level) => "a_1=" + getA1(level).toString(0);
     a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
-    
     a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
     a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
   }
@@ -92,21 +90,23 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
   let bonus = theory.publicationMultiplier;
-  currency.value += bonus * dt * getA1(a1.level).pow(getA1Exp(a1Exp.level)) * getB1(b1.level).pow(getB1Exp(b1Exp.level));
+  currency.value += n * bonus * dt * getA1(a1.level).pow(getA1Exp(a1Exp.level)) * getB1(b1.level).pow(getB1Exp(b1Exp.level));
 }
 
 var getPrimaryEquation = () => {
-  let result = "\\dot{\\rho} = (a_1";
+  let result = "\\dot{\\rho} = a_1";
 
-  if (a1Exp.level == 1) result += "^{0.05})";
-  if (a1Exp.level == 2) result += "^{0.1})";
-  if (a1Exp.level == 3) result += "^{0.15})";
+  if (a1Exp.level == 1) result += "^{0.05}";
+  if (a1Exp.level == 2) result += "^{0.1}";
+  if (a1Exp.level == 3) result += "^{0.15}";
   
   result += "^{b_1}";
 
   if (b1Exp.level == 1) result += "^{0.05}";
   if (b1Exp.level == 2) result += "^{0.1}";
-  if (b1Exp.level == 3) result += "^{0.15}";  
+  if (b1Exp.level == 3) result += "^{0.15}";
+  
+  result += "+ n"
  
   return result;
 }
