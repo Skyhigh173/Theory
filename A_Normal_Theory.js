@@ -88,13 +88,13 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-  let result = "\\dot{\\rho} = a_1";
+  let result = "\\dot{\\rho} = (a_1";
 
-  if (a1Exp.level == 1) result += "^{0.05}";
-  if (a1Exp.level == 2) result += "^{0.1}";
-  if (a1Exp.level == 3) result += "^{0.15}";
+  if (a1Exp.level == 1) result += "^{0.05})";
+  if (a1Exp.level == 2) result += "^{0.1})";
+  if (a1Exp.level == 3) result += "^{0.15})";
   
-  result += "b_1";
+  result += "^{b_1}";
 
   if (b1Exp.level == 1) result += "^{0.05}";
   if (b1Exp.level == 2) result += "^{0.1}";
