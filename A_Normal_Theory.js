@@ -58,19 +58,6 @@ var init = () => {
   //// Milestone Upgrades
   theory.setMilestoneCost(new LinearCost(25, 25));
   
-  {
-    a1Exp = theory.createMilestoneUpgrade(0, 3);
-    a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.05");
-    a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.05");
-    a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-  }
-
-  {
-    b1Exp = theory.createMilestoneUpgrade(1, 3);
-    b1Exp.description = Localization.getUpgradeIncCustomExpDesc("b_1", "0.05");
-    b1Exp.info = Localization.getUpgradeIncCustomExpInfo("b_1", "0.05");
-    b1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-  }
   
   /////////////////
   //// Achievements
@@ -94,19 +81,8 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-  let result = "\\dot{\\rho} = a_1";
-
-  if (a1Exp.level == 1) result += "^{0.05}";
-  if (a1Exp.level == 2) result += "^{0.1}";
-  if (a1Exp.level == 3) result += "^{0.15}";
-  
-  result += "^{b_1}";
-
-  if (b1Exp.level == 1) result += "^{0.05}";
-  if (b1Exp.level == 2) result += "^{0.1}";
-  if (b1Exp.level == 3) result += "^{0.15}";
-  
-  result += "+ n"
+  let result = "\\dot{\\rho} = a_1 ^ {b_1} + n";
+  // now is (p with dot)  P=a1
  
   return result;
 }
