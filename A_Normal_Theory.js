@@ -101,14 +101,5 @@ var getPrimaryEquation = () => {
   return result;
 }
 
-var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
-var getTau = () => currency.value;
-var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
-
-var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-var getB1 = (level) => BigNumber.TWO.pow(level);
-var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
-var getB1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
 init();
