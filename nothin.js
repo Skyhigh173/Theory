@@ -11,7 +11,7 @@ var authors = "Skyhigh173";
 var version = 1;
 
 var currency;
-var c1, c2;
+var c1, c2, c3;
 var c1Exp, c2Exp;
 
 var achievement1, achievement2;
@@ -39,6 +39,14 @@ var init = () => {
         c2.getDescription = (_) => Utils.getMath(getDesc(c2.level));
         c2.getInfo = (amount) => Utils.getMathTo(getInfo(c2.level), getInfo(c2.level + amount));
     }
+     // c3
+    {
+        let getDesc = (level) => "c_3=" + getC3(level).toString(0);
+        let getInfo = (level) => "c_3=" + getC3(level).toString(0);
+        c3 = theory.createUpgrade(1, currency, new ExponentialCost(5, Math.log2(40)));
+        c3.getDescription = (_) => Utils.getMath(getDesc(c3.level));
+        c3.getInfo = (amount) => Utils.getMathTo(getInfo(c3.level), getInfo(c3.level + amount));
+    }
 
     /////////////////////
     // Permanent Upgrades
@@ -63,6 +71,12 @@ var init = () => {
         c2Exp.info = Localization.getUpgradeIncCustomExpInfo("c_2", "0.05");
         c2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
+    {
+        c3T = theory.createMilestoneUpgrade(2, 1);
+        c3T.description = Localization.getUpgradeMultCustomDesc("c_3", "c_2*c3");
+        c3T.info = Localization.getUpgradeMultCustomInfo("c_3", "c_2*c_3");
+        c3T.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     
     /////////////////
     //// Achievements
@@ -72,20 +86,23 @@ var init = () => {
     ///////////////////
     //// Story chapters
     chapter1 = theory.createStoryChapter(0, "Nothin", "Nothin in this theory\n \n Or...?\nYou decided to see if something is happen.", () => c1.level > 0);
-    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "You are getting board.\nYour teacher give you a new formula.", () => c2.level > 10);
+    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "You are getting board.\nYour teacher give you a new formula.", () => c2.level > 9);
 
     updateAvailability();
 }
 
 var updateAvailability = () => {
     c2Exp.isAvailable = c1.level > 0;
+    c3.isAvailble = c2.level > 9;
 }
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    currency.value += dt * bonus * getC1(c1.level).pow(getC1Exponent(c1Exp.level)) *
-                                   getC2(c2.level).pow(getC2Exponent(c2Exp.level));
+    let add = dt * bonus * getC1(c1.level).pow(getC1Exponent(c1Exp.level)) +
+                                   getC2(c2.level).pow(getC2Exponent(c2Exp.level)) + getC3(c3.level) * getC2(c2.level);
+    currency.value += add;
+
 }
 
 var getPrimaryEquation = () => {
@@ -100,6 +117,8 @@ var getPrimaryEquation = () => {
     if (c2Exp.level == 1) result += "^{1.05}";
     if (c2Exp.level == 2) result += "^{1.1}";
     if (c2Exp.level == 3) result += "^{1.15}";
+    
+    if (c3T.level == 1) result += "c_2 * c_3";
 
     return result;
 }
@@ -112,6 +131,7 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getC2 = (level) => BigNumber.TWO.pow(level);
+var getC3 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getC1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getC2Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
