@@ -12,7 +12,7 @@ var authors = "Skyhigh173#3120";
 var version = 1;
 
 var currency;
-var a1, b1;
+var n, a1, b1;
 var a1Exp, b1Exp;
 
 var achievement1;
@@ -24,6 +24,14 @@ var init = () => {
   ///////////////////
   // Regular Upgrades
 
+  // n
+  {
+    let getDesc = (level) => "a_1=" + getA1(level).toString(0);
+    n = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(0, 0);
+    
+    n.getDescription = (_) => Utils.getMath(getDesc(n.level));
+    n.getInfo = (amount) => Utils.getMathTo(getDesc(n.level), getDesc(n.level + amount));
+  }
   // a1
   {
     let getDesc = (level) => "a_1=" + getA1(level).toString(0);
