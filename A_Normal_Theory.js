@@ -77,11 +77,11 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
   let bonus = theory.publicationMultiplier;
-  currency.value += n * bonus * dt * getA1(a1.level).pow(getA1Exp(a1Exp.level)) * getB1(b1.level).pow(getB1Exp(b1Exp.level));
+  currency.value += n + bonus * dt * getA1(a1.level).pow(getA1Exp(a1Exp.level)) * getB1(b1.level).pow(getB1Exp(b1Exp.level));
 }
 
 var getPrimaryEquation = () => {
-  let result = "\\dot{\\rho} = a_1 ^ {b_1} + n";
+  let result = "\\\dot{\\\rho} = a_1 ^ {b_1} + n";
   // now is (p with dot)  P=a1
  
   return result;
