@@ -102,5 +102,8 @@ var getPrimaryEquation = () => {
   return result;
 }
 
+var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getB1 = (level) => BigNumber.TWO.pow(level);
+
 
 init();
