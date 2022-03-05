@@ -20,6 +20,7 @@ var chapter1, chapter2;
 var init = () => {
     currency = theory.createCurrency();
 
+    
     ///////////////////
     // Regular Upgrades
 
