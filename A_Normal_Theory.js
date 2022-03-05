@@ -26,7 +26,7 @@ var init = () => {
 
   // n
   {
-    let getDesc = (level) => "a_1=" + getA1(level).toString(0);
+    let getDesc = (level) => "a_1=" + getN(level).toString(0);
     n = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(0, 0);
     
     n.getDescription = (_) => Utils.getMath(getDesc(n.level));
@@ -111,6 +111,7 @@ var getPrimaryEquation = () => {
   return result;
 }
 
+var getN = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getB1 = (level) => BigNumber.TWO.pow(level);
 var getA1Exp = (level) => BigNumber.from(1 + 0.05 * level);
