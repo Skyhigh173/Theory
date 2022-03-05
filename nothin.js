@@ -5,9 +5,9 @@ import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
 var id = "my_custom_theory_id";
-var name = "My Custom Theory";
+var name = "Nothing";
 var description = "A basic theory.";
-var authors = "Gilles-Philippe Paillé";
+var authors = "Skyhigh173";
 var version = 1;
 
 var currency;
@@ -91,22 +91,22 @@ var tick = (elapsedTime, multiplier) => {
 var getPrimaryEquation = () => {
     let result = "\\dot{\\rho} = c_1";
 
-    if (c1Exp.level == 1) result += "^{0.05}";
-    if (c1Exp.level == 2) result += "^{0.1}";
-    if (c1Exp.level == 3) result += "^{0.15}";
+    if (c1Exp.level == 1) result += "^{1.05}";
+    if (c1Exp.level == 2) result += "^{1.1}";
+    if (c1Exp.level == 3) result += "^{1.15}";
 
     result += "c_2";
 
-    if (c2Exp.level == 1) result += "^{0.05}";
-    if (c2Exp.level == 2) result += "^{0.1}";
-    if (c2Exp.level == 3) result += "^{0.15}";
+    if (c2Exp.level == 1) result += "^{1.05}";
+    if (c2Exp.level == 2) result += "^{1.1}";
+    if (c2Exp.level == 3) result += "^{1.15}";
 
     return result;
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-var getPublicationMultiplier = (tau) => tau.pow(1.414) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{1.414}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(11.414) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{11.414}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
