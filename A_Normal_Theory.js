@@ -83,7 +83,7 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
   let dt = BigNumber.from(elapsedTime * multiplier);
   let bonus = theory.publicationMultiplier;
-  currency.value += bonus * dt * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) * getB1(b1.level).pow(getB1Exponent(b1Exp.level));
+  currency.value += bonus * dt * getA1(a1.level).pow(getA1Exp(a1Exp.level)) * getB1(b1.level).pow(getB1Exp(b1Exp.level));
 }
 
 var getPrimaryEquation = () => {
@@ -105,8 +105,8 @@ var getPrimaryEquation = () => {
 var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getB1 = (level) => BigNumber.TWO.pow(level);
 
-var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
-var getB1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
+var getA1Exp = (level) => BigNumber.from(1 + 0.05 * level);
+var getB1Exp = (level) => BigNumber.from(1 + 0.05 * level);
 
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
