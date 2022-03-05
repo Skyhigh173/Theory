@@ -8,7 +8,7 @@ import { Utils } from "../api/Utils";
 var id = "Nothin";
 var name = "A normal theory";
 var description = "This theory is normal. Your goal is to ██████. Thats cool! GLHF ";
-var version = 0.01;
+var version = 1;
 
 var currency;
 var a1, b1;
