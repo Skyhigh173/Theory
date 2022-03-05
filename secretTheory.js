@@ -93,7 +93,7 @@ var init = () => {
 
 var updateAvailability = () => {
     c2Exp.isAvailable = c1.level > 0;
-    c3.isAvailble = c2.level > 9;
+    c3.isAvailble = c3T.level == 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -124,8 +124,8 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-var getPublicationMultiplier = (tau) => tau.pow(0.414) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.414}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.814) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.814}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
