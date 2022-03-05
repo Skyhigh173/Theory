@@ -71,7 +71,7 @@ var init = () => {
   
   ///////////////////
   //// Story chapters
-  chapter1 = theory.createStoryChapter(0, "News", "One day morning,\nyou see a strange formula.\nWhat is it?nYou decided to research it.", () => currency.value == 0);
+  chapter1 = theory.createStoryChapter(0, "News", "One day morning,\nyou see a strange formula.\nWhat is it?nYou decided to research it.", () => currency.value > 0);
   
   updateAvailability();
 }
