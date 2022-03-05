@@ -4,11 +4,13 @@ import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
+
 var id = "OuO";
 var name = "OuO Theory";
 var description = "As you can see, OuO.";
 var authors = "Skyhigh173#3120";
 var version = 1;
+
 
 var currency;
 var n, a1;
