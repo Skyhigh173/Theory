@@ -5,7 +5,7 @@ import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
 var id = "my_custom_theory_id";
-var name = "Nothing";
+var name = "Secret Theory";
 var description = "A basic theory.";
 var authors = "Skyhigh173";
 var version = 1;
@@ -42,8 +42,8 @@ var init = () => {
 
     /////////////////////
     // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 1e4);
-    theory.createBuyAllUpgrade(1, currency, 1e6);
+    theory.createPublicationUpgrade(0, currency, 1e5);
+    theory.createBuyAllUpgrade(1, currency, 1e10);
     theory.createAutoBuyerUpgrade(2, currency, 1e10);
 
     ///////////////////////
@@ -66,19 +66,19 @@ var init = () => {
     
     /////////////////
     //// Achievements
-    achievement1 = theory.createAchievement(0, "I said nothin", "buy 100x c1", () => c1.level > 99);
-    achievement2 = theory.createSecretAchievement(1, "Achievement 2", "Description 2", "Maybe you should buy two levels of c2?", () => c2.level > 1);
+    achievement1 = theory.createAchievement(0, "Start...?", "buy 100x c1", () => c1.level > 99);
+    achievement2 = theory.createSecretAchievement(1, "Numbers are going brrrr", "currency > e1000", "Big, OuO", () => currency.value > 1e1000);
 
     ///////////////////
     //// Story chapters
-    chapter1 = theory.createStoryChapter(0, "Nothin", "Nothin in this theory\n \n Or...?", () => c1.level > 0);
-    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => c2.level > 0);
+    chapter1 = theory.createStoryChapter(0, "Nothin", "Nothin in this theory\n \n Or...?\nYou decided to see if something is happen.", () => c1.level > 0);
+    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "You are getting board.\nYour teacher give you a new formula.", () => c2.level > 10);
 
     updateAvailability();
 }
 
 var updateAvailability = () => {
-    c2Exp.isAvailable = c1Exp.level > 0;
+    c2Exp.isAvailable = c1.level > 0;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -105,8 +105,8 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-var getPublicationMultiplier = (tau) => tau.pow(11.414) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{11.414}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.414) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.414}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
