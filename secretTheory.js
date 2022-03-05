@@ -73,8 +73,8 @@ var init = () => {
     }
     {
         c3T = theory.createMilestoneUpgrade(2, 1);
-        c3T.description = Localization.getUpgradeMultCustomDesc("c_3", "c_2*c3");
-        c3T.info = Localization.getUpgradeMultCustomInfo("c_3", "c_2*c_3");
+        c3T.description = Localization.getUpgradeMultCustomDesc("c_2 * c3");
+        c3T.info = Localization.getUpgradeMultCustomInfo("c_2 * c_3");
         c3T.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
