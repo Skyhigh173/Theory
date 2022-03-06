@@ -50,7 +50,7 @@ var init = () => {
     // c1
     {
         let getDesc = (level) => "c_1=" + getC1(level).toString(0);
-        c1 = theory.createUpgrade(2, currency, new ExponentialCost(15, Math.log2(2)));
+        c1 = theory.createUpgrade(2, currency, new FreeCost());
         c1.getDescription = (_) => Utils.getMath(getDesc(c1.level));
         c1.getInfo = (amount) => Utils.getMathTo(getDesc(c1.level), getDesc(c1.level + amount));
     }
@@ -59,7 +59,7 @@ var init = () => {
     {
         let getDesc = (level) => "c_2=2^{" + level + "}";
         let getInfo = (level) => "c_2=" + getC2(level).toString(0);
-        c2 = theory.createUpgrade(3, currency, new ExponentialCost(3000, Math.log2(10)));
+        c2 = theory.createUpgrade(3, currency, new FreeCost());
         c2.getDescription = (_) => Utils.getMath(getDesc(c2.level));
         c2.getInfo = (amount) => Utils.getMathTo(getInfo(c2.level), getInfo(c2.level + amount));
     }
@@ -68,7 +68,7 @@ var init = () => {
     {
         let getDesc = (level) => "c_3=10^{" + level + "}";
         let getInfo = (level) => "c_3=" + getC3(level).toString(0);
-        c3 = theory.createUpgrade(4, currency, new ExponentialCost(1e4, 4.5 * Math.log2(10)));
+        c3 = theory.createUpgrade(4, currency, new FreeCost());
         c3.getDescription = (_) => Utils.getMath(getDesc(c3.level));
         c3.getInfo = (amount) => Utils.getMathTo(getInfo(c3.level), getInfo(c3.level + amount));
         c3.isAvailable = false;
@@ -78,7 +78,7 @@ var init = () => {
     {
         let getDesc = (level) => "c_4=10^{" + level + "}";
         let getInfo = (level) => "c_4=" + getC4(level).toString(0);
-        c4 = theory.createUpgrade(5, currency, new ExponentialCost(1e10, 8 * Math.log2(10)));
+        c4 = theory.createUpgrade(5, currency, new FreeCost());
         c4.getDescription = (_) => Utils.getMath(getDesc(c4.level));
         c4.getInfo = (amount) => Utils.getMathTo(getInfo(c4.level), getInfo(c4.level + amount));
         c4.isAvailable = false;
@@ -86,9 +86,9 @@ var init = () => {
 
     /////////////////////
     // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 1e10);
-    theory.createBuyAllUpgrade(1, currency, 1e13);
-    theory.createAutoBuyerUpgrade(2, currency, 1e30);
+    theory.createPublicationUpgrade(0, currency, 1e1);
+    theory.createBuyAllUpgrade(1, currency, 1e1);
+    theory.createAutoBuyerUpgrade(2, currency, 1e1);
 
     ///////////////////////
     //// Milestone Upgrades
@@ -202,8 +202,8 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 var getTertiaryEquation = () => Localization.format(stringTickspeed, getTickspeed().toString(0));
 
-var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.7) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.7}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
