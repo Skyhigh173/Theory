@@ -4,10 +4,10 @@ import { parseBigNumber, BigNumber } from "../api/BigNumber";
 import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
-var id = "linear_algebra"
-var name = "Linear Algebra";
-var description = "An implementation of the 'Linear Algebra' theory from the game.";
-var authors = "Gilles-Philippe Paillé";
+var id = "linear_algebra_M"
+var name = "Linear Algebra Mod";
+var description = "An implementation of the 'Linear Algebra' theory from the game. Pls notice that this is spoiler!";
+var authors = "Gilles-Philippe Paillé, Mod by skyhigh173";
 var version = 1;
 
 var currency1, currency2, currency3;
