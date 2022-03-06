@@ -85,7 +85,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "f(z)=z+ \\sum_{n \geq 2}^{} a_n z^n";
+    let result = "f(z)=z+ \\sum_{n \\geq 2}^{} a_n z^n";
 
     return result;
 }
