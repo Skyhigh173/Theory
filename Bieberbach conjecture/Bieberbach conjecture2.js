@@ -14,6 +14,7 @@ var version = 2;
 
 var currency;
 var k, a1;
+var a1Exp;
 
 var achievement1, achievement2;
 var chapter1, chapter2;
