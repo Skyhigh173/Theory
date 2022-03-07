@@ -63,12 +63,12 @@ var init = () => {
     
     /////////////////
     //// Achievements
-    achievement1 = theory.createAchievement(0, "a new start", "Buy!", () => n.level > 1);
-    achievement2 = theory.createSecretAchievement(1, "OuO", "Wait wat? u buy 10000", "spam", () => n.level > 10000);
+    achievement1 = theory.createAchievement(0, "Begin x1", "Buy your first upgrade", () => n.level > 1);
+    achievement2 = theory.createSecretAchievement(1, "Max power", "Buy 10000x n", "spam", () => n.level > 10000);
 
     ///////////////////
     //// Story chapters
-    chapter1 = theory.createStoryChapter(0, "The OuO Theory", "One day, \nyou saw a news. \n \nThis OuO is strange.\nCan you solve this?", () => n.level > 0);
+    chapter1 = theory.createStoryChapter(0, "The Beginning", "After you came back from a holidays,\nyou learnt a new things.\n\nBieberbach conjecture...?", () => n.level > 0);
     chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => a1.level > 100);
 
     updateAvailability();
