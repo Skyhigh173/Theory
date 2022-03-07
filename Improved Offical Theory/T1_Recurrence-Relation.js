@@ -110,7 +110,7 @@ var init = () => {
     ac2 = theory.createAchievementCategory(1, "Publish and tau");
     theory.createAchievement(8, ac2, "Pro Beginner", "Publish one time", () => theory.publicationMultiplier > 1);
     theory.createAchievement(9, ac2, "a hundred", "Make multiplier greater then 100", () => theory.publicationMultiplier > 99.999);
-    theory.createAchievement(10, ac2, "Super power", "Make multiplier greater then 1000", () => theory.publicationMultiplier > 99.999);
+    theory.createAchievement(10, ac2, "Super power", "Make multiplier greater then 1000", () => theory.publicationMultiplier > 999.999);
    
     
     
