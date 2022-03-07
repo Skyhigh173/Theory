@@ -9,7 +9,7 @@ var id = "OuO";
 var name = "Bieberbach conjecture";
 var description = "Curreny nothin here";
 var authors = "Skyhigh173#3120";
-var version = 1;
+var version = 2;
 
 
 var currency;
@@ -52,7 +52,7 @@ var init = () => {
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(25, 25));
+    theory.setMilestoneCost(new LinearCost(10, 5));
 
     {
         a1Exp = theory.createMilestoneUpgrade(0, 3);
@@ -69,7 +69,7 @@ var init = () => {
     ///////////////////
     //// Story chapters
     chapter1 = theory.createStoryChapter(0, "The Beginning", "After you came back from a holidays,\nyou learnt a new things.\n\nBieberbach conjecture...?", () => n.level > 0);
-    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => a1.level > 100);
+    chapter2 = theory.createStoryChapter(1, "The progress", "You got some progress.\nYou havea new variable in the menu,\nBut you dont know what is it.", () => currency.value > 5e6);
 
     updateAvailability();
 }
