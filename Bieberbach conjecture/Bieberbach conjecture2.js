@@ -92,6 +92,6 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 
 var getK = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getA1 = (level) => BigNumber.TWO.pow(level);
-var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
+var getA1Exp = (level) => BigNumber.from(1 + 0.05 * level);
 
 init();
