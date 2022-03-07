@@ -22,7 +22,6 @@ var currency;
 var q1, q2, c1, c2, c3, c4;
 var c1Exp, logTerm, c3Term, c4Term;
 
-var achievement1;
 var chapter1, chapter2, chapter3;
 
 var init = () => {
@@ -93,14 +92,36 @@ var init = () => {
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
   
+    
+    
+    
     /////////////////
     //// Achievements
-    achievement1 = theory.createAchievement(0, "BuyBuyBuy", "Buy your first upgrade", () => q1.level = 1);
+    ac1 = theory.createAchievementCategory(0, "Upgrades");
+    theory.createAchievement(0, ac1, "beginner", "Buy the first upgrade", () => q1.level > 0);
+    theory.createAchievement(1, ac1, "Starter", "Buy 10 upgrades of q1", () => q1.level > 9);
+    theory.createAchievement(2, ac1, "Pro Robot x11", "Buy 30 upgrades of q1", () => q1.level > 29);
+    theory.createAchievement(3, ac1, "Pro Robot x12", "Buy 5 upgrades of q2", () => q2.level > 4);
+    theory.createAchievement(4, ac1, "Legend", "buy 25 upgrades of c2", () => c2.level > 24);
+    theory.createAchievement(5, ac1, "Legend 2.0", "buy 100 upgrades of q1", q1.level > 99);
+    theory.createAchievement(6, ac1, "god", "buy 100 upgrades of q2", q2.level > 99);
+    theory.createSecretAchievement(7, ac1, "How?", "buy 1000 upgrades of q1", "spam", q1.level > 999);
+    
+    ac2 = theory.createAchievementCategory(1, "Publish");
+   
+    
+    
+    
+    
+    
+    
+    
+    
   
     ///////////////////
     //// Story chapters
     chapter1 = theory.createStoryChapter(0, "A new start", "You begin to work on your first theory.\nThats cool,\n \nRight?", () => currency.value > 0);
-    chapter2 = theory.createStoryChapter(1, "Some Progress", "You have some progress now.\nYou started to think about your student.\n \n Your students are smarter than you..?", () => currency.value > 1e5);
+    chapter2 = theory.createStoryChapter(1, "Some Progress", "You have some progress now.\nYou started to think if this is possible.\n\nHmm...", () => currency.value > 1e5);
     chapter3 = theory.createStoryChapter(2, "Publication", "You have a lots of progress now.\nYou can publish some of them,\and make your research faster./n/n Thats cool!", () => currency.value > 1e10);
   
                                          
