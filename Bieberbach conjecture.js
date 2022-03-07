@@ -85,7 +85,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "f(z)=z+ \\sum_{n \\geq 2}^{} a_n z^n \\qquad \\beta= k ^ {0.5} + f(j)  \\times b_1 \\qquad \\dot{ \\rho} = \\beta ";
+    let result = "f(z)=z+ \\sum_{n \\geq 2}^{} a_n z^n \\qquad \\beta = k ^ {0.5} + f(j)  \\times b_1 \\qquad \\dot{ \\rho} = \\beta ";
 
     return result;
 }
