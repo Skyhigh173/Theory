@@ -13,8 +13,7 @@ var version = 2;
 
 
 var currency;
-var n, a1;
-var a1Exp;
+var k, j, b1;
 
 var achievement1, achievement2;
 var chapter1, chapter2;
@@ -27,12 +26,12 @@ var init = () => {
     ///////////////////
     // Regular Upgrades
 
-    // n
+    // k
     {
-        let getDesc = (level) => "n=" + getN(level).toString(0);
-        n = theory.createUpgrade(0, currency, new FreeCost());
-        n.getDescription = (_) => Utils.getMath(getDesc(n.level));
-        n.getInfo = (amount) => Utils.getMathTo(getDesc(n.level), getDesc(n.level + amount));
+        let getDesc = (level) => "k=" + getK(level).toString(0);
+        k = theory.createUpgrade(0, currency, new FreeCost());
+        k.getDescription = (_) => Utils.getMath(getDesc(k.level));
+        k.getInfo = (amount) => Utils.getMathTo(getDesc(k.level), getDesc(k.level + 1));
     }
 
     // a1
@@ -54,17 +53,11 @@ var init = () => {
     //// Milestone Upgrades
     theory.setMilestoneCost(new LinearCost(10, 5));
 
-    {
-        a1Exp = theory.createMilestoneUpgrade(0, 3);
-        a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.05");
-        a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.05");
-        a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-    }
     
     /////////////////
     //// Achievements
-    achievement1 = theory.createAchievement(0, "Begin x1", "Buy your first upgrade", () => n.level > 1);
-    achievement2 = theory.createSecretAchievement(1, "Max power", "Buy 10000x n", "spam", () => n.level > 10000);
+    achievement1 = theory.createAchievement(0, "Begin x1", "Buy your first upgrade", () => k.level > 1);
+    achievement2 = theory.createSecretAchievement(1, "Max power", "Buy 10000x n", "spam", () => k.level > 10000);
 
     ///////////////////
     //// Story chapters
@@ -82,7 +75,7 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     currency.value += dt * bonus * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
-                                   getN(n.level);
+                                   getK(k.level);
 }
 
 var getPrimaryEquation = () => {
@@ -97,7 +90,7 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.16
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getN = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getK = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
