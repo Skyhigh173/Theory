@@ -103,9 +103,9 @@ var init = () => {
     theory.createAchievement(2, ac1, "Pro Robot x11", "Buy 30 upgrades of q1", () => q1.level > 29);
     theory.createAchievement(3, ac1, "Pro Robot x12", "Buy 5 upgrades of q2", () => q2.level > 4);
     theory.createAchievement(4, ac1, "Legend", "buy 25 upgrades of c2", () => c2.level > 24);
-    theory.createAchievement(5, ac1, "Legend 2.0", "buy 100 upgrades of q1", q1.level > 99);
-    theory.createAchievement(6, ac1, "god", "buy 100 upgrades of q2", q2.level > 99);
-    theory.createSecretAchievement(7, ac1, "How?", "buy 1000 upgrades of q1", "spam", q1.level > 999);
+    theory.createAchievement(5, ac1, "Legend 2.0", "buy 100 upgrades of q1", () => q1.level > 99);
+    theory.createAchievement(6, ac1, "god", "buy 100 upgrades of q2", () => q2.level > 99);
+    theory.createSecretAchievement(7, ac1, "How?", "buy 1000 upgrades of q1", "spam", () => q1.level > 999);
     
     ac2 = theory.createAchievementCategory(1, "Publish");
    
