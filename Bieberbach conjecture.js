@@ -6,8 +6,8 @@ import { Utils } from "./api/Utils";
 
 
 var id = "OuO";
-var name = "OuO Theory";
-var description = "As you can see, OuO.";
+var name = "Bieberbach conjecture";
+var description = "Curreny nothin here";
 var authors = "Skyhigh173#3120";
 var version = 1;
 
@@ -85,7 +85,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "f(z)=z+ \\sum_{n \\geq 2}^{} a_n z^n";
+    let result = "f(z)=z+ \\sum_{n \\geq 2}^{} a_n z^n \\newline \\beta=k^{0.5} + f(j)  \\times b_1 \\newline \\dot{\\rho} = \\beta ";
 
     return result;
 }
