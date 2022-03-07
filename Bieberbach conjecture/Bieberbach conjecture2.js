@@ -13,7 +13,7 @@ var version = 2;
 
 
 var currency;
-var k, j, b1;
+var k, a1;
 
 var achievement1, achievement2;
 var chapter1, chapter2;
