@@ -11,9 +11,9 @@ var authors = "a nub ouo (nubest#1001) \n\n contributors \n\n Alex27#6175 \n 71~
 var version = 1.14;
 
 var currencies = new Array(9);
-var currencies_names = ["U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "P"]
+var currencies_names = ["U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "P"];
 
-var Um ,UD
+var Um, UD;
 
 var reactors = new Array(7);
 var reactors_puri = new Array(7);
