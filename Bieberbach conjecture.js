@@ -85,7 +85,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\begin{matrix} f(z)=z + \\sum_{n \\geq 2}^{} a_n z^n \\\\\\ \\beta = k ^ {0.5} + f(j)  \\times b_1 \\\\\\ \\dot{ \\rho} = \\beta \end{matrix} ";
+    let result = "\\begin{matrix} f(z)=z + \\sum_{n \\geq 2}^{} a_n z^n \\\\\\ \\beta = k ^ {0.5} + f(j)  \\times b_1 \\\\\\ \\dot{ \\rho} = \\beta \\end{matrix} ";
 
     return result;
 }
