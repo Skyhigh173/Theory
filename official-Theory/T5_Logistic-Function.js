@@ -4,8 +4,8 @@ import { parseBigNumber, BigNumber } from "../api/BigNumber";
 import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
-var id = "logistic_function"
-var name = "Logistic Function";
+var id = "logistic_function_M"
+var name = "Logistic Function Mod";
 var description = "An implementation of the 'Logistic Function' theory from the game. Pls notice that this is spoiler!";
 var authors = "Gilles-Philippe Paillé, mod by skyhigh173";
 var version = 1;
