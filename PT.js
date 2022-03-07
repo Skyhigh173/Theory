@@ -1,10 +1,3 @@
-/*------------------------------------------*
-|            Probability  Theory            |
-|               by ducdat0507               |
-|            /!\ EARLY ALPHA /!\            |
-|           v.4:  the dice update           |
-*------------------------------------------*/
-
 import { ExponentialCost, LinearCost, ConstantCost, CompositeCost, FreeCost, StepwiseCost } from "./api/Costs";
 import { Localization } from "./api/Localization";
 import { BigNumber } from "./api/BigNumber";
@@ -21,7 +14,7 @@ import { FontFamily } from "./api/ui/properties/FontFamily";
 import { ImageSource } from "./api/ui/properties/ImageSource";
 
 var id = "probability_theory";
-var name = "Probability Theory";
+var name = "Probability Theory mod";
 var getDescription = () => {
 
     let day = Math.floor(Date.now() / 86400000);
