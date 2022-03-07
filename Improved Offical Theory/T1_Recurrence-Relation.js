@@ -107,7 +107,10 @@ var init = () => {
     theory.createAchievement(6, ac1, "god", "buy 100 upgrades of q2", () => q2.level > 99);
     theory.createSecretAchievement(7, ac1, "How?", "buy 1000 upgrades of q1", "spam", () => q1.level > 999);
     
-    ac2 = theory.createAchievementCategory(1, "Publish");
+    ac2 = theory.createAchievementCategory(1, "Publish and tau");
+    theory.createAchievement(8, ac2, "Pro Beginner", "Publish one time", () => theory.publicationMultiplier > 1);
+    theory.createAchievement(9, ac2, "a hundred", "Make multiplier greater then 100", () => theory.publicationMultiplier > 99.999);
+    theory.createAchievement(10, ac2, "Super power", "Make multiplier greater then 1000", () => theory.publicationMultiplier > 99.999);
    
     
     
