@@ -6,15 +6,17 @@ import { Utils } from "./api/Utils";
 
 
 var id = "OuO";
-var name = "OuO Theory";
-var description = "As you can see, OuO.";
+var name = "Complex Theory";
+var description = "As you can see, Complex.";
 var authors = "Skyhigh173#3120";
 var version = 1;
 
 
 var currency;
 var n, a1;
+var a2;
 var a1Exp;
+var a2Term;
 
 var achievement1, achievement2;
 var chapter1, chapter2;
@@ -42,16 +44,24 @@ var init = () => {
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
+    // a2
+    {
+        let getDesc = (level) => "a_2=" + getA2(level).toString(0);
+        a2 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(15)));
+        a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
+        a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
+        a2.isAvailable = false;
+    }
 
     /////////////////////
     // Permanent Upgrades
     theory.createPublicationUpgrade(0, currency, 1e5);
-    theory.createBuyAllUpgrade(1, currency, 1e13);
-    theory.createAutoBuyerUpgrade(2, currency, 1e30);
+    theory.createBuyAllUpgrade(1, currency, 1e15);
+    theory.createAutoBuyerUpgrade(2, currency, 1e20);
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(25, 25));
+    theory.setMilestoneCost(new LinearCost(5, 10));
 
     {
         a1Exp = theory.createMilestoneUpgrade(0, 3);
@@ -60,10 +70,17 @@ var init = () => {
         a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
+    {
+        a2Term = theory.createMilestoneUpgrade(1, 1);
+        a2Term.description = Localization.getUpgradeAddTermDesc("(a_{2}^{2})(log(1 + a_2))");
+        a2Term.info = Localization.getUpgradeAddTermInfo("(a_{2}^{2})(log(1 + a_2))");
+        a2Term.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+    }
+    
     /////////////////
     //// Achievements
     achievement1 = theory.createAchievement(0, "a new start", "Buy!", () => n.level > 1);
-    achievement2 = theory.createSecretAchievement(1, "OuO", "Wait wat? u buy 10000", "spam", () => n.level > 10000);
+    achievement2 = theory.createSecretAchievement(1, "Max power", "Wait wat? u buy 10000", "spam", () => n.level > 10000);
 
     ///////////////////
     //// Story chapters
@@ -80,16 +97,22 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
+    let term1 = a2Term.level > 0 ? ( getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) );
     currency.value += dt * bonus * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
-                                   getN(n.level)^0.1 ;
+                                   getN(n.level)^0.01 + term1;
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = n^{0.1} + a_1";
+    let result = "\\dot{\\rho} = n^{0.01} + a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
     if (a1Exp.level == 2) result += "^{1.1}";
     if (a1Exp.level == 3) result += "^{1.15}";
+    
+    if (a2Term.level > 0)
+        result += "(a_{2}^{2})(log(1 + a_2))";
+    
+    
 
     return result;
 }
