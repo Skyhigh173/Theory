@@ -110,7 +110,7 @@ var getPrimaryEquation = () => {
     if (a1Exp.level == 2) result += "^{1.1}";
     if (a1Exp.level == 3) result += "^{1.15}";
     
-    if (a2Term.level > 0) result += "(a_{2}^{2})(log(1 + a_2))";
+    if (a2Term.level > 0) result += " + (a_{2}^{2})(log(1 + a_2))";
     
     
 
@@ -123,7 +123,7 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.16
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getN = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getN = (level) => level;
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
