@@ -5,7 +5,7 @@ import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
 
-var id = "OuO";
+var id = "a+bi";
 var name = "Complex Theory";
 var description = "As you can see, Complex.";
 var authors = "Skyhigh173#3120";
@@ -13,7 +13,7 @@ var version = 1;
 
 
 var currency;
-var n, a1;
+var n, k, a1, a2;
 var a2;
 var a1Exp;
 var a2Term;
@@ -35,19 +35,26 @@ var init = () => {
         n.getDescription = (_) => Utils.getMath(getDesc(n.level));
         n.getInfo = (amount) => Utils.getMathTo(getDesc(n.level), getDesc(n.level + amount));
     }
+     // k
+    {
+        let getDesc = (level) => "k=2^{" + level + "}";
+        let getInfo = (level) => "k=" + getK(level).toString(0);
+        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(20)));
+        k.getDescription = (_) => Utils.getMath(getDesc(k.level));
+        k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
+    }
 
     // a1
     {
-        let getDesc = (level) => "a_1=2^{" + level + "}";
-        let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(6)));
+        let getDesc = (level) => "n=" + getN(level).toString(0);
+        a1 = theory.createUpgrade(0, currency, new ExponentialCost(2, Math.log2(6)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
-        a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
+        a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
     }
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(15)));
+        a2 = theory.createUpgrade(2, currency, new ExponentialCost(3, Math.log2(15)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAvailable = false;
@@ -104,13 +111,15 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = n^{0.01} + a_1";
+    let result = "Z = z^{k} + c \\\\\\ \\dot{\\rho} = n^{0.01} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
     if (a1Exp.level == 2) result += "^{1.1}";
     if (a1Exp.level == 3) result += "^{1.15}";
     
-    if (a2Term.level > 0) result += " + (a_{2}^{2})(log(1 + a_2))";
+    
+    
+    a2Term.level > 0 ? ( result += " a_2}" ) : ( result += "}" );
     
     
 
@@ -124,7 +133,8 @@ var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 var getN = (level) => BigNumber.from(level);
-var getA1 = (level) => BigNumber.TWO.pow(level);
+var getK = (level) => BigNumber.TWO.pow(level);
+var getA1 = (level) => BigNumber.from(level);
 var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 init();
