@@ -51,7 +51,7 @@ var init = () => {
 
     // a1
     {
-        let getDesc = (level) => "n=" + getN(level).toString(0);
+        let getDesc = (level) => "a_1=" + getN(level).toString(0);
         a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(6)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
@@ -142,6 +142,7 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+var getTertiaryEquation = () => "\\alpha = a_1 + k";
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 var getTau = () => currency.value;
