@@ -91,13 +91,14 @@ var init = () => {
 }
 
 var updateAvailability = () => {
+    a2.isAvailable = a2Term.level > 0;
     
 }
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    let term1 = a2Term.level > 0 ? ( getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) );
+    let term1 = a2Term.level > 0 ? ( getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) ) : BigNumber.ZERO;
     currency.value += dt * bonus * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
                                    getN(n.level)^0.01 + term1;
 }
@@ -109,8 +110,7 @@ var getPrimaryEquation = () => {
     if (a1Exp.level == 2) result += "^{1.1}";
     if (a1Exp.level == 3) result += "^{1.15}";
     
-    if (a2Term.level > 0)
-        result += "(a_{2}^{2})(log(1 + a_2))";
+    if (a2Term.level > 0) result += "(a_{2}^{2})(log(1 + a_2))";
     
     
 
