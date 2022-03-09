@@ -39,10 +39,15 @@ var version = 1;
 
 ```
 Notice that dont make `var version` like this :
+
 > 1.1.2
+
 > 1.3
+
 > alpha
+
 > -1
+
 it must be an integer.
 ## Create your own variables
 
