@@ -44,7 +44,7 @@ var init = () => {
     {
         let getDesc = (level) => "k=2^{" + level + "}";
         let getInfo = (level) => "k=" + getK(level).toString(0);
-        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(20)));
+        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(18)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
     }
@@ -60,7 +60,7 @@ var init = () => {
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(15)));
+        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(10)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAvailable = false;
@@ -148,7 +148,7 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.16
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getN = (level) => BigNumber.from(level);
+var getN = (level) => BigNumber.from(level * 0.5);
 var getK = (level) => BigNumber.TWO.pow(level);
 var getA1 = (level) => BigNumber.from(level);
 var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
