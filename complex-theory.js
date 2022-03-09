@@ -15,14 +15,18 @@ var version = 1;
 var currency;
 var n, k, a1, a2;
 var a2;
+
 var a1Exp;
 var a2Term;
+var alphaTerm;
+
 
 var achievement1, achievement2;
 var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
+    theory.primaryEquationHeight = 100;
 
     
     ///////////////////
@@ -35,7 +39,8 @@ var init = () => {
         n.getDescription = (_) => Utils.getMath(getDesc(n.level));
         n.getInfo = (amount) => Utils.getMathTo(getDesc(n.level), getDesc(n.level + amount));
     }
-     // k
+   
+    // k
     {
         let getDesc = (level) => "k=2^{" + level + "}";
         let getInfo = (level) => "k=" + getK(level).toString(0);
@@ -51,6 +56,7 @@ var init = () => {
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
     }
+    
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
@@ -70,6 +76,15 @@ var init = () => {
     //// Milestone Upgrades
     theory.setMilestoneCost(new LinearCost(5, 10));
 
+    //variable term
+    {
+        alphaTerm = theory.createMilestoneUpgrade(1000, 1);
+        alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha");
+        alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha");
+        alphaTerm.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+    }
+    
+    //normal term
     {
         a1Exp = theory.createMilestoneUpgrade(0, 3);
         a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.05");
@@ -79,8 +94,8 @@ var init = () => {
     
     {
         a2Term = theory.createMilestoneUpgrade(1, 1);
-        a2Term.description = Localization.getUpgradeAddTermDesc("(a_{2}^{2})(log(1 + a_2))");
-        a2Term.info = Localization.getUpgradeAddTermInfo("(a_{2}^{2})(log(1 + a_2))");
+        a2Term.description = Localization.getUpgradeAddTermDesc("a_2");
+        a2Term.info = Localization.getUpgradeAddTermInfo("a_2");
         a2Term.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
     
@@ -111,7 +126,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "Z = z^{k} + c \\\\\\ \\dot{\\rho} = n^{0.01} + \\sqrt{k a_1";
+    let result = "Z = Z^{k} + c \\\\\\ \\dot{\\rho} = n^{0.01} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
     if (a1Exp.level == 2) result += "^{1.1}";
