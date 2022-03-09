@@ -142,7 +142,7 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-var getTertiaryEquation = () => if (alphaTerm.level > 0 ? "\\alpha = a_1 + k" : " " ;
+var getTertiaryEquation = () => if alphaTerm.level > 0 ? ("\\alpha = a_1 + k") : " "  ;
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 var getTau = () => currency.value;
