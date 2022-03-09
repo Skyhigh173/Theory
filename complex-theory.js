@@ -26,7 +26,7 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
-    theory.primaryEquationHeight = 100;
+    theory.primaryEquationHeight = 85;
 
     
     ///////////////////
@@ -106,7 +106,7 @@ var init = () => {
 
     ///////////////////
     //// Story chapters
-    chapter1 = theory.createStoryChapter(0, "The OuO Theory", "One day, \nyou saw a news. \n \nThis Theory is strange.\nCan you solve this?\nOr...?", () => n.level > 0);
+    chapter1 = theory.createStoryChapter(0, "The beginning", "You started to research complex number. \n \n a+bi \n \n ...", () => n.level > 0);
     chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => a1.level > 100);
 
     updateAvailability();
@@ -142,7 +142,7 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-var getTertiaryEquation = () => "\\alpha = a_1 + k";
+var getTertiaryEquation = () => if (alphaTerm.level > 0 ? "\\alpha = a_1 + k" : " " ;
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 var getTau = () => currency.value;
