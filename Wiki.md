@@ -63,3 +63,8 @@ var a1, a2, n, k;
 You also need to add more variables such as `Term` or `Exp`.
 
 ###### Term variable
+You will need this if you create a term upgrade in Milestone.
+Example: (var = a, n)
+```
+var aTerm, nTerm;
+```
