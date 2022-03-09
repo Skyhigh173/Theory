@@ -1,5 +1,6 @@
 # This is the tutorial for making a CT.
 
+
 ## beginning
 You need to import these things first:
 
@@ -22,7 +23,7 @@ You can also import other things. (examples : UI )
 ## Theory informations
 
 you need id, name, description, authors and version.
-All informations start with "var". Here is the example:
+All informations start with `var`. Here is the example:
 
 ```
 
@@ -37,7 +38,12 @@ var authors = "Skyhigh173";
 var version = 1;
 
 ```
-
+Notice that dont make `var version` like this :
+> 1.1.2
+> 1.3
+> alpha
+> -1
+it must be an integer.
 ## Create your own variables
 
 for variables, you can do like this.
@@ -49,3 +55,6 @@ var currency;
 var a1, a2, n, k;
 
 ```
+You also need to add more variables such as `Term` or `Exp`.
+
+###### Term variable
