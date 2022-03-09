@@ -81,7 +81,7 @@ var init = () => {
         alphaTerm = theory.createMilestoneUpgrade(1000, 1);
         alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha");
         alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha");
-        alphaTerm.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        alphaTerm.boughtOrRefunded = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
     }
     
     //normal term
@@ -120,7 +120,10 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    let term1 = a2Term.level > 0 ? ( getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) ) : BigNumber.ZERO;
+    
+    let term1 = ( a2Term.level > 0 ? getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) : BigNumber.ZERO);
+    let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
+    
     currency.value += dt * bonus * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
                                    getN(n.level)^0.01 + term1;
 }
@@ -132,17 +135,15 @@ var getPrimaryEquation = () => {
     if (a1Exp.level == 2) result += "^{1.1}";
     if (a1Exp.level == 3) result += "^{1.15}";
     
-    
-    
     a2Term.level > 0 ? ( result += " a_2}" ) : ( result += "}" );
+    alphaTerm.level > 0 ? ( result += " + \\alpha" ) : ( result += " " );
     
-    
-
     return result;
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 var getTertiaryEquation = () => (alphaTerm.level > 0 ? "\\alpha = a_1 + k" : " " );
+
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 var getTau = () => currency.value;
