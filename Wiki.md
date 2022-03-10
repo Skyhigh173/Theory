@@ -51,7 +51,7 @@ Notice that dont make `var version` like this :
 it must be an integer.
 ## Create your own variables
 
-for variables, you can do like this.
+for variables, you can do this.
 (Example: you need variable a1, a2, n, k. It should look like this:)
 
 ```
@@ -82,3 +82,7 @@ Example (n^2)
 var n;
 var nExp;
 ```
+## main
+This is the main script of the game.
+
+###### init
