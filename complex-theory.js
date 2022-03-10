@@ -134,9 +134,9 @@ var tick = (elapsedTime, multiplier) => {
     
     let term1 = ( a2Term.level > 0 ? getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) : BigNumber.ZERO);
     let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
-    
-    currency.value += dt * bonus * getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
-                                   getN(n.level)^0.01 + term1;
+    let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) : BigNumber.ZERO );
+    currency.value += dt * bonus * (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
+                                   getN(n.level)^0.01 + term1 + termAlpha + termBeta);
 }
 
 var getPrimaryEquation = () => {
