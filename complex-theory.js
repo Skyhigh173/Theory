@@ -173,6 +173,21 @@ var getSecondaryEquation = () => {
     if (betaTerm.level > 0) result += " \\beta = \\alpha \\times a_1 + k";
     return result;
 }
+
+var getQuaternaryEquation = () => {
+    if (quaternaryEntries.length == 0)
+    {
+        quaternaryEntries.push(new QuaternaryEntry("\\alpha", null));
+    }
+    
+    
+    quaternaryEntries[0].value = alphaTerm.level > 0 ? termAlpha.toString() : null;
+    
+    return quaternaryEntries;
+}
+
+
+
     
 
 
