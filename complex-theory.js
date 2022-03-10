@@ -18,7 +18,7 @@ var a2;
 
 var a1Exp;
 var a2Term;
-var alphaTerm;
+var alphaTerm, betaTerm;
 
 
 var achievement1, achievement2;
@@ -26,7 +26,7 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
-    theory.primaryEquationHeight = 85;
+    theory.primaryEquationHeight = 70;
 
     
     ///////////////////
@@ -78,10 +78,17 @@ var init = () => {
 
     //variable term
     {
-        alphaTerm = theory.createMilestoneUpgrade(1000, 1);
+        alphaTerm = theory.createMilestoneUpgrade(10000, 1);
         alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha");
         alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha");
-        alphaTerm.boughtOrRefunded = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
+        alphaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); };
+    }
+    {
+        betaTerm = theory.createMilestoneUpgrade(10001, 1);
+        betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta");
+        betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta");
+        betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); };
+        betaTerm.isAvailable = false;
     }
     
     //normal term
@@ -114,6 +121,7 @@ var init = () => {
 
 var updateAvailability = () => {
     a2.isAvailable = a2Term.level > 0;
+    betaTerm.isAvailable = alphaTerm.level > 0;
     
 }
 
@@ -136,13 +144,22 @@ var getPrimaryEquation = () => {
     if (a1Exp.level == 3) result += "^{1.15}";
     
     a2Term.level > 0 ? ( result += " a_2}" ) : ( result += "}" );
-    alphaTerm.level > 0 ? ( result += " + \\alpha" ) : ( result += " " );
+    if (alphaTerm.level > 0) result += " + \\alpha ";
+    if (betaTerm.level > 0) result += " + \\beta ";
     
     return result;
 }
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-var getTertiaryEquation = () => (alphaTerm.level > 0 ? "\\alpha = a_1 + k" : " " );
+var getSecondaryEquation = () => {
+    let result = " "
+    if (alphaTerm.level > 0) result += "\\alpha = a_1 + k" ;
+    result += "\\qquad"
+    if (betaTerm.level > 0) result += "\\\beta = \\alpha + a_1";
+    return result;
+    
+
+
+var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
