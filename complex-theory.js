@@ -152,9 +152,9 @@ var getPrimaryEquation = () => {
 
 var getSecondaryEquation = () => {
     let result = " "
-    if (alphaTerm.level > 0) result += "\\alpha = a_1 + k" ;
+    if (alphaTerm.level > 0) result += "\\alpha = a_1 + k " ;
     result += "\\qquad"
-    if (betaTerm.level > 0) result += "\\\beta = \\alpha + a_1";
+    if (betaTerm.level > 0) result += " \\beta = \\alpha * a_1";
     return result;
 }
     
