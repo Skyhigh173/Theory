@@ -22,7 +22,7 @@ var alphaTerm, betaTerm;
 
 var ZD;
 
-var achievement1, achievement2;
+
 var chapter1, chapter2;
 
 var init = () => {
@@ -121,8 +121,10 @@ var init = () => {
     
     /////////////////
     //// Achievements
-    achievement1 = theory.createAchievement(0, "a new start", "Buy!", () => n.level > 1);
-    achievement2 = theory.createSecretAchievement(1, "Max power", "Wait wat? u buy 10000", "spam", () => n.level > 10000);
+    theory.createAchievement(0, "a new start", "Buy!", () => n.level > 1);
+    theory.createAchievement(1, "Number are growing so fast!", "reach 200 rho", () => currency.value > 199.99);
+    
+    theory.createSecretAchievement(1000, "Max power", "Wait wat? u buy 10000", "spam", () => n.level > 10000);
 
     ///////////////////
     //// Story chapters
