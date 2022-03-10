@@ -45,7 +45,7 @@ var init = () => {
     {
         let getDesc = (level) => "k=2^{" + level + "}";
         let getInfo = (level) => "k=" + getK(level).toString(0);
-        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(12)));
+        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(6)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
     }
