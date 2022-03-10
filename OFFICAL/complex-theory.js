@@ -188,11 +188,13 @@ var getQuaternaryEntries = () => {
     if (quaternaryEntries.length == 0)
     {
         quaternaryEntries.push(new QuaternaryEntry("\\alpha", null));
+        quaternaryEntries.push(new QuaternaryEntry("\\beta", null)); 
     }
     
     
     quaternaryEntries[0].value = alphaTerm.level > 0 ? termAlpha.toString() : null;
-    
+    quaternaryEntries[1].value = betaTerm.level > 0 ? termBeta.toString() : null;
+        
     return quaternaryEntries;
 }
 
