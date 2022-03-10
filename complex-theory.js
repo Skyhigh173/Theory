@@ -20,6 +20,8 @@ var a1Exp;
 var a2Term;
 var alphaTerm, betaTerm;
 
+var ZD;
+
 var achievement1, achievement2;
 var chapter1, chapter2;
 
@@ -91,6 +93,13 @@ var init = () => {
         betaTerm.isAvailable = false;
     }
     //dimension
+    {
+        ZD = theory.createMilestoneUpgrade(0, 1);
+        ZD.description = Localization.getUpgradeAddDimensionDesc();
+        ZD.info = Localization.getUpgradeAddDimensionInfo();
+        ZD.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); }
+        ZD.isAvailable = false;
+    }
   
     
     
@@ -125,6 +134,7 @@ var init = () => {
 var updateAvailability = () => {
     a2.isAvailable = a2Term.level > 0;
     betaTerm.isAvailable = alphaTerm.level > 0;
+    ZD.isAvailable = betaTerm.level > 0;
     
 }
 
@@ -134,13 +144,15 @@ var tick = (elapsedTime, multiplier) => {
     
     let term1 = ( a2Term.level > 0 ? getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) : BigNumber.ZERO);
     let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
-    let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) : BigNumber.ZERO );
+    let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     currency.value += dt * bonus * (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
                                    getN(n.level)^0.01 + term1 + termAlpha + termBeta);
 }
 
 var getPrimaryEquation = () => {
-    let result = "Z = Z^{k} + c \\\\\\ \\dot{\\rho} = n^{0.01} + \\sqrt{k a_1";
+    let result = " ";
+    ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta \\qquad Z < 2.15 " ) : ( result += "Z = Z^{k} + C" );
+    result += " \\\\\\ \\dot{\\rho} = n^{0.01} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
     if (a1Exp.level == 2) result += "^{1.1}";
@@ -157,7 +169,7 @@ var getSecondaryEquation = () => {
     let result = " "
     if (alphaTerm.level > 0) result += "\\alpha = a_1 + k " ;
     result += "\\qquad"
-    if (betaTerm.level > 0) result += " \\beta = \\alpha * a_1";
+    if (betaTerm.level > 0) result += " \\beta = \\alpha \\times a_1 + k";
     return result;
 }
     
