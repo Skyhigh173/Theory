@@ -45,7 +45,7 @@ var init = () => {
     {
         let getDesc = (level) => "k=2^{" + level + "}";
         let getInfo = (level) => "k=" + getK(level).toString(0);
-        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(6)));
+        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(7)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
     }
@@ -53,7 +53,7 @@ var init = () => {
     // a1
     {
         let getDesc = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(4)));
+        a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(6)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
     }
@@ -61,7 +61,7 @@ var init = () => {
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(5)));
+        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(8)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAvailable = false;
@@ -147,13 +147,13 @@ var tick = (elapsedTime, multiplier) => {
     let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     currency.value += dt * bonus * (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
-                                   getN(n.level)^0.05 + term1 + termAlpha + termBeta);
+                                   getN(n.level)^0.1 + term1 + termAlpha + termBeta);
 }
 
 var getPrimaryEquation = () => {
     let result = " ";
     ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta \\qquad Z < 2.15 " ) : ( result += "Z = Z^{k} + C" );
-    result += " \\\\\\ \\dot{\\rho} = n^{0.05} + \\sqrt{k a_1";
+    result += " \\\\\\ \\dot{\\rho} = n^{0.1} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
     if (a1Exp.level == 2) result += "^{1.1}";
