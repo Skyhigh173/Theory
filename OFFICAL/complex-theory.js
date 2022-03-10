@@ -26,7 +26,7 @@ var a2;
 
 var a1Exp;
 var a2Term;
-var alphaTerm, betaTerm;
+var alphaTerm, betaTerm, gammaTerm;
 
 var ZD;
 
@@ -97,10 +97,20 @@ var init = () => {
         betaTerm = theory.createMilestoneUpgrade(1001, 1);
         betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta");
         betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta");
-        betaTerm.canBeRefunded = (_) => ZD.level == 0;
+        betaTerm.canBeRefunded = (_) => ZD.level == 0 && gammaTerm.level == 0;
         betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
         betaTerm.isAvailable = false;
     }
+       
+    {
+        gammaTerm = theory.createMilestoneUpgrade(1002, 1);
+        gammaTerm.description = Localization.getUpgradeAddTermDesc("\\gamma");
+        gammaTerm.info = Localization.getUpgradeAddTermInfo("\\gamma");
+        gammaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
+        gammaTerm.isAvailable = false;
+    }
+    
+    
     //dimension
     {
         ZD = theory.createMilestoneUpgrade(10000, 1);
@@ -145,6 +155,7 @@ var init = () => {
 var updateAvailability = () => {
     a2.isAvailable = a2Term.level > 0;
     betaTerm.isAvailable = alphaTerm.level > 0;
+    gammaTerm.isAvailable = betaTerm.level > 0;
     ZD.isAvailable = betaTerm.level > 0;
     
 }
@@ -156,8 +167,10 @@ var tick = (elapsedTime, multiplier) => {
     let term1 = ( a2Term.level > 0 ? getA2(a2.level) ^ 2 * Math.log(1 + getA2(a2.level)) : BigNumber.ZERO);
     let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
+    let termGamma = ( gammaTerm.level > 0 ? termBeta ^ 2 + termAlpha : BigNumber.ZERO );
+    
     currency.value += dt * bonus * (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
-                                   getN(n.level)^0.1 + term1 + termAlpha + termBeta);
+                                   getN(n.level)^0.1 + term1 + termAlpha + termBeta + termGamma);
 }
 
 var getPrimaryEquation = () => {
@@ -173,15 +186,17 @@ var getPrimaryEquation = () => {
     a2Term.level > 0 ? ( result += " a_2}" ) : ( result += "}" );
     if (alphaTerm.level > 0) result += " + \\alpha ";
     if (betaTerm.level > 0) result += " + \\beta ";
-    
+    if (gammaTerm.level > 0) result += " + \\gamma ";
     return result;
 }
 
 var getSecondaryEquation = () => {
-    let result = " "
-    if (alphaTerm.level > 0) result += "\\alpha = a_1 + k " ;
-    result += "\\qquad"
+    let result = " ";
+    if (alphaTerm.level > 0) result += " \\alpha = a_1 + k " ;
+    result += "\\qquad";
     if (betaTerm.level > 0) result += " \\beta = \\alpha \\times a_1 + k";
+    result += "\\qquad";
+    if (gammaTerm.level > 0) result += " \\gamma = \\beta ^ {2} + \\alpha ";
     return result;
 }
 
