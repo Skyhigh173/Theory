@@ -147,13 +147,13 @@ var tick = (elapsedTime, multiplier) => {
     let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     currency.value += dt * bonus * (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) +
-                                   getN(n.level)^0.01 + term1 + termAlpha + termBeta);
+                                   getN(n.level)^0.05 + term1 + termAlpha + termBeta);
 }
 
 var getPrimaryEquation = () => {
     let result = " ";
     ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta \\qquad Z < 2.15 " ) : ( result += "Z = Z^{k} + C" );
-    result += " \\\\\\ \\dot{\\rho} = n^{0.01} + \\sqrt{k a_1";
+    result += " \\\\\\ \\dot{\\rho} = n^{0.05} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
     if (a1Exp.level == 2) result += "^{1.1}";
