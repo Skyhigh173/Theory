@@ -81,13 +81,13 @@ var init = () => {
         alphaTerm = theory.createMilestoneUpgrade(10000, 1);
         alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha");
         alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha");
-        alphaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); };
+        alphaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
     }
     {
         betaTerm = theory.createMilestoneUpgrade(10001, 1);
         betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta");
         betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta");
-        betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); };
+        betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
         betaTerm.isAvailable = false;
     }
     
