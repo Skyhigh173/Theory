@@ -89,12 +89,13 @@ var init = () => {
         betaTerm = theory.createMilestoneUpgrade(1001, 1);
         betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta");
         betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta");
+        betaTerm.canBeRefunded = (_) => ZD.level == 0;
         betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
         betaTerm.isAvailable = false;
     }
     //dimension
     {
-        ZD = theory.createMilestoneUpgrade(0, 1);
+        ZD = theory.createMilestoneUpgrade(10000, 1);
         ZD.description = Localization.getUpgradeAddDimensionDesc();
         ZD.info = Localization.getUpgradeAddDimensionInfo();
         ZD.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); }
