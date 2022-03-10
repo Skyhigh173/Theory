@@ -184,7 +184,7 @@ var getSecondaryEquation = () => {
     return result;
 }
 
-var getQuaternaryEquation = () => {
+var getQuaternaryEntries = () => {
     if (quaternaryEntries.length == 0)
     {
         quaternaryEntries.push(new QuaternaryEntry("\\alpha", null));
