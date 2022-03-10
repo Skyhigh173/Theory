@@ -74,7 +74,7 @@ var init = () => {
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(5, 10));
+    theory.setMilestoneCost(new LinearCost(5, 1));
 
     //variable term
     {
