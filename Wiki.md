@@ -82,6 +82,11 @@ Example (n^2)
 var n;
 var nExp;
 ```
+## Chapter
+Thid is easy to add.
+```
+var chapter1, chapter2;
+```
 ## main
 This is the main script of the game.
 
