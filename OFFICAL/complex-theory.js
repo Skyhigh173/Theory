@@ -162,7 +162,8 @@ var tick = (elapsedTime, multiplier) => {
 
 var getPrimaryEquation = () => {
     let result = " ";
-    ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta \\qquad Z < 2.15 " ) : ( result += "Z = Z^{k} + C" );
+    ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta  " ) : ( result += "Z = Z^{k} + C" );
+    ZD.level > 0 ? ( result += "\\\\\\ Z < 2.15" ) : (result += " " );
     result += " \\\\\\ \\dot{\\rho} = n^{0.1} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
