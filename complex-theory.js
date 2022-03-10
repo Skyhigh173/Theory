@@ -20,7 +20,6 @@ var a1Exp;
 var a2Term;
 var alphaTerm, betaTerm;
 
-
 var achievement1, achievement2;
 var chapter1, chapter2;
 
@@ -74,22 +73,26 @@ var init = () => {
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(5, 1));
+    theory.setMilestoneCost(new LinearCost(1, 1));
 
     //variable term
     {
-        alphaTerm = theory.createMilestoneUpgrade(10000, 1);
+        alphaTerm = theory.createMilestoneUpgrade(1000, 1);
         alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha");
         alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha");
+        alphaTerm.canBeRefunded = (_) => betaTerm.level == 0;
         alphaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
     }
     {
-        betaTerm = theory.createMilestoneUpgrade(10001, 1);
+        betaTerm = theory.createMilestoneUpgrade(1001, 1);
         betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta");
         betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta");
         betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
         betaTerm.isAvailable = false;
     }
+    //dimension
+  
+    
     
     //normal term
     {
