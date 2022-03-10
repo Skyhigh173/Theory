@@ -163,7 +163,7 @@ var tick = (elapsedTime, multiplier) => {
 var getPrimaryEquation = () => {
     let result = " ";
     ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta  " ) : ( result += "Z = Z^{k} + C" );
-    ZD.level > 0 ? ( result += "\\\\\\ Z < 2.15" ) : (result += " " );
+    ZD.level > 0 ? ( result += "\\qquad Z < 2.15" ) : (result += " " );
     result += " \\\\\\ \\dot{\\rho} = n^{0.1} + \\sqrt{k a_1";
 
     if (a1Exp.level == 1) result += "^{1.05}";
@@ -185,23 +185,7 @@ var getSecondaryEquation = () => {
     return result;
 }
 
-var getQuaternaryEntries = () => {
-    if (quaternaryEntries.length == 0)
-    {
-        quaternaryEntries.push(new QuaternaryEntry("\\alpha", null));
-        quaternaryEntries.push(new QuaternaryEntry("\\beta", null)); 
-    }
-    
-    
-    quaternaryEntries[0].value = alphaTerm.level > 0 ? termAlpha.toString() : null;
-    quaternaryEntries[1].value = betaTerm.level > 0 ? termBeta.toString() : null;
-        
-    return quaternaryEntries;
-}
 
-
-
-    
 
 
 var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho";
