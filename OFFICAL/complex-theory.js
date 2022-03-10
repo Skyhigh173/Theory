@@ -18,7 +18,7 @@ var name = "Complex Theory";
 var description = "As you can see, Complex.";
 var authors = "Skyhigh173#3120";
 var version = 1;
-
+quaternaryEntries = [];
 
 var currency;
 var n, k, a1, a2;
