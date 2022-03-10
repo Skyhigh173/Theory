@@ -236,8 +236,8 @@ var SGPUP = ui.createPopup({
     title: "NOTE",
     content: ui.createStackLayout({
             children:[
-                    ui.createLabel({text: "Please notice that this CT is still in alpha version. I will update this often, you may lose your data when you update this. \nThanks for playing!"}),
-                    ui.createButton({text: "Close", onClicked: () => popup.hide()})
+                    ui.createLabel({text: "Please notice that this CT is still in alpha version. \n I will update this often, you may lose your data when you update this.\n Update link: https://github.com/Skyhigh173/Theory/blob/main/OFFICAL/VERSION.md \nThank you for playing!"}),
+                    ui.createButton({text: "OK", onClicked: () => SGPUP.hide()})
             ]
     })
 });
