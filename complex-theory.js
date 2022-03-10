@@ -1,3 +1,11 @@
+/*----------------------------*
+        complex theory
+  alpha version | skyhigh173
+
+*----------------------------*/
+
+
+
 import { ExponentialCost, FreeCost, LinearCost } from "./api/Costs";
 import { Localization } from "./api/Localization";
 import { BigNumber } from "./api/BigNumber";
