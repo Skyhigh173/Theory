@@ -156,6 +156,7 @@ var getSecondaryEquation = () => {
     result += "\\qquad"
     if (betaTerm.level > 0) result += "\\\beta = \\alpha + a_1";
     return result;
+}
     
 
 
