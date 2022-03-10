@@ -45,15 +45,15 @@ var init = () => {
     {
         let getDesc = (level) => "k=2^{" + level + "}";
         let getInfo = (level) => "k=" + getK(level).toString(0);
-        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(18)));
+        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(12)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
     }
 
     // a1
     {
-        let getDesc = (level) => "a_1=" + getN(level).toString(0);
-        a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(6)));
+        let getDesc = (level) => "a_1=" + getA1(level).toString(0);
+        a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(4)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
     }
@@ -61,7 +61,7 @@ var init = () => {
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(10)));
+        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(5)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAvailable = false;
@@ -178,8 +178,8 @@ var getSecondaryEquation = () => {
 
 var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 
-var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.25) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.25}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
