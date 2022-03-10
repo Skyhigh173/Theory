@@ -68,3 +68,17 @@ Example: (var = a, n)
 ```
 var aTerm, nTerm;
 ```
+What is term?
+It works like this:
+1st equation : `a+b_1`
+
+2nd equation (after buy) :` a+b_1+c`
+
+###### Exp variable
+You will need this when your variable have a power (a^b).
+
+Example (n^2)
+```
+var n;
+var nExp;
+```
