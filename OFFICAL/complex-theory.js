@@ -11,6 +11,11 @@ import { Localization } from "./api/Localization";
 import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
+import { Popup } from "../api/ui/Popup";
+import { Color } from "../api/ui/properties/Color";
+import { ImageSource } from "../api/ui/properties/ImageSource";
+import { Thickness } from "../api/ui/properties/Thickness";
+import { ui } from "../api/ui/UI"
 
 
 var id = "a+bi";
@@ -61,7 +66,7 @@ var init = () => {
     // a1
     {
         let getDesc = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(6)));
+        a1 = theory.createUpgrade(2, currency, new ExponentialCost(2, Math.log2(3)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
     }
@@ -69,7 +74,7 @@ var init = () => {
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(8)));
+        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(5)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAvailable = false;
@@ -215,4 +220,34 @@ var getK = (level) => BigNumber.TWO.pow(level);
 var getA1 = (level) => BigNumber.from(level);
 var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+
+
+
+
+
+
+
+
+
+
+///////////////////POPUP///////////////////
+//start game pop up
+var SGPUP = ui.createPopup({
+    title: "NOTE",
+    content: ui.createStackLayout({
+            children:[
+                    ui.createLabel({text: "Please notice that this CT is still in alpha version. I will update this often, you may lose your data when you update this. \nThanks for playing!"}),
+                    ui.createButton({text: "Close", onClicked: () => popup.hide()})
+            ]
+    })
+});
+
+
+
+
+
+
+
+////init/////
+SGPUP.show();
 init();
