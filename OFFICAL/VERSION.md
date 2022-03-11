@@ -12,3 +12,9 @@ Alpha : From nothing to --
 > added gamma variable
 
 > fixed bug
+
+###### alpha v0.0.2
+
+> added Omega
+
+> fixed bug
