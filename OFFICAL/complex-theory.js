@@ -231,8 +231,9 @@ var getTertiaryEquation = () => {
     if (UpOTerm.level > 0) {
         result += "\\Omega = ";
         result += UpOmega;
+    }
     return result;
-
+}
 var getPublicationMultiplier = (tau) => tau.pow(0.3) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.3}}{3}";
 var getTau = () => currency.value;
