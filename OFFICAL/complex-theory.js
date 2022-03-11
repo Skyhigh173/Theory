@@ -193,8 +193,9 @@ var tick = (elapsedTime, multiplier) => {
     
     if (UpOTerm.level > 0) {
         UpOmega += ( Math.log(currency.value) ** 0.5 ) / 500; 
-        theory.invalidatePrimaryEquation;
+        
     }
+    theory.invalidateTertiaryEquation();
 }
 
 var getPrimaryEquation = () => {
