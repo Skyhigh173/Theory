@@ -175,7 +175,7 @@ var updateAvailability = () => {
     betaTerm.isAvailable = alphaTerm.level > 0;
     gammaTerm.isAvailable = betaTerm.level > 0;
     ZD.isAvailable = betaTerm.level > 0;
-    UpOTerm.isAbailable = a2Term.level > 0 && a1Exp.level > 2 && ZD.level > 0;
+    UpOTerm.isAvailable = a2Term.level > 0 && a1Exp.level > 2 && ZD.level > 0;
     
 }
 
@@ -231,7 +231,7 @@ var getTertiaryEquation = () => {
     result += "\\qquad"
     if (UpOTerm.level > 0) {
         result += "\\Omega = ";
-        result += UpOmega;
+        result += (UpOmega.value) ;
     }
     return result;
 }
