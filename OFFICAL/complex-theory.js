@@ -58,7 +58,7 @@ var init = () => {
     {
         let getDesc = (level) => "k=2^{" + level + "}";
         let getInfo = (level) => "k=" + getK(level).toString(0);
-        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(7)));
+        k = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(4)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
     }
@@ -74,7 +74,7 @@ var init = () => {
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(5)));
+        a2 = theory.createUpgrade(3, currency, new ExponentialCost(3, Math.log2(4)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAvailable = false;
@@ -82,13 +82,13 @@ var init = () => {
 
     /////////////////////
     // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 1e1); //change!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    theory.createPublicationUpgrade(0, currency, 1e5); //change!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     theory.createBuyAllUpgrade(1, currency, 1e15);
     theory.createAutoBuyerUpgrade(2, currency, 1e20);
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(1, 1));
+    theory.setMilestoneCost(new LinearCost(10, 10));
 
     //variable term
     {
