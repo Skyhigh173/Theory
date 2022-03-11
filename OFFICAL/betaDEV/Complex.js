@@ -25,8 +25,8 @@ var description = "As you can see, Complex.";
 var authors = "Skyhigh173#3120";
 var version = "v0.0.1";
 quaternaryEntries = [];
-var lemma = 1;
-lemma.maxLevel = 2;
+var lemma;
+const lemmaMax = 2;
 
 var currency;
 var n, k, a1, a2;
@@ -156,6 +156,15 @@ var init = () => {
     //// Story chapters
     chapter1 = theory.createStoryChapter(0, "The beginning", "You started to research complex number. \n \n a+bi \n \n ...", () => n.level > 0);
     chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => a1.level > 100);
+    
+        
+        
+    //lemma
+    lemma = theory.createSingularUpgrade(0, currency, lemmaCost);
+    lemma.maxLevel = lemmaMax;
+    lemma.getDescription = (_) => Localization.getUpgradeProveLemma(Math.min(lemmaMax, lemma.level + 1));
+    lemma.getInfo = (_) => Localization.getUpgradeProveLemma(Math.min(lemmaMax, lemma.level + 1));
+    lemma.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); theory.invalidateSecondaryEquation(); updateAvailability(); };
 
     updateAvailability();
 }
