@@ -174,7 +174,7 @@ var tick = (elapsedTime, multiplier) => {
     let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     let termGamma = ( gammaTerm.level > 0 ? termBeta ^ 2 + termAlpha : BigNumber.ZERO );
     
-    currency.value += dt * bonus * (  sqrt(getA1(a1.level).pow(getA1Exponent(a1Exp.level)) + getK(k.level)^1.5 ) +
+    currency.value += dt * bonus * (  (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) + getK(k.level)^1.5 )^0.5 +
                                    getN(n.level)^0.5 + term1 + termAlpha + termBeta + termGamma);
 }
 
