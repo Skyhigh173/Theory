@@ -134,7 +134,7 @@ var init = () => {
         UpOTerm = theory.createMilestoneUpgrade(100000000, 1);
         UpOTerm.description = Localization.getUpgradeAddTermDesc("\\Omega ");
         UpOTerm.info = Localization.getUpgradeAddTermInfo("\\Omega ");
-        UpOTerm.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+        UpOTerm.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidateTertiaryEquation(); };
         UpOTerm.isAvailable = false;
     }
         
@@ -198,7 +198,7 @@ var tick = (elapsedTime, multiplier) => {
 
 var getPrimaryEquation = () => {
     let result = " ";
-    ZD.level > 0 ? ( result += "\\lim_{k_1 \\rightarrow  \\infty } Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta  " ) : ( result += "Z = Z^{k} + C" );
+    ZD.level > 0 ? ( result += "\\lim_{k_1 \\rightarrow  \\infty } Z_{n} = Z_{n-1}^{k_1} + C \\times \\alpha \\beta  " ) : ( result += "Z = Z^{k} + C" );
     ZD.level > 0 ? ( result += "\\qquad Z < 2.15" ) : (result += " " );
     result += " \\\\\\ \\dot{\\rho} = n^{0.5} + \\sqrt{k^{1.5}a_1";
 
