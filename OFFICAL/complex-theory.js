@@ -32,6 +32,8 @@ var a2;
 var a1Exp;
 var a2Term;
 var alphaTerm, betaTerm, gammaTerm;
+var UpOmega, UpOTerm;
+var UpOmega = 0;
 
 var ZD;
 
@@ -93,15 +95,15 @@ var init = () => {
     //variable term
     {
         alphaTerm = theory.createMilestoneUpgrade(1000, 1);
-        alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha");
-        alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha");
+        alphaTerm.description = Localization.getUpgradeAddTermDesc("\\alpha ");
+        alphaTerm.info = Localization.getUpgradeAddTermInfo("\\alpha ");
         alphaTerm.canBeRefunded = (_) => betaTerm.level == 0;
         alphaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
     }
     {
         betaTerm = theory.createMilestoneUpgrade(1001, 1);
-        betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta");
-        betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta");
+        betaTerm.description = Localization.getUpgradeAddTermDesc("\\beta ");
+        betaTerm.info = Localization.getUpgradeAddTermInfo("\\beta ");
         betaTerm.canBeRefunded = (_) => ZD.level == 0 && gammaTerm.level == 0;
         betaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
         betaTerm.isAvailable = false;
@@ -109,8 +111,8 @@ var init = () => {
        
     {
         gammaTerm = theory.createMilestoneUpgrade(1002, 1);
-        gammaTerm.description = Localization.getUpgradeAddTermDesc("\\gamma");
-        gammaTerm.info = Localization.getUpgradeAddTermInfo("\\gamma");
+        gammaTerm.description = Localization.getUpgradeAddTermDesc("\\gamma ");
+        gammaTerm.info = Localization.getUpgradeAddTermInfo("\\gamma ");
         gammaTerm.boughtOrRefunded = (_) => { theory.invalidateSecondaryEquation(); updateAvailability(); theory.invalidatePrimaryEquation(); };
         gammaTerm.isAvailable = false;
     }
@@ -122,16 +124,26 @@ var init = () => {
         ZD.description = Localization.getUpgradeAddDimensionDesc();
         ZD.info = Localization.getUpgradeAddDimensionInfo();
         ZD.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); }
+        ZD.canBeRefunded = (_) => UpOTerm.level == 0;
         ZD.isAvailable = false;
     }
   
+    //special
     
-    
+    {
+        UpOTerm = theory.createMilestoneUpgrade(100000000, 1);
+        UpOTerm.description = Localization.getUpgradeAddTermDesc("\\Omega ");
+        UpOTerm.info = Localization.getUpgradeAddTermInfo("\\Omega ");
+        UpOTerm.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+        UpOTerm.isAvailable = false;
+    }
+        
     //normal term
     {
         a1Exp = theory.createMilestoneUpgrade(0, 3);
         a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.05");
         a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.05");
+        a1Exp.canBeRefunded = (_) => UpOTerm.level == 0;
         a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
@@ -139,6 +151,7 @@ var init = () => {
         a2Term = theory.createMilestoneUpgrade(1, 1);
         a2Term.description = Localization.getUpgradeAddTermDesc("a_2");
         a2Term.info = Localization.getUpgradeAddTermInfo("a_2");
+        a2Term.canBeRefunded = (_) => UpOTerm.level == 0;
         a2Term.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
     
@@ -162,6 +175,7 @@ var updateAvailability = () => {
     betaTerm.isAvailable = alphaTerm.level > 0;
     gammaTerm.isAvailable = betaTerm.level > 0;
     ZD.isAvailable = betaTerm.level > 0;
+    UpOTerm.isAbailable = a2Term.level > 0 && a1Exp.level > 2 && ZD.level > 0;
     
 }
 
@@ -176,11 +190,14 @@ var tick = (elapsedTime, multiplier) => {
     
     currency.value += dt * bonus * (  (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) + getK(k.level)^1.5 )^0.5 +
                                    getN(n.level)^0.5 + term1 + termAlpha + termBeta + termGamma);
+    
+    if (UpOTerm.level > 0) {
+        UpOmega += ( Math.log(currency.value) ** 0.5 ) / 500; 
 }
 
 var getPrimaryEquation = () => {
     let result = " ";
-    ZD.level > 0 ? ( result += "Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta  " ) : ( result += "Z = Z^{k} + C" );
+    ZD.level > 0 ? ( result += "\\lim_{k_1 \\rightarrow  \\infty } Z_{n} = Z_{n-1}^{k} + C \\times \\alpha \\beta  " ) : ( result += "Z = Z^{k} + C" );
     ZD.level > 0 ? ( result += "\\qquad Z < 2.15" ) : (result += " " );
     result += " \\\\\\ \\dot{\\rho} = n^{0.5} + \\sqrt{k^{1.5}a_1";
 
@@ -208,10 +225,16 @@ var getSecondaryEquation = () => {
 
 
 
-var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+var getTertiaryEquation = () => {
+    let result = "theory.latexSymbol + "=\\max\\rho";
+    result += "\\qquad"
+    if (UpOTerm.level > 0) {
+        result += "\\Omega = ";
+        result += UpOmega;
+    return result;
 
-var getPublicationMultiplier = (tau) => tau.pow(0.25) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.25}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.3) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.3}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
