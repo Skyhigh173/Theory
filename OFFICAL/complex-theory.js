@@ -219,7 +219,7 @@ var getN = (level) => BigNumber.from(level * 0.5);
 var getK = (level) => BigNumber.TWO.pow(level);
 var getA1 = (level) => BigNumber.from(level);
 var getA1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
-var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 5, 0);
 
 
 
