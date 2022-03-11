@@ -227,7 +227,7 @@ var getSecondaryEquation = () => {
 
 
 var getTertiaryEquation = () => {
-    let result = "theory.latexSymbol + "=\\max\\rho";
+    let result = theory.latexSymbol + "=\\max\\rho";
     result += "\\qquad"
     if (UpOTerm.level > 0) {
         result += "\\Omega = ";
