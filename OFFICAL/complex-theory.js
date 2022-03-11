@@ -84,13 +84,13 @@ var init = () => {
 
     /////////////////////
     // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 5e4); //change!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    theory.createPublicationUpgrade(0, currency, 5e1); //change!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     theory.createBuyAllUpgrade(1, currency, 1e15);
     theory.createAutoBuyerUpgrade(2, currency, 1e20);
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(10, 10));
+    theory.setMilestoneCost(new LinearCost(1, 1));
 
     //variable term
     {
