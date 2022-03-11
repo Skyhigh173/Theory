@@ -22,7 +22,7 @@ var id = "a+bi";
 var name = "Complex Theory";
 var description = "As you can see, Complex.";
 var authors = "Skyhigh173#3120";
-var version = "v0.0.1";
+var version = "v0.0.2";
 quaternaryEntries = [];
 
 var currency;
@@ -233,12 +233,12 @@ var getTertiaryEquation = () => {
     result += " \\qquad  "
     if (UpOTerm.level > 0) {
         result += "\\Omega = ";
-        result += UpOmega ;
+        result += BigNumber.from( UpOmega.toString(4) ) ;
     }
     return result;
 }
-var getPublicationMultiplier = (tau) => tau.pow(0.3) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.3}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.15) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.15}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
