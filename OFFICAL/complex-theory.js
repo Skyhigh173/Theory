@@ -144,7 +144,7 @@ var init = () => {
         a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.05");
         a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.05");
         a1Exp.canBeRefunded = (_) => UpOTerm.level == 0;
-        a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        a1Exp.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
     
     {
@@ -183,10 +183,10 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    let term1 = ( a2Term.level > 0 ? getA2(a2.level) ** 2 * Math.log(1 + getA2(a2.level)) : BigNumber.ZERO);
+    let term1 = ( a2Term.level > 0 ? getA2(a2.level).pow(2) * Math.log(1 + getA2(a2.level)) : BigNumber.ZERO);
     let termAlpha = ( alphaTerm.level > 0 ? getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
     let termBeta = ( betaTerm.level > 0 ? termAlpha * getA1(a1.level) + getK(k.level) : BigNumber.ZERO );
-    let termGamma = ( gammaTerm.level > 0 ? termBeta ** 2 + termAlpha : BigNumber.ZERO );
+    let termGamma = ( gammaTerm.level > 0 ? termBeta.pow(2) + termAlpha : BigNumber.ZERO );
     
     currency.value += dt * bonus * (  (getA1(a1.level).pow(getA1Exponent(a1Exp.level)) + getK(k.level) ** 1.5 ) ** 0.5 +
                                    getN(n.level) ** 0.5 + term1 + termAlpha + termBeta + termGamma);
