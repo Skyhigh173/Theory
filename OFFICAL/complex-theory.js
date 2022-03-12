@@ -233,7 +233,7 @@ var getTertiaryEquation = () => {
     result += " \\qquad  "
     if (UpOTerm.level > 0) {
         result += "\\Omega = ";
-        result += (BigNumber.from( UpOmega ));
+        result += BigNumber.from(UpOmega).toString(4);
     }
     return result;
 }
