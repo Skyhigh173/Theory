@@ -84,7 +84,7 @@ var init = () => {
 
     /////////////////////
     // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 5e1); //change!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    theory.createPublicationUpgrade(0, currency, 5e1); 
     theory.createBuyAllUpgrade(1, currency, 1e15);
     theory.createAutoBuyerUpgrade(2, currency, 1e20);
 
@@ -233,7 +233,7 @@ var getTertiaryEquation = () => {
     result += " \\qquad  "
     if (UpOTerm.level > 0) {
         result += "\\Omega = ";
-        result += BigNumber.from( UpOmega.toString(4) ) ;
+        result += (BigNumber.from( UpOmega )).toString(4) ;
     }
     return result;
 }
