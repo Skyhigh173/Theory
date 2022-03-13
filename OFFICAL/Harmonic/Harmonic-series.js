@@ -151,9 +151,7 @@ var getQuaternaryEntries = () => {
     }
 
     quaternaryEntries[0].value = b1.toString();
-    quaternaryEntries[1].value = b2T.level > 0 ? b2.toString() : null;
-    quaternaryEntries[2].value = b3T.level > 0 ? b3.toString() : null;
-    quaternaryEntries[3].value = b4T.level > 0 ? b4.toString() : null;
+    
     
 
     return quaternaryEntries;
