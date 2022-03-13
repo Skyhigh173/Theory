@@ -105,6 +105,8 @@ var tick = (elapsedTime, multiplier) => {
     
     
     currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level)).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) );
+    
+    theory.invalidateQuaternaryValues();
 }
 
 
