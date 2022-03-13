@@ -18,7 +18,7 @@ var n1 = BigNumber.ONE;
 var b1 = BigNumber.ZERO, b2 = BigNumber.ZERO, b3 = BigNumber.ZERO, b4 = BigNumber.ZERO;
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
-var a3T, a4T, b2T, b3T, b4T;
+var aTs, b2T, b3T, b4T;
 
 
 quaternaryEntries = [];
@@ -28,16 +28,18 @@ var init = () => {
     currency = theory.createCurrency();
     
     theory.primaryEquationHeight = 75;
-    theory.primaryEquationScale = 0.75;
+    theory.primaryEquationScale = 1;
 
     ///////////////////
     // Regular Upgrades
 
+    //// a terms
+    
     // a1
     {
         let getDesc = (level) => "a_1=2^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(0, currency, new ExponentialCost(1, Math.log2(7)));
+        a1 = theory.createUpgrade(0, currency, new ExponentialCost(1, Math.log2(5)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
@@ -49,32 +51,61 @@ var init = () => {
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
     }
+    // a3
+    {
+        let getDesc = (level) => "a_3=" + getA3(level).toString(0);
+        a3 = theory.createUpgrade(1, currency, new ExponentialCost(100000, Math.log2(6)));
+        a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
+        a3.getInfo = (amount) => Utils.getMathTo(getDesc(a3.level), getDesc(a3.level + amount));
+        a3.isAvailable = false;
+    }
+   
+    // a4
+    {
+        let getDesc = (level) => "a_4=" + getA4(level).toString(0);
+        a4 = theory.createUpgrade(1, currency, new ExponentialCost(1000000, Math.log2(10)));
+        a4.getDescription = (_) => Utils.getMath(getDesc(a4.level));
+        a4.getInfo = (amount) => Utils.getMathTo(getDesc(a4.level), getDesc(a4.level + amount));
+        a4.isAvailable = false;
+    }
+    
+    //// n terms
     
     // n1
     {
         let getDesc = (level) => "n_1=" + getN1(level).toString(0);
-        n1 = theory.createUpgrade(2, currency, new ExponentialCost(100000, Math.log2(12)));
+        n1 = theory.createUpgrade(100, currency, new ExponentialCost(100000, Math.log2(12)));
         n1.getDescription = (_) => Utils.getMath(getDesc(n1.level));
         n1.getInfo = (amount) => Utils.getMathTo(getDesc(n1.level), getDesc(n1.level + amount));
     }
     
+    //// b terms
+    
     // db1
     {
-        let getDesc = (level) => "\\dot{d}_1=" + getDB1(level).toString(0);
-        db1 = theory.createUpgrade(3, currency, new ExponentialCost(10, Math.log2(3)));
+        let getDesc = (level) => "\\dot{b}_1=" + getDB1(level).toString(0);
+        db1 = theory.createUpgrade(1000, currency, new ExponentialCost(10, Math.log2(3)));
         db1.getDescription = (_) => Utils.getMath(getDesc(db1.level));
         db1.getInfo = (amount) => Utils.getMathTo(getDesc(db1.level), getDesc(db1.level + amount));
     }
 
     /////////////////////
     // Permanent Upgrades
-    theory.createPublicationUpgrade(0, currency, 1e10);
+    theory.createPublicationUpgrade(0, currency, 1e1);
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
+    
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(25, 25));
+    theory.setMilestoneCost(new LinearCost(1, 1));
+     
+    {
+        aTs = theory.createMilestoneUpgrade(0, 2);
+        aTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(aTs.level == 0 ? "a_3" : "a_4");
+        aTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(aTs.level == 0 ? "a_3" : "a_4");
+        aTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+    }
 
     
     
@@ -85,12 +116,14 @@ var init = () => {
     ///////////////////
     //// Story chapters
     chapter1 = theory.createStoryChapter(0, "Harmonic series", "This is line 1,\nand this is line 2.\n\nNice.", () => a1.level > 0);
-    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => a2.level > 0);
+    chapter2 = theory.createStoryChapter(1, "My Second Chapter", "This is line 1 again,\nand this is line 2... again.\n\nNice again.", () => a2.level > 1000);
 
     updateAvailability();
 }
 
 var updateAvailability = () => {
+    a3.isAvailable = aTs.level > 0;
+    a4.isAvailable = aTs.level > 1;
     
 }
 
@@ -103,18 +136,30 @@ var tick = (elapsedTime, multiplier) => {
     b1 = b1 + dt * getDB1(db1.level);
     
     
+    let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
+    let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
-    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level)).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) );
+    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) );
     
     theory.invalidateQuaternaryValues();
 }
 
+var postPublish = () => {
+    b1 = BigNumber.ZERO;
+    b2 = BigNumber.ZERO;
+    b3 = BigNumber.ZERO;
+    b4 = BigNumber.ZERO;
+}
 
 //Equation
 var getPrimaryEquation = () => {
     let result = "\\lim_{k \\rightarrow  \\infty } \\sum_{n=1}^{k}  \\frac{1}{n}";
     result += " \\\\\\ ";
-    result += "\\dot{\\rho} =  \\sqrt{a_1 a_2 a_3 a_4} \\cdot n_1 + b_1";
+    result += "\\dot{\\rho} =  \\sqrt{a_1 a_2";
+    if ( aTs.level > 0 ) result += " a_3";
+    if ( aTs.level > 1 ) result += " a_4";
+    result += "} \\cdot n_1 + b_1";
+    
 
     
 
@@ -137,8 +182,10 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 //get value
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+var getA3 = (level) => Utils.getStepwisePowerSum(level, 2, 5, 1);
+var getA4 = (level) => Utils.getStepwisePowerSum(level, 3, 4, 1);
 var getN1 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 1);
-var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 
 
 ////////////////side variables/////////////
