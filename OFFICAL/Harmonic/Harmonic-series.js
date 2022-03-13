@@ -117,7 +117,7 @@ var init = () => {
     }
     
     {
-        bTs = theory.createMilestoneUpgrade(0, 3);
+        bTs = theory.createMilestoneUpgrade(1, 3);
         bTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
         bTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
         bTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
