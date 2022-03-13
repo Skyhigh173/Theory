@@ -48,7 +48,7 @@ var init = () => {
     // n1
     {
         let getDesc = (level) => "n_1=" + getN1(level).toString(0);
-        n1 = theory.createUpgrade(1, currency, new ExponentialCost(100000, Math.log2(12)));
+        n1 = theory.createUpgrade(2, currency, new ExponentialCost(100000, Math.log2(12)));
         n1.getDescription = (_) => Utils.getMath(getDesc(n1.level));
         n1.getInfo = (amount) => Utils.getMathTo(getDesc(n1.level), getDesc(n1.level + amount));
     }
@@ -84,7 +84,7 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    currency.value += dt * bonus * (BigNumber.from(getA1(a1.level) * BigNumber.from(getA2(a2.level)).pow(0.5) * BigNumber.from(getN1(n1.level));
+    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level)).pow(0.5) * getN1(n1.level));
 }
 
 var getPrimaryEquation = () => {
