@@ -15,7 +15,7 @@ var a1 = BigNumber.ONE, a2 = BigNumber.ONE;
 var a3 = BigNumber.ONE, a4 = BigNumber.ONE;
 var n1 = BigNumber.ONE;
 
-var b1 = BigNumber.ZERO, b2 = BigNumber.ZERO, b3 = BigNumber.ZERO, b4 = BigNumber.ZERO;
+var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.ONE;
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
 var aTs, bTs;
