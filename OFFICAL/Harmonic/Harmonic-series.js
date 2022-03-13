@@ -171,7 +171,7 @@ var tick = (elapsedTime, multiplier) => {
     b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 ? b2 : BigNumber.ONE) ; 
     if (bTs.level > 0) b2 = b2 + dt * getDB2(db2.level) * (bTs.level > 1 ? b3 : BigNumber.ONE) ; 
     if (bTs.level > 1) b3 = b3 + dt * getDB3(db3.level) * (bTs.level > 2 ? b4 : BigNumber.ONE) ; 
-    if (bTs.level > 1) b4 = b4 + dt * getDB4(db4.level);
+    if (bTs.level > 2) b4 = b4 + dt * getDB4(db4.level);
     
     let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
