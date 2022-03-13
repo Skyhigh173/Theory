@@ -38,12 +38,19 @@ var init = () => {
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
-      // a2
+    // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
         a2 = theory.createUpgrade(1, currency, new ExponentialCost(30, Math.log2(4)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
+    }
+    // n1
+    {
+        let getDesc = (level) => "n_1=" + getN1(level).toString(0);
+        n1 = theory.createUpgrade(1, currency, new ExponentialCost(100000, Math.log2(12)));
+        n1.getDescription = (_) => Utils.getMath(getDesc(n1.level));
+        n1.getInfo = (amount) => Utils.getMathTo(getDesc(n1.level), getDesc(n1.level + amount));
     }
 
     /////////////////////
@@ -77,7 +84,7 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    currency.value += dt * bonus * (BigNumber.from(getA1(a1.level) * BigNumber.from(getA2(a2.level)).pow(0.5);
+    currency.value += dt * bonus * (BigNumber.from(getA1(a1.level) * BigNumber.from(getA2(a2.level)).pow(0.5) * BigNumber.from(getN1(n1.level));
 }
 
 var getPrimaryEquation = () => {
@@ -97,7 +104,7 @@ var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 var getA1 = (level) => BigNumber.TWO.pow(level);
-var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-
+var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+var getN1 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 1);
 
 init();
