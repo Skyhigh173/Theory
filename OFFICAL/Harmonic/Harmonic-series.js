@@ -91,13 +91,30 @@ var init = () => {
     
     // db2
     {
-        let getDesc = (level) => "\\dot{b}_2=" + getDB2(level).toString(0);
+        let getDesc = (level) => "\\dot{b}_2=" + getDB2(level).toString(0) + (bTs.level > 1 ? "\\cdot b_3" : "");
         db2 = theory.createUpgrade(1001, currency, new ExponentialCost(10000, Math.log2(5)));
         db2.getDescription = (_) => Utils.getMath(getDesc(db2.level));
         db2.getInfo = (amount) => Utils.getMathTo(getDesc(db2.level), getDesc(db2.level + amount));
         db2.isAvailable = false;
     }
-
+    
+    // db3
+    {
+        let getDesc = (level) => "\\dot{b}_3=" + getDB2(level).toString(0) + (bTs.level > 2 ? "\\cdot b_4" : "");
+        db3 = theory.createUpgrade(1002, currency, new ExponentialCost(80000, Math.log2(7)));
+        db3.getDescription = (_) => Utils.getMath(getDesc(db3.level));
+        db3.getInfo = (amount) => Utils.getMathTo(getDesc(db3.level), getDesc(db3.level + amount));
+        db3.isAvailable = false;
+    }
+    // db4
+    {
+        let getDesc = (level) => "\\dot{b}_4=" + getDB2(level).toString(0);
+        db4 = theory.createUpgrade(1003, currency, new ExponentialCost(500000, Math.log2(9)));
+        db4.getDescription = (_) => Utils.getMath(getDesc(db4.level));
+        db4.getInfo = (amount) => Utils.getMathTo(getDesc(db4.level), getDesc(db4.level + amount));
+        db4.isAvailable = false;
+    }
+    
     /////////////////////
     // Permanent Upgrades
     theory.createPublicationUpgrade(0, currency, 1e1);
@@ -141,8 +158,8 @@ var updateAvailability = () => {
     a3.isAvailable = aTs.level > 0;
     a4.isAvailable = aTs.level > 1;
     db2.isAvailable = bTs.level > 0;
-    
-    
+    db3.isAvailable = bTs.level > 1;
+    db4.isAvailable = bTs.level > 2;
 }
 
 
@@ -152,8 +169,9 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 ? b2 : BigNumber.ONE) ; 
-    if (bTs.level > 0) b2 = b2 + dt * getDB2(db2.level);
-    
+    if (bTs.level > 0) b2 = b2 + dt * getDB2(db2.level) * (bTs.level > 1 ? b3 : BigNumber.ONE) ; 
+    if (bTs.level > 1) b3 = b3 + dt * getDB3(db3.level) * (bTs.level > 2 ? b4 : BigNumber.ONE) ; 
+    if (bTs.level > 1) b4 = b4 + dt * getDB4(db4.level);
     
     let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
@@ -206,6 +224,8 @@ var getA4 = (level) => Utils.getStepwisePowerSum(level, 3, 4, 1);
 var getN1 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 1);
 var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getDB2 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
+var getDB3 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 0);
+var getDB4 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 0);
 
 ////////////////side variables/////////////
 var getQuaternaryEntries = () => {
@@ -220,6 +240,7 @@ var getQuaternaryEntries = () => {
 
     quaternaryEntries[0].value = b1.toString();
     quaternaryEntries[1].value = bTs.level > 0 ? b2.toString() : null;
+    quaternaryEntries[1].value = bTs.level > 1 ? b3.toString() : null;
     
 
     return quaternaryEntries;
