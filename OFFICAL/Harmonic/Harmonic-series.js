@@ -151,7 +151,7 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 && b2 > 0 ? (b2) : (BigNumber.ONE) ; 
+    b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 && b2 > 0) ? (b2) : (BigNumber.ONE) ; 
     if (bTs.level > 0) b2 = b2 + dt * getDB2(db2.level);
     
     
