@@ -4,11 +4,11 @@ import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
-var id = "my_custom_theory_id";
-var name = "My Custom Theory";
+var id = "Harmonic-series_SUM";
+var name = "Harmonic-series";
 var description = "A basic theory.";
-var authors = "Gilles-Philippe Paillé";
-var version = 1;
+var authors = "Skyhigh173#3120";
+var version = "v0.0.1";
 
 var currency;
 var c1, c2;
@@ -89,17 +89,9 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = c_1";
+    let result = "\\sum_{k=1}^{ \\infty }  \\frac{1}{k} \\\\\\ \\dot{\\rho}=  \\sqrt{a_1 a_2 a_3 a_4} \\cdot n_1 + b_1 ";
 
-    if (c1Exp.level == 1) result += "^{0.05}";
-    if (c1Exp.level == 2) result += "^{0.1}";
-    if (c1Exp.level == 3) result += "^{0.15}";
-
-    result += "c_2";
-
-    if (c2Exp.level == 1) result += "^{0.05}";
-    if (c2Exp.level == 2) result += "^{0.1}";
-    if (c2Exp.level == 3) result += "^{0.15}";
+    
 
     return result;
 }
