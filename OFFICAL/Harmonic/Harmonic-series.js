@@ -19,6 +19,8 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
+    
+    theory.primaryEquationHeight = 70;
 
     ///////////////////
     // Regular Upgrades
