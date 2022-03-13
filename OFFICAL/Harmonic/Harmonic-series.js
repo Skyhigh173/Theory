@@ -18,7 +18,7 @@ var n1 = BigNumber.ONE;
 var b1 = BigNumber.ZERO, b2 = BigNumber.ZERO, b3 = BigNumber.ZERO, b4 = BigNumber.ZERO;
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
-var aTs, b2T, b3T, b4T;
+var aTs, bTs;
 
 
 quaternaryEntries = [];
@@ -74,7 +74,7 @@ var init = () => {
     // n1
     {
         let getDesc = (level) => "n_1=" + getN1(level).toString(0);
-        n1 = theory.createUpgrade(100, currency, new ExponentialCost(100000, Math.log2(12)));
+        n1 = theory.createUpgrade(100, currency, new ExponentialCost(10, Math.log2(18)));
         n1.getDescription = (_) => Utils.getMath(getDesc(n1.level));
         n1.getInfo = (amount) => Utils.getMathTo(getDesc(n1.level), getDesc(n1.level + amount));
     }
@@ -83,10 +83,18 @@ var init = () => {
     
     // db1
     {
-        let getDesc = (level) => "\\dot{b}_1=" + getDB1(level).toString(0);
+        let getDesc = (level) => "\\dot{b}_1=" + getDB1(level).toString(0) + (bTs.level > 0 ? "\\cdot b_2" : "");
         db1 = theory.createUpgrade(1000, currency, new ExponentialCost(10, Math.log2(3)));
         db1.getDescription = (_) => Utils.getMath(getDesc(db1.level));
         db1.getInfo = (amount) => Utils.getMathTo(getDesc(db1.level), getDesc(db1.level + amount));
+    }
+    
+    // db2
+    {
+        let getDesc = (level) => "\\dot{b}_2=" + getDB2(level).toString(0);
+        db2 = theory.createUpgrade(1000, currency, new ExponentialCost(10000, Math.log2(5)));
+        db2.getDescription = (_) => Utils.getMath(getDesc(db2.level));
+        db2.getInfo = (amount) => Utils.getMathTo(getDesc(db2.level), getDesc(db2.level + amount));
     }
 
     /////////////////////
@@ -106,6 +114,13 @@ var init = () => {
         aTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(aTs.level == 0 ? "a_3" : "a_4");
         aTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
     }
+    
+    {
+        bTs = theory.createMilestoneUpgrade(0, 3);
+        bTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
+        bTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
+        bTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+    }
 
     
     
@@ -124,6 +139,9 @@ var init = () => {
 var updateAvailability = () => {
     a3.isAvailable = aTs.level > 0;
     a4.isAvailable = aTs.level > 1;
+    db2.isAvailable = bTs.level > 0;
+    db3.isAvailable = bTs.level > 1;
+    db4.isAvailable = bTs.level > 2;
     
 }
 
@@ -133,13 +151,14 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    b1 = b1 + dt * getDB1(db1.level);
+    b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 && b2 > 0 ? (b2) : (1) ; 
+    if (bTs.level  > 0) b2 = b2 + dt * getDB2(db2.level);
     
     
     let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
-    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) );
+    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1));
     
     theory.invalidateQuaternaryValues();
 }
@@ -186,7 +205,7 @@ var getA3 = (level) => Utils.getStepwisePowerSum(level, 2, 5, 1);
 var getA4 = (level) => Utils.getStepwisePowerSum(level, 3, 4, 1);
 var getN1 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 1);
 var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-
+var getDB2 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 
 ////////////////side variables/////////////
 var getQuaternaryEntries = () => {
@@ -200,7 +219,7 @@ var getQuaternaryEntries = () => {
     }
 
     quaternaryEntries[0].value = b1.toString();
-    
+    quaternaryEntries[1].value = bTs.level > 0 ? b2.toString() : null;
     
 
     return quaternaryEntries;
