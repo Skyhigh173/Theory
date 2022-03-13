@@ -92,9 +92,10 @@ var init = () => {
     // db2
     {
         let getDesc = (level) => "\\dot{b}_2=" + getDB2(level).toString(0);
-        db2 = theory.createUpgrade(1000, currency, new ExponentialCost(10000, Math.log2(5)));
+        db2 = theory.createUpgrade(1001, currency, new ExponentialCost(10000, Math.log2(5)));
         db2.getDescription = (_) => Utils.getMath(getDesc(db2.level));
         db2.getInfo = (amount) => Utils.getMathTo(getDesc(db2.level), getDesc(db2.level + amount));
+        db2.isAvailable = false;
     }
 
     /////////////////////
@@ -140,8 +141,7 @@ var updateAvailability = () => {
     a3.isAvailable = aTs.level > 0;
     a4.isAvailable = aTs.level > 1;
     db2.isAvailable = bTs.level > 0;
-    db3.isAvailable = bTs.level > 1;
-    db4.isAvailable = bTs.level > 2;
+    
     
 }
 
@@ -151,8 +151,8 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 && b2 > 0 ? (b2) : (1) ; 
-    if (bTs.level  > 0) b2 = b2 + dt * getDB2(db2.level);
+    b1 = b1 + dt * getDB1(db1.level) * (bTs.level > 0 && b2 > 0 ? (b2) : (BigNumber.ONE) ; 
+    if (bTs.level > 0) b2 = b2 + dt * getDB2(db2.level);
     
     
     let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
