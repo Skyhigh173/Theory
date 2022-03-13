@@ -15,17 +15,20 @@ var a1 = BigNumber.ONE, a2 = BigNumber.ONE;
 var a3 = BigNumber.ONE, a4 = BigNumber.ONE;
 var n1 = BigNumber.ONE;
 
-var b1 = BigNumber.ZERO, b2 = BigNumber.ZERO;
-var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO;
+var b1 = BigNumber.ZERO, b2 = BigNumber.ZERO, b3 = BigNumber.ZERO, b4 = BigNumber.ZERO;
+var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
+
+var a3T, a4T, b2T, b3T, b4T;
 
 
-
+quaternaryEntries = [];
 var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
     
     theory.primaryEquationHeight = 75;
+    theory.primaryEquationScale = 0.75;
 
     ///////////////////
     // Regular Upgrades
@@ -34,23 +37,33 @@ var init = () => {
     {
         let getDesc = (level) => "a_1=2^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(0, currency, new ExponentialCost(1, Math.log2(10)));
+        a1 = theory.createUpgrade(0, currency, new ExponentialCost(1, Math.log2(7)));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
+    
     // a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency, new ExponentialCost(30, Math.log2(4)));
+        a2 = theory.createUpgrade(1, currency, new ExponentialCost(30, Math.log2(2)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
     }
+    
     // n1
     {
         let getDesc = (level) => "n_1=" + getN1(level).toString(0);
         n1 = theory.createUpgrade(2, currency, new ExponentialCost(100000, Math.log2(12)));
         n1.getDescription = (_) => Utils.getMath(getDesc(n1.level));
         n1.getInfo = (amount) => Utils.getMathTo(getDesc(n1.level), getDesc(n1.level + amount));
+    }
+    
+    // db1
+    {
+        let getDesc = (level) => "\\dot{d}_1=" + getDB1(level).toString(0);
+        db1 = theory.createUpgrade(2, currency, new ExponentialCost(10, Math.log2(3)));
+        db1.getDescription = (_) => Utils.getMath(getDesc(db1.level));
+        db1.getInfo = (amount) => Utils.getMathTo(getDesc(db1.level), getDesc(db1.level + amount));
     }
 
     /////////////////////
@@ -81,12 +94,21 @@ var updateAvailability = () => {
     
 }
 
+
+//tick
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level)).pow(0.5) * getN1(n1.level));
+    
+    b1 = b1 + dt * getDB1(db1.level);
+    
+    
+    
+    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level)).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) );
 }
 
+
+//Equation
 var getPrimaryEquation = () => {
     let result = "\\lim_{k \\rightarrow  \\infty } \\sum_{n=1}^{k}  \\frac{1}{n}";
     result += " \\\\\\ ";
@@ -98,13 +120,45 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+
+
+//Multiplier
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
+
+//Tau
 var getTau = () => currency.value;
+
+//Graph
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
+//get value
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getN1 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 1);
+var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+
+
+////////////////side variables/////////////
+var getQuaternaryEntries = () => {
+    if (quaternaryEntries.length == 0)
+    {
+        quaternaryEntries.push(new QuaternaryEntry("b_1", null));
+        quaternaryEntries.push(new QuaternaryEntry("b_2", null));
+        quaternaryEntries.push(new QuaternaryEntry("b_3", null));
+        quaternaryEntries.push(new QuaternaryEntry("b_4", null));
+        
+    }
+
+    quaternaryEntries[0].value = b1.toString();
+    quaternaryEntries[1].value = b2T.level > 0 ? b2.toString() : null;
+    quaternaryEntries[2].value = b3T.level > 0 ? b3.toString() : null;
+    quaternaryEntries[3].value = b4T.level > 0 ? b4.toString() : null;
+    
+
+    return quaternaryEntries;
+}
+
+
 
 init();
