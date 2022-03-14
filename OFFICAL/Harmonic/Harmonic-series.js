@@ -24,7 +24,7 @@ var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
 var aTs, bTs;
-var starU;
+var starU, stars = BigNumber.ZERO;
 
 
 quaternaryEntries = [];
@@ -32,7 +32,6 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
-    stars = theory.createCurrency("star", "\\star");
     
     theory.primaryEquationHeight = 75;
     theory.primaryEquationScale = 1;
@@ -127,7 +126,6 @@ var init = () => {
     theory.createPublicationUpgrade(0, currency, 1e1);
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
-    theory.createPermanentUpgrade(3, stars, 20);
     
 
     ///////////////////////
@@ -153,7 +151,6 @@ var init = () => {
         starU.getDescription = (_) => Localization.getUpgradeUnlockDesc("\\star");
         starU.getInfo = (_) => Localization.getUpgradeUnlockInfo("\\star");
         starU.canBeRefunded = (_) => false;
-        
     }
 
     
@@ -193,8 +190,8 @@ var tick = (elapsedTime, multiplier) => {
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
     if (starU.level > 0) {
-        if ( Math.random() < 0.025 ) {
-            stars.value += 1;
+        if ( Math.random() < 0.05 ) {
+            stars += 1;
             theory.invalidateTertiaryEquation();
         }
     }
