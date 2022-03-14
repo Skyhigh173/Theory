@@ -23,8 +23,9 @@ var init = () => {
     currency = theory.createCurrency();
     currency2 = theory.createCurrency();
     currency3 = theory.createCurrency();
-    currency4 = theory.createCurrency();
-    
+    currency4 = theory.createCurrency("n", "\\stars");
+    currency5 = theory.createCurrency("l", "\\alpha");
+  
 
     
     ///////////////////
