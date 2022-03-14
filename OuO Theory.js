@@ -21,6 +21,10 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
+    currency2 = theory.createCurrency();
+    currency3 = theory.createCurrency();
+    currency4 = theory.createCurrency();
+    
 
     
     ///////////////////
