@@ -19,6 +19,7 @@ var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
 var aTs, bTs;
+var starU, stars = BigNumber.ZERO;
 
 
 quaternaryEntries = [];
@@ -84,7 +85,6 @@ var init = () => {
     // db1
     {
         let getDesc = (level) => "\\dot{b}_1=" + getDB1(level).toString(0) + (bTs.level > 0 ? "\\cdot b_2" : "");
-        let getInfo = (level) => "\\dot{b}_1=" + (getDB1(level) * (bTs.level > 0 ? b2 : BigNumber.ONE)).toString();
         db1 = theory.createUpgrade(1000, currency, new ExponentialCost(10, Math.log2(3)));
         db1.getDescription = (_) => Utils.getMath(getDesc(db1.level));
         db1.getInfo = (amount) => Utils.getMathTo(getDesc(db1.level), getDesc(db1.level + amount));
@@ -93,7 +93,6 @@ var init = () => {
     // db2
     {
         let getDesc = (level) => "\\dot{b}_2=" + getDB2(level).toString(0) + (bTs.level > 1 ? "\\cdot b_3" : "");
-        let getInfo = (level) => "\\dot{b}_2=" + (getDB2(level) * (bTs.level > 1 ? b3 : BigNumber.ONE)).toString();
         db2 = theory.createUpgrade(1001, currency, new ExponentialCost(10000, Math.log2(5)));
         db2.getDescription = (_) => Utils.getMath(getDesc(db2.level));
         db2.getInfo = (amount) => Utils.getMathTo(getDesc(db2.level), getDesc(db2.level + amount));
@@ -102,8 +101,7 @@ var init = () => {
     
     // db3
     {
-        let getDesc = (level) => "\\dot{b}_3=" + getDB3(level).toString(0) + (bTs.level > 2 ? "\\cdot b_4" : "");
-        let getInfo = (level) => "\\dot{b}_3=" + (getDB3(level) * (bTs.level > 2 ? b4 : BigNumber.ONE)).toString();
+        let getDesc = (level) => "\\dot{b}_3=" + getDB2(level).toString(0) + (bTs.level > 2 ? "\\cdot b_4" : "");
         db3 = theory.createUpgrade(1002, currency, new ExponentialCost(80000, Math.log2(7)));
         db3.getDescription = (_) => Utils.getMath(getDesc(db3.level));
         db3.getInfo = (amount) => Utils.getMathTo(getDesc(db3.level), getDesc(db3.level + amount));
@@ -111,8 +109,7 @@ var init = () => {
     }
     // db4
     {
-        let getDesc = (level) => "\\dot{b}_4=" + getDB4(level).toString(0);
-        let getInfo = (level) => "\\dot{b}_4=" + getDB4(level).toString(0);
+        let getDesc = (level) => "\\dot{b}_4=" + getDB2(level).toString(0);
         db4 = theory.createUpgrade(1003, currency, new ExponentialCost(500000, Math.log2(9)));
         db4.getDescription = (_) => Utils.getMath(getDesc(db4.level));
         db4.getInfo = (amount) => Utils.getMathTo(getDesc(db4.level), getDesc(db4.level + amount));
@@ -129,7 +126,7 @@ var init = () => {
     ///////////////////////
     //// Milestone Upgrades
     theory.setMilestoneCost(new LinearCost(1, 1));
-     
+    //terms and new variables
     {
         aTs = theory.createMilestoneUpgrade(0, 2);
         aTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(aTs.level == 0 ? "a_3" : "a_4");
@@ -142,6 +139,13 @@ var init = () => {
         bTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
         bTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
         bTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+    }
+    //others unlock
+    {
+        starU = theory.createMilestoneUpgrade(100, 1);
+        starU.getDescription = (_) => Localization.getUpgradeUnlockDesc("\\star");
+        starU.getInfo = (_) => Localization.getUpgradeUnlockInfo("\\star");
+        starU.canBeRefunded = (_) => false;
     }
 
     
@@ -180,6 +184,13 @@ var tick = (elapsedTime, multiplier) => {
     let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
+    if (starU.level > 0) {
+        if ( Math.random() < 0.05 ) {
+            stars += 1;
+            theory.invalidateTertiaryEquation();
+        }
+    }
+    
     currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1));
     
     theory.invalidateQuaternaryValues();
@@ -207,8 +218,13 @@ var getPrimaryEquation = () => {
     return result;
 }
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
-
+var getSecondaryEquation = () => " ";
+var getTertiaryEquation = () => {
+    let result = theory.latexSymbol + "=\\max\\rho";
+    if (starU.level > 0) result += "\\qquad \\star = " + BigNumber.from(stars);
+    return result;
+}
+    
 
 //Multiplier
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
