@@ -84,6 +84,7 @@ var init = () => {
     // db1
     {
         let getDesc = (level) => "\\dot{b}_1=" + getDB1(level).toString(0) + (bTs.level > 0 ? "\\cdot b_2" : "");
+        let getInfo = (level) => "\\dot{b}_1=" + (getDB1(level) * (bTs.level > 0 ? b2 : BigNumber.ONE)).toString();
         db1 = theory.createUpgrade(1000, currency, new ExponentialCost(10, Math.log2(3)));
         db1.getDescription = (_) => Utils.getMath(getDesc(db1.level));
         db1.getInfo = (amount) => Utils.getMathTo(getDesc(db1.level), getDesc(db1.level + amount));
@@ -92,6 +93,7 @@ var init = () => {
     // db2
     {
         let getDesc = (level) => "\\dot{b}_2=" + getDB2(level).toString(0) + (bTs.level > 1 ? "\\cdot b_3" : "");
+        let getInfo = (level) => "\\dot{b}_2=" + (getDB2(level) * (bTs.level > 1 ? b3 : BigNumber.ONE)).toString();
         db2 = theory.createUpgrade(1001, currency, new ExponentialCost(10000, Math.log2(5)));
         db2.getDescription = (_) => Utils.getMath(getDesc(db2.level));
         db2.getInfo = (amount) => Utils.getMathTo(getDesc(db2.level), getDesc(db2.level + amount));
@@ -100,7 +102,8 @@ var init = () => {
     
     // db3
     {
-        let getDesc = (level) => "\\dot{b}_3=" + getDB2(level).toString(0) + (bTs.level > 2 ? "\\cdot b_4" : "");
+        let getDesc = (level) => "\\dot{b}_3=" + getDB3(level).toString(0) + (bTs.level > 2 ? "\\cdot b_4" : "");
+        let getInfo = (level) => "\\dot{b}_3=" + (getDB3(level) * (bTs.level > 2 ? b4 : BigNumber.ONE)).toString();
         db3 = theory.createUpgrade(1002, currency, new ExponentialCost(80000, Math.log2(7)));
         db3.getDescription = (_) => Utils.getMath(getDesc(db3.level));
         db3.getInfo = (amount) => Utils.getMathTo(getDesc(db3.level), getDesc(db3.level + amount));
@@ -108,7 +111,8 @@ var init = () => {
     }
     // db4
     {
-        let getDesc = (level) => "\\dot{b}_4=" + getDB2(level).toString(0);
+        let getDesc = (level) => "\\dot{b}_4=" + getDB4(level).toString(0);
+        let getInfo = (level) => "\\dot{b}_4=" + getDB4(level).toString(0);
         db4 = theory.createUpgrade(1003, currency, new ExponentialCost(500000, Math.log2(9)));
         db4.getDescription = (_) => Utils.getMath(getDesc(db4.level));
         db4.getInfo = (amount) => Utils.getMathTo(getDesc(db4.level), getDesc(db4.level + amount));
