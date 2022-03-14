@@ -3,12 +3,17 @@ import { Localization } from "./api/Localization";
 import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
+import { Popup } from "../api/ui/Popup";
+import { Color } from "../api/ui/properties/Color";
+import { ImageSource } from "../api/ui/properties/ImageSource";
+import { Thickness } from "../api/ui/properties/Thickness";
+import { ui } from "../api/ui/UI"
 
 var id = "Harmonic-series_SUM";
 var name = "Harmonic-series";
 var description = "A basic theory.";
 var authors = "Skyhigh173#3120";
-var version = "v0.0.1";
+var version = "v0.0.2";
 
 var currency;
 var a1 = BigNumber.ONE, a2 = BigNumber.ONE;
@@ -221,7 +226,7 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => " ";
 var getTertiaryEquation = () => {
     let result = theory.latexSymbol + "=\\max\\rho";
-    if (starU.level > 0) result += "\\qquad \\star = " + BigNumber.from(stars);
+    if (starU.level > 0) result += "\\qquad \\star = " + BigNumber.from(stars).toString(0);
     return result;
 }
     
@@ -269,3 +274,6 @@ var getQuaternaryEntries = () => {
 
 
 init();
+
+
+/////////////POPUP////////////////////
