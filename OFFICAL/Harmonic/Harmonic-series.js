@@ -24,7 +24,7 @@ var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
 var aTs, bTs;
-var starU, stars = BigNumber.ZERO;
+var starU;
 
 
 quaternaryEntries = [];
@@ -32,6 +32,7 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
+    
     
     theory.primaryEquationHeight = 75;
     theory.primaryEquationScale = 1;
@@ -152,6 +153,7 @@ var init = () => {
         starU.getDescription = (_) => Localization.getUpgradeUnlockDesc("\\star");
         starU.getInfo = (_) => Localization.getUpgradeUnlockInfo("\\star");
         starU.canBeRefunded = (_) => false;
+        stars = theory.createCurrency("star", "\\star");
     }
 
     
@@ -192,7 +194,7 @@ var tick = (elapsedTime, multiplier) => {
     
     if (starU.level > 0) {
         if ( Math.random() < 0.025 ) {
-            stars += 1;
+            stars.value += 1;
             theory.invalidateTertiaryEquation();
         }
     }
