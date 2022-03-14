@@ -126,6 +126,7 @@ var init = () => {
     theory.createPublicationUpgrade(0, currency, 1e1);
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
+    theory.createPermanentUpgrade(3, stars, 20);
     
 
     ///////////////////////
@@ -190,7 +191,7 @@ var tick = (elapsedTime, multiplier) => {
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
     if (starU.level > 0) {
-        if ( Math.random() < 0.05 ) {
+        if ( Math.random() < 0.025 ) {
             stars += 1;
             theory.invalidateTertiaryEquation();
         }
