@@ -32,7 +32,7 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
-    
+    stars = theory.createCurrency("star", "\\star");
     
     theory.primaryEquationHeight = 75;
     theory.primaryEquationScale = 1;
@@ -153,7 +153,7 @@ var init = () => {
         starU.getDescription = (_) => Localization.getUpgradeUnlockDesc("\\star");
         starU.getInfo = (_) => Localization.getUpgradeUnlockInfo("\\star");
         starU.canBeRefunded = (_) => false;
-        stars = theory.createCurrency("star", "\\star");
+        
     }
 
     
