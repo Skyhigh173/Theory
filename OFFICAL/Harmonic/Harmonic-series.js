@@ -190,7 +190,7 @@ var tick = (elapsedTime, multiplier) => {
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
     if (starU.level > 0) {
-        if ( Math.random() < 0.05 ) {
+        if ( Math.random() < 0.001 ) {
             stars += 1;
             theory.invalidateTertiaryEquation();
         }
