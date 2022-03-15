@@ -24,7 +24,7 @@ var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
 var aTs, bTs;
-var starU, stars = BigNumber.ZERO;
+var starU;
 
 
 quaternaryEntries = [];
@@ -32,6 +32,8 @@ var chapter1, chapter2;
 
 var init = () => {
     currency = theory.createCurrency();
+    currencyS = theory.createCurrency("⋆", "\\star");
+    
     
     theory.primaryEquationHeight = 75;
     theory.primaryEquationScale = 1;
@@ -190,8 +192,8 @@ var tick = (elapsedTime, multiplier) => {
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
     if (starU.level > 0) {
-        if ( Math.random() < 0.001 ) {
-            stars += 1;
+        if ( Math.random() < 0.01 ) {
+            currencyS.value += 1;
             theory.invalidateTertiaryEquation();
         }
     }
@@ -199,6 +201,7 @@ var tick = (elapsedTime, multiplier) => {
     currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1));
     
     theory.invalidateQuaternaryValues();
+    var isCurrencyVisible = (index) => index == 0 || (index == 1 && starU.level > 0)
 }
 
 var postPublish = () => {
