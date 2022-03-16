@@ -26,6 +26,8 @@ var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigN
 var aTs, bTs;
 var starU;
 
+var PermJ;
+
 
 quaternaryEntries = [];
 var chapter1, chapter2;
@@ -128,7 +130,15 @@ var init = () => {
     theory.createPublicationUpgrade(0, currency, 1e1);
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
-    
+   
+    //j
+    {
+        PermJ = theory.createPermanentUpgrade(10, currencyS, new ExponentialCost(1, 18));
+        PermJ.getDescription = (amount) => Localization.getUpgradeIncCustomDesc("j", "0.05");
+        PermJ.getInfo = (amount) => Localization.getUpgradeIncCustomInfo("j", "0.05");
+        PermJ.bought = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
+        PermJ.maxLevel = 19;
+    }
 
     ///////////////////////
     //// Milestone Upgrades
@@ -192,7 +202,7 @@ var tick = (elapsedTime, multiplier) => {
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
     
     if (starU.level > 0) {
-        if ( Math.random() < 0.01 ) {
+        if ( Math.random() < getPermJ(PermJ.level) ) {
             currencyS.value += 1;
             theory.invalidateTertiaryEquation();
         }
@@ -230,7 +240,7 @@ var getSecondaryEquation = () => " ";
 var getTertiaryEquation = () => {
     let result = theory.latexSymbol + "=\\max\\rho";
     if (starU.level > 0) {
-        result += " \\qquad ( j \\cdot 0.01 ) \\%  \\longrightarrow  \\star =  \\star + 1" ;
+        result += " \\qquad ( j \\cdot 0.05 ) \\%  \\longrightarrow  \\star =  \\star + 1" ;
     }
     return result;
 }
@@ -257,6 +267,8 @@ var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getDB2 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 var getDB3 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 0);
 var getDB4 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 0);
+
+var getPermJ = (level) => BigNumber.from(0.05 * ( level + 1 ));
 
 ////////////////side variables/////////////
 var getQuaternaryEntries = () => {
