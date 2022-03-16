@@ -33,7 +33,7 @@ quaternaryEntries = [];
 var chapter1, chapter2;
 
 var init = () => {
-    currency = theory.createCurrency();
+    currency = theory.createCurrency("ρ", "\\rho");
     currencyS = theory.createCurrency("⋆", "\\star");
     
     
@@ -111,7 +111,7 @@ var init = () => {
     // db3
     {
         let getDesc = (level) => "\\dot{b}_3=" + getDB2(level).toString(0) + (bTs.level > 2 ? "\\cdot b_4" : "");
-        db3 = theory.createUpgrade(1002, currency, new ExponentialCost(80000, Math.log2(7)));
+        db3 = theory.createUpgrade(1002, currency, new ExponentialCost(200000, Math.log2(7)));
         db3.getDescription = (_) => Utils.getMath(getDesc(db3.level));
         db3.getInfo = (amount) => Utils.getMathTo(getDesc(db3.level), getDesc(db3.level + amount));
         db3.isAvailable = false;
@@ -119,7 +119,7 @@ var init = () => {
     // db4
     {
         let getDesc = (level) => "\\dot{b}_4=" + getDB2(level).toString(0);
-        db4 = theory.createUpgrade(1003, currency, new ExponentialCost(500000, Math.log2(9)));
+        db4 = theory.createUpgrade(1003, currency, new ExponentialCost(1500000, Math.log2(9)));
         db4.getDescription = (_) => Utils.getMath(getDesc(db4.level));
         db4.getInfo = (amount) => Utils.getMathTo(getDesc(db4.level), getDesc(db4.level + amount));
         db4.isAvailable = false;
@@ -133,7 +133,7 @@ var init = () => {
    
     //j
     {
-        PermJ = theory.createPermanentUpgrade(10, currencyS, new ExponentialCost(1, 18));
+        PermJ = theory.createPermanentUpgrade(10, currencyS, new ExponentialCost(1, 12));
         PermJ.getDescription = (amount) => Localization.getUpgradeIncCustomDesc("j", "0.05");
         PermJ.getInfo = (amount) => Localization.getUpgradeIncCustomInfo("j", "0.05");
         PermJ.bought = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
