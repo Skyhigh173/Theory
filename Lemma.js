@@ -126,11 +126,13 @@ var getPrimaryEquation = () => {
         if (c2Exp.level == 1) result += "^{0.05}";
         if (c2Exp.level == 2) result += "^{0.1}";
         if (c2Exp.level == 3) result += "^{0.15}";
+        return result;
     } else {
         let result = "\\rho = 1";
+        return result;
     }
 
-    return result;
+    
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
