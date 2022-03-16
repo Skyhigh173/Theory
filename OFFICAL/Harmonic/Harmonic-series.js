@@ -138,6 +138,7 @@ var init = () => {
         PermJ.getInfo = (amount) => Localization.getUpgradeIncCustomInfo("j", "0.05");
         PermJ.bought = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
         PermJ.maxLevel = 19;
+        PermJ.isAvailable = false;
     }
 
     ///////////////////////
@@ -185,6 +186,8 @@ var updateAvailability = () => {
     db2.isAvailable = bTs.level > 0;
     db3.isAvailable = bTs.level > 1;
     db4.isAvailable = bTs.level > 2;
+    
+    PermJ.isAvailable = starU.level > 0;
 }
 
 
