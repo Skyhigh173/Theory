@@ -229,7 +229,9 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => " ";
 var getTertiaryEquation = () => {
     let result = theory.latexSymbol + "=\\max\\rho";
-    if (starU.level > 0) result += "\\qquad \\star = " + BigNumber.from(currencyS.value).toString(0);
+    if (starU.level > 0) {
+        result += " \\qquad ( j \\cdot 0.01 ) \\%  \\longrightarrow  \\star =  \\star + 1" ;
+    }
     return result;
 }
     
