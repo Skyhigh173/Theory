@@ -201,7 +201,7 @@ var tick = (elapsedTime, multiplier) => {
     currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1));
     
     theory.invalidateQuaternaryValues();
-    var isCurrencyVisible = (index) => ( ( index == 0 ) || (index == 1 && starU.level > 0) );
+    
 }
 
 var postPublish = () => {
@@ -238,8 +238,9 @@ var getTertiaryEquation = () => {
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 
-//Tau
+//Tau & currency
 var getTau = () => currency.value;
+var isCurrencyVisible = (index) => ( ( index == 0 ) || (index == 1 && starU.level > 0) );
 
 //Graph
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
