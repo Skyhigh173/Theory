@@ -11,8 +11,8 @@ var authors = "skyhigh173";
 var version = "v1";
 
 var currency;
-var s, q1, q2, n;
-
+var s, q1, q2, n1, n2;
+var n = BigNumber.ZERO;
 var achievement1, achievement2;
 var chapter1, chapter2;
 
@@ -22,19 +22,19 @@ var init = () => {
     ///////////////////
     // Regular Upgrades
 
-    // c1
+    // s
     {
-        let getDesc = (level) => "c_1=" + getC1(level).toString(0);
-        c1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(15, Math.log2(2))));
-        c1.getDescription = (_) => Utils.getMath(getDesc(c1.level));
-        c1.getInfo = (amount) => Utils.getMathTo(getDesc(c1.level), getDesc(c1.level + amount));
+        let getDesc = (level) => "s=" + getS(level).toString(0);
+        s = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(2))));
+        s.getDescription = (_) => Utils.getMath(getDesc(s.level));
+        s.getInfo = (amount) => Utils.getMathTo(getDesc(s.level), getDesc(s.level + amount));
     }
 
-    // c2
+    // q1
     {
         let getDesc = (level) => "c_2=2^{" + level + "}";
         let getInfo = (level) => "c_2=" + getC2(level).toString(0);
-        c2 = theory.createUpgrade(1, currency, new ExponentialCost(5, Math.log2(10)));
+        c2 = theory.createUpgrade(1, currency, new ExponentialCost(50, Math.log2(10)));
         c2.getDescription = (_) => Utils.getMath(getDesc(c2.level));
         c2.getInfo = (amount) => Utils.getMathTo(getInfo(c2.level), getInfo(c2.level + amount));
     }
@@ -49,19 +49,7 @@ var init = () => {
     //// Milestone Upgrades
     theory.setMilestoneCost(new LinearCost(25, 25));
 
-    {
-        c1Exp = theory.createMilestoneUpgrade(0, 3);
-        c1Exp.description = Localization.getUpgradeIncCustomExpDesc("c_1", "0.05");
-        c1Exp.info = Localization.getUpgradeIncCustomExpInfo("c_1", "0.05");
-        c1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-    }
-
-    {
-        c2Exp = theory.createMilestoneUpgrade(1, 3);
-        c2Exp.description = Localization.getUpgradeIncCustomExpDesc("c_2", "0.05");
-        c2Exp.info = Localization.getUpgradeIncCustomExpInfo("c_2", "0.05");
-        c2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-    }
+  
     
     /////////////////
     //// Achievements
@@ -89,7 +77,8 @@ var tick = (elapsedTime, multiplier) => {
 
 var getPrimaryEquation = () => {
     let result = "\\sum_{n}^{}  \\frac{1}{n^{s}}  =  \\prod_{p}^{}  \\frac{1}{1 - \\frac{1}{p^{s}}} \\\\\\";
-    result += "\\dot{\\rho} = s q_1 q_2 n";
+    result += "\\dot{\\rho} = s q_1 q_2 + n";
+    result += "\\dot{n} = n_1 + n_2";
     return result;
 }
 
@@ -99,7 +88,7 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.16
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getC1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getS = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getC2 = (level) => BigNumber.TWO.pow(level);
 var getC1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getC2Exponent = (level) => BigNumber.from(1 + 0.05 * level);
