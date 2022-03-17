@@ -5,14 +5,13 @@ import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
 var id = "MAIN";
-var name = "exponential idle";
+var name = "exponential idle CT version";
 var description = "Your first theory";
 var authors = "Gilles-Philippe Paillé \n Recreate:Skyhigh173";
 var version = "v1.0.0";
 
 var ft, μ, ψ;
-var c1, c2;
-var x, y, z;
+var x, y, z, s;
 
 var init = () => {
     ft = theory.createCurrency("ft", "f(t)");
@@ -49,18 +48,13 @@ var init = () => {
     {
         let getDesc = (level) => {
          
-            let result = "y = z + ";
+            let Eq = "y = z + ";
             let YLV = getY_Last(y.level).toString(0);
-            if (y.level >= 50) {
-                result += "2^{3} \\times";
-            } else if (y.level >= 25) {
-                result += "2^{2} \\times";
-            } else if (y.level >= 10) {
-                result += "2 \\times";
-            }
-
-            result += YLV;
-            return result;
+            let YPow = VariablePower(y.level);
+            let YPowTxt = PowerText(YPow);
+            Eq += YPowTxt;
+            Eq += YLV;
+            return Eq;
         }
         y = theory.createUpgrade(1, ft, new CustomCost( VariableCost(y.level, 0.5, -4.143474, 1.04) ));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
@@ -70,12 +64,34 @@ var init = () => {
 }
 
 
-
+// Find the cost of a variable
 function VariableCost(level, a, b, base) {
     let BaseCost = a * (level - 1) + b;
     let PowerCost = BaseCost.pow(2);
     let FinalCost = PowerCost.pow(2);
     return FinalCost;
+}
+
+// Find the power (level) of a variable
+function VariablePower(level) {
+    let result = Math.floor(level / 25);
+    return result;
+}
+
+// Text the power of a variable
+function PowerText(power) {
+    let result = "";
+ 
+    if (power == 1) {
+        result += "2 \\times ";
+        break;
+    }
+    if (power > 1) {
+        result += "2^{";
+        result += power;
+        result += "} \\times ";
+    }
+    return result;
 }
 
 var getX_Last = (level) => BigNumber.from(level / 10);
