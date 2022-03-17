@@ -70,6 +70,7 @@ var init = () => {
 }
 
 
+
 function VariableCost(level, a, b, base) {
     let BaseCost = a * (level - 1) + b;
     let PowerCost = BaseCost.pow(2);
