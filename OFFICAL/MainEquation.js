@@ -85,7 +85,6 @@ function PowerText(power) {
  
     if (power == 1) {
         result += "2 \\times ";
-        break;
     }
     if (power > 1) {
         result += "2^{";
