@@ -29,12 +29,12 @@ var init = () => {
         let getDesc = (level) => {
          
             let result = "x = y + ";
-            let XLV = getX_Lv(level).toString(0);
-            if (XLV >= 50) {
+            let XLV = getX_Last(x.level).toString(0);
+            if (x.level >= 50) {
                 result += "2^{3} \\times";
-            } else if (XLV >= 25) {
+            } else if (x.level >= 25) {
                 result += "2^{2} \\times";
-            } else if (XLV >= 10) {
+            } else if (x.level >= 10) {
                 result += "2 \\times";
             }
 
@@ -47,8 +47,22 @@ var init = () => {
     }
     // y
     {
-        let getDesc = (level) => "y = z + " + getY_Lv(level).toString(0);
-        y = theory.createUpgrade(0, ft, new FreeCost());
+        let getDesc = (level) => {
+         
+            let result = "y = z + ";
+            let YLV = getY_Last(y.level).toString(0);
+            if (y.level >= 50) {
+                result += "2^{3} \\times";
+            } else if (y.level >= 25) {
+                result += "2^{2} \\times";
+            } else if (y.level >= 10) {
+                result += "2 \\times";
+            }
+
+            result += YLV;
+            return result;
+        }
+        y = theory.createUpgrade(1, ft, new CustomCost( VariableCost(y.level, 0.5, -4.143474, 1.04) ));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getDesc(y.level), getDesc(y.level + amount));
     }
@@ -56,6 +70,14 @@ var init = () => {
 }
 
 
-var getX_Lv = (level) => BigNumber.from(level / 10);
+function VariableCost(level, a, b, base) {
+    let BaseCost = a * (level - 1) + b;
+    let PowerCost = BaseCost.pow(2);
+    let FinalCost = PowerCost.pow(2);
+    return FinalCost;
+}
+
+var getX_Last = (level) => BigNumber.from(level / 10);
 var getX = (level) => BigNumber.from(getY(y.level) + level / 10);
-var getY_Lv = (level) => BigNumber.from(
+var getY_Last = (level) => BigNumber.from(level);
+var getY = (level) => BigNumber.from();
