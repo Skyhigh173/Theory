@@ -19,11 +19,11 @@ var currency;
 var a1 = BigNumber.ONE, a2 = BigNumber.ONE;
 var a3 = BigNumber.ONE, a4 = BigNumber.ONE;
 var n1 = BigNumber.ONE;
-
+var q = BigNumber.ZERO, q1 = BigNumber.ONE, q2 = BigNumber.ONE, q3 = BigNumber.ONE,q4 = BigNumber.ONE;
 var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.ONE;
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
-var aTs, bTs;
+var aTs, bTs, qTs;
 var starU;
 
 var PermJ;
@@ -125,6 +125,49 @@ var init = () => {
         db4.isAvailable = false;
     }
     
+    //// q terms
+    
+    // q1
+    {
+        let getDesc = (level) => "q_1=2^{" + level + "}";
+        let getInfo = (level) => "q_1=" + getQ1(level).toString(0);
+        q1 = theory.createUpgrade(2000, currency, new ExponentialCost(1e10, Math.log2(3)));
+        q1.getDescription = (_) => Utils.getMath(getDesc(q1.level));
+        q1.getInfo = (amount) => Utils.getMathTo(getInfo(q1.level), getInfo(q1.level + amount));
+        q1.isAvailable = false;
+    }
+    
+    // q2
+    {
+        let getDesc = (level) => "q_2=3^{" + level + "}";
+        let getInfo = (level) => "q_2=" + getQ2(level).toString(0);
+        q2 = theory.createUpgrade(2001, currency, new ExponentialCost(1e15, Math.log2(5)));
+        q2.getDescription = (_) => Utils.getMath(getDesc(q2.level));
+        q2.getInfo = (amount) => Utils.getMathTo(getInfo(q2.level), getInfo(q2.level + amount));
+        q2.isAvailable = false;
+    }
+    
+    // q3
+    {
+        let getDesc = (level) => "q_3=4^{" + level + "}";
+        let getInfo = (level) => "q_3=" + getQ3(level).toString(0);
+        q3 = theory.createUpgrade(2002, currency, new ExponentialCost(1e25, Math.log2(8)));
+        q3.getDescription = (_) => Utils.getMath(getDesc(q3.level));
+        q3.getInfo = (amount) => Utils.getMathTo(getInfo(q3.level), getInfo(q3.level + amount));
+        q3.isAvailable = false;
+    }
+    
+    // q4
+    {
+        let getDesc = (level) => "q_4=5^{" + level + "}";
+        let getInfo = (level) => "q_4=" + getQ3(level).toString(0);
+        q4 = theory.createUpgrade(2003, currency, new ExponentialCost(1e38, Math.log2(11)));
+        q4.getDescription = (_) => Utils.getMath(getDesc(q4.level));
+        q4.getInfo = (amount) => Utils.getMathTo(getInfo(q4.level), getInfo(q4.level + amount));
+        q4.isAvailable = false;
+    }
+    
+    
     /////////////////////
     // Permanent Upgrades
     theory.createPublicationUpgrade(0, currency, 1e1);
@@ -133,7 +176,7 @@ var init = () => {
    
     //j
     {
-        PermJ = theory.createPermanentUpgrade(10, currencyS, new ExponentialCost(1, 12));
+        PermJ = theory.createPermanentUpgrade(10, currencyS, new ExponentialCost(1, 8));
         PermJ.getDescription = (amount) => Localization.getUpgradeIncCustomDesc("j", "0.05");
         PermJ.getInfo = (amount) => Localization.getUpgradeIncCustomInfo("j", "0.05");
         PermJ.bought = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
@@ -149,6 +192,7 @@ var init = () => {
         aTs = theory.createMilestoneUpgrade(0, 2);
         aTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(aTs.level == 0 ? "a_3" : "a_4");
         aTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(aTs.level == 0 ? "a_3" : "a_4");
+        aTs.canBeRefunded = (_) => qTs.level == 0;
         aTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
     }
     
@@ -158,6 +202,14 @@ var init = () => {
         bTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(bTs.level == 0 ? "b_2" : (bTs.level == 1 ? "b_3" : "b_4") );
         bTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
     }
+    {
+        qTs = theory.createMilestoneUpgrade(2, 4);
+        qTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(qTs.level == 0 ? "q_1" : (qTs.level == 1 ? "q_2" : (qTs.level == 2 ? "q_3" : "q_4") ) );
+        qTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(qTs.level == 0 ? "q_1" : (qTs.level == 1 ? "q_2" : (qTs.level == 2 ? "q_3" : "q_4") ) );
+        qTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+        qTs.isAvailable = false;
+    }
+    
     //others unlock
     {
         starU = theory.createMilestoneUpgrade(100, 1);
@@ -186,8 +238,13 @@ var updateAvailability = () => {
     db2.isAvailable = bTs.level > 0;
     db3.isAvailable = bTs.level > 1;
     db4.isAvailable = bTs.level > 2;
+    q1.isAvailable = qTs.level > 0;
+    q2.isAvailable = qTs.level > 1;
+    q3.isAvailable = qTs.level > 2;
+    q4.isAvailable = qTs.level > 3;
     
     PermJ.isAvailable = starU.level > 0;
+    qTs.isAvailable = aTs.level > 1;
 }
 
 
@@ -203,7 +260,10 @@ var tick = (elapsedTime, multiplier) => {
     
     let A3T = aTs.level > 0 ? (getA3(a3.level)) : (BigNumber.ONE);
     let A4T = aTs.level > 1 ? (getA4(a4.level)) : (BigNumber.ONE);
-    
+    q = BigNumber.ZERO;
+    if (qTs.level > 0) {
+        q += BigNumber.from( getQ1(q1.level) * getQ2(q2.level) * getQ3(q3.level) * getQ4(q4.level) );
+    }
     if (starU.level > 0) {
         if ( Math.random() < getPermJ(PermJ.level) ) {
             currencyS.value += 1;
@@ -211,7 +271,7 @@ var tick = (elapsedTime, multiplier) => {
         }
     }
     
-    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1));
+    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) + qSum);
     
     theory.invalidateQuaternaryValues();
     
@@ -231,7 +291,7 @@ var getPrimaryEquation = () => {
     result += "\\dot{\\rho} =  \\sqrt{a_1 a_2";
     if ( aTs.level > 0 ) result += " a_3";
     if ( aTs.level > 1 ) result += " a_4";
-    result += "} \\cdot n_1 + b_1";
+    result += "} \\cdot n_1 + b_1 + q";
     
 
     
@@ -239,7 +299,17 @@ var getPrimaryEquation = () => {
     return result;
 }
 
-var getSecondaryEquation = () => " ";
+var getSecondaryEquation = () => {
+    let result = "";
+    if (qTs.level == 0) {
+        result += "q=???";
+    } else {
+        result += "q =  \prod_{i=1}^{";
+        result += qTs.level;
+        result += "} q_i";
+    }
+    return result;
+}
 var getTertiaryEquation = () => {
     let result = theory.latexSymbol + "=\\max\\rho";
     if (starU.level > 0) {
@@ -270,6 +340,10 @@ var getDB1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getDB2 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 var getDB3 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 0);
 var getDB4 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 0);
+var getQ1 = (level) => BigNumber.TWO.pow(level);
+var getQ2 = (level) => BigNumber.THREE.pow(level);
+var getQ3 = (level) => BigNumber.FOUR.pow(level);
+var getQ4 = (level) => BigNumber.FIVE.pow(level);
 
 var getPermJ = (level) => BigNumber.from(0.05 * ( level + 1 ));
 
