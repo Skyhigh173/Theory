@@ -304,7 +304,7 @@ var getSecondaryEquation = () => {
     if (qTs.level == 0) {
         result += "q=???";
     } else {
-        result += "q =  \prod_{i=1}^{";
+        result += "q =  \\prod_{i=1}^{";
         result += qTs.level;
         result += "} q_i";
     }
