@@ -75,28 +75,24 @@ function VariableCost(level, a, b, base) {
 
 // Find the power (level) of a variable
 function VariablePower(level) {
-    let result = "";
-    if (level >= 24000) {
-        result += (260 + (level - 24000) / 400);
-    } else if (level >= 10000) {
-        result += (190 + (level - 10000) / 200);
-    } else if (level >= 6000) {
-        result += (150 + (level - 6000) / 100);
-    } else if (level >= 1500) {
-        result += (60 + (level - 1500) / 50);
-    } else if (level >= 50) {
-        result += (2 + (level - 50) / 25);
-    } else if (level >= 25) {
-        result += 2;
-    } else if (level >= 10) {
-        result += 1;
-    } else {
-        result += 0;
-    }
-        
-    }
     
-        return result;
+    if (level >= 24000) {
+        return Math.floor(260 + (level - 24000) / 400);
+    } else if (level >= 10000) {
+        return Math.floor(190 + (level - 10000) / 200);
+    } else if (level >= 6000) {
+        return Math.floor(150 + (level - 6000) / 100);
+    } else if (level >= 1500) {
+        return Math.floor(60 + (level - 1500) / 50);
+    } else if (level >= 50) {
+        return Math.floor(2 + (level - 50) / 25);
+    } else if (level >= 25) {
+        return 2;
+    } else if (level >= 10) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 // Text the power of a variable
