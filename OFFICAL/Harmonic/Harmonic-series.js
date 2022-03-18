@@ -271,7 +271,7 @@ var tick = (elapsedTime, multiplier) => {
         }
     }
     
-    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) + qSum);
+    currency.value += dt * bonus * ( (getA1(a1.level) * getA2(a2.level) * A3T * A4T).pow(0.5) * getN1(n1.level) + BigNumber.from(b1) + q);
     
     theory.invalidateQuaternaryValues();
     
