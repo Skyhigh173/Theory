@@ -61,6 +61,20 @@ var init = () => {
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getDesc(y.level), getDesc(y.level + amount));
     }
+    //z
+    {  
+        let getDesc = (level) => {
+         
+            let Eq = "z = ";
+            let ZPow = VariablePower(z.level);
+            let ZTxt = PowerText(ZPow);
+            Eq += ZTxt;
+            Eq += getZ_Last(z.level).toString(0);
+            return Eq;
+        }
+        z = theory.createUpgrade(2, ft, new CustomCost( VariableCost(z.level, 0.625, -3.17096, 1.04) ));
+        z.getDescription = (_) => Utils.getMath(getDesc(z.level));
+        z.getInfo = (amount) => Utils.getMathTo(getDesc(z.level), getDesc(z.level + amount));
     
 }
 
@@ -110,7 +124,12 @@ function PowerText(power) {
     return result;
 }
 
+var getPrimaryEquation = () => {
+    let result = "f(t+dt)=f(t) \\times e^{bxdt}";
+    return result;
+}
 var getX_Last = (level) => BigNumber.from(level / 10);
-var getX = (level) => BigNumber.from(getY(y.level) + level / 10);
+var getX = (level) => BigNumber.from(getY(y.level) + (level / 10));
 var getY_Last = (level) => BigNumber.from(level);
-var getY = (level) => BigNumber.from();
+var getY = (level) => BigNumber.from(getZ(z.level) + level * BigNumber.TWO.pow(VariablePower(level) ));
+var getZ_Last = (level) => BigNumber.from(level);
