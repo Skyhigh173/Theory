@@ -39,6 +39,7 @@ var init = () => {
     
     theory.primaryEquationHeight = 75;
     theory.primaryEquationScale = 1;
+    theory.SecondaryEquationHeight = 40;
 
     ///////////////////
     // Regular Upgrades
