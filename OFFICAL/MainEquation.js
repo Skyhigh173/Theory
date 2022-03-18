@@ -77,17 +77,23 @@ function VariableCost(level, a, b, base) {
 function VariablePower(level) {
     let result = "";
     if (level >= 24000) {
-        result += "";
+        result += (260 + (level - 24000) / 400);
     } else if (level >= 10000) {
-        result += "";
+        result += (190 + (level - 10000) / 200);
     } else if (level >= 6000) {
-        result += "";
+        result += (150 + (level - 6000) / 100);
     } else if (level >= 1500) {
-        result += "";
+        result += (60 + (level - 1500) / 50);
     } else if (level >= 50) {
-        result += "";
+        result += (2 + (level - 50) / 25);
+    } else if (level >= 25) {
+        result += 2;
+    } else if (level >= 10) {
+        result += 1;
     } else {
-        result += "";
+        result += 0;
+    }
+        
     }
     
         return result;
