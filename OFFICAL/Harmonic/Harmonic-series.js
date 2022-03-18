@@ -314,7 +314,7 @@ var getSecondaryEquation = () => {
 var getTertiaryEquation = () => {
     let result = theory.latexSymbol + "=\\max\\rho";
     if (starU.level > 0) {
-        result += " \\qquad ( j \\cdot 0.05 ) \\%  \\longrightarrow  \\star =  \\star + 1" ;
+        result += " \\qquad ( j ) \\%  \\longrightarrow  \\star =  \\star + 1" ;
     }
     return result;
 }
