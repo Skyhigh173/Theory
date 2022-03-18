@@ -206,7 +206,7 @@ var init = () => {
         qTs = theory.createMilestoneUpgrade(2, 4);
         qTs.getDescription = (_) => Localization.getUpgradeUnlockDesc(qTs.level == 0 ? "q_1" : (qTs.level == 1 ? "q_2" : (qTs.level == 2 ? "q_3" : "q_4") ) );
         qTs.getInfo = (_) => Localization.getUpgradeUnlockInfo(qTs.level == 0 ? "q_1" : (qTs.level == 1 ? "q_2" : (qTs.level == 2 ? "q_3" : "q_4") ) );
-        qTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidatePrimaryEquation(); };
+        qTs.boughtOrRefunded = (_) => { updateAvailability(); theory.invalidateSecondaryEquation(); };
         qTs.isAvailable = false;
     }
     
