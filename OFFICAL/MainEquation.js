@@ -13,6 +13,13 @@ var version = "v1.0.0";
 var ft, μ, ψ;
 var x, y, z, s;
 
+var FreeDTU, DTU, dt;
+/*--------------
+FreeDTU = free dt upgrade
+DTU = dt upgrade
+dt = actual dt
+--------------*/
+
 var init = () => {
     ft = theory.createCurrency("ft", "f(t)");
     μ = theory.createCurrency("μ", "\\mu");
