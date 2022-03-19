@@ -116,8 +116,8 @@ var getC2 = (level) => BigNumber.TWO.pow(level);
 var getC1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getC2Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
-var canGoToPreviousStage = () => Clemma.level = 2;
+var canGoToPreviousStage = () => Clemma.level == 2;
 var goToPreviousStage = () => Clemma.level -= 1;
-var canGoToNextStage = () => Clemma.level = 1;
+var canGoToNextStage = () => Clemma.level == 1;
 var goToNextStage = () => Clemma.level += 1;
 init();
