@@ -13,7 +13,7 @@ var version = 1;
 var currency;
 var c1, c2;
 var c1Exp, c2Exp;
-var Clemma = 1; //current lemma
+var Clemma; //current lemma
 const lemmaCount = 2;
 var achievement1, achievement2;
 var chapter1, chapter2;
@@ -116,8 +116,8 @@ var getC2 = (level) => BigNumber.TWO.pow(level);
 var getC1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getC2Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
-var canGoToPreviousStage = () => Clemma.level == 2;
+var canGoToPreviousStage = () => Clemma.level == 1;
 var goToPreviousStage = () => Clemma.level -= 1;
-var canGoToNextStage = () => Clemma.level == 1;
+var canGoToNextStage = () => Clemma.level == 0;
 var goToNextStage = () => Clemma.level += 1;
 init();
