@@ -14,7 +14,7 @@ var currency;
 var c1, c2;
 var c1Exp, c2Exp;
 var Clemma; //current lemma
-Clemma.level = 0;
+let Clemma.level = 0;
 const lemmaCount = 2;
 var achievement1, achievement2;
 var chapter1, chapter2;
