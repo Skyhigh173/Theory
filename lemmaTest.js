@@ -13,7 +13,7 @@ var version = 1;
 var currency;
 var c1, c2;
 var c1Exp, c2Exp;
-var Clemma; //current lemma
+var Clemma = 0; //current lemma
 const lemmaCount = 2;
 var achievement1, achievement2;
 var chapter1, chapter2;
