@@ -52,7 +52,7 @@ var init = () => {
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(25, 25));
+    theory.setMilestoneCost(new LinearCost(1, 1));
 
     {
         c1Exp = theory.createMilestoneUpgrade(0, 3);
@@ -71,22 +71,13 @@ var init = () => {
   
   
   
-    let lemmaCost = new CustomCost((level) =>
-    {
-        var cost = 1e1;
+    
 
-        switch(level+1)
-        {
-            case 1: cost = 1e1; break;
-            
-        }
-
-        return BigNumber.from(cost);
-    });
-    lemma = theory.createSingularUpgrade(0, currency, lemmaCost);
+        
+    lemma = theory.createMilestoneUpgrade(20, 1);
     lemma.maxLevel = lemmaCount;
-    lemma.getDescription = (_) => Localization.getUpgradeProveLemma(Math.min(lemmaCount, lemma.level + 1));
-    lemma.getInfo = (_) => Localization.getUpgradeProveLemma(Math.min(lemmaCount, lemma.level + 1));
+    lemma.description = Localization.getUpgradeProveLemma(Math.min(lemmaCount, lemma.level + 1));
+    lemma.Info = Localization.getUpgradeProveLemma(Math.min(lemmaCount, lemma.level + 1));
     lemma.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); theory.invalidateSecondaryEquation(); updateAvailability(); };
     /////////////////
     //// Achievements
