@@ -90,17 +90,12 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = c_1";
+    let result = "";
+    if (Clemma.level == 0) result += "\\dot{\\rho} = c_1";
+    if (Clemma.level == 1) result += "\\dot{\\alpha} = 1";
+    
 
-    if (c1Exp.level == 1) result += "^{1.05}";
-    if (c1Exp.level == 2) result += "^{1.1}";
-    if (c1Exp.level == 3) result += "^{1.15}";
-
-    result += "c_2";
-
-    if (c2Exp.level == 1) result += "^{1.05}";
-    if (c2Exp.level == 2) result += "^{1.1}";
-    if (c2Exp.level == 3) result += "^{1.15}";
+    
 
     return result;
 }
