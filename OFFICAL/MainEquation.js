@@ -75,6 +75,10 @@ var init = () => {
         z = theory.createUpgrade(2, ft, new CustomCost( VariableCost(z.level, 0.625, -3.17096, 1.04) ));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getDesc(z.level), getDesc(z.level + amount));
+    }
+    
+    /////////////////////
+    // Permanent Upgrades
     
 }
 
