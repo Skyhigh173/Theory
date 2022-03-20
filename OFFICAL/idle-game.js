@@ -80,7 +80,9 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.2}
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getPubPerSecMulti = (plus) => BigNumber.from(plus * theory.getPublicationMultiplier());
+function getPubPerSecMulti (plus) {
+    return plus * theory.getPublicationMultiplier();
+}
 
 var getA1 = (level) => BigNumber.from(level * 0.1);
 var getA2 = (level) => BigNumber.from(level * 80);
