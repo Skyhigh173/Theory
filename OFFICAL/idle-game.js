@@ -92,7 +92,7 @@ var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 function getPubPerSecMulti (plus) {
-    return BigNumber.from(plus * theory.getPublicationMultiplier);
+    return BigNumber.from(plus);
 }
 
 var getA1 = (level) => BigNumber.from(level * 0.1);
