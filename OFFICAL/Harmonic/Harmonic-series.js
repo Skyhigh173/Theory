@@ -15,6 +15,7 @@ var description = "A basic theory.";
 var authors = "Skyhigh173#3120";
 var version = "v0.0.2";
 
+//Regular
 var currency;
 var a1 = BigNumber.ONE, a2 = BigNumber.ONE;
 var a3 = BigNumber.ONE, a4 = BigNumber.ONE;
@@ -23,10 +24,14 @@ var q = BigNumber.ZERO, q1 = BigNumber.ONE, q2 = BigNumber.ONE, q3 = BigNumber.O
 var b1 = BigNumber.ZERO, b2 = BigNumber.ONE, b3 = BigNumber.ONE, b4 = BigNumber.ONE;
 var db1 = BigNumber.ZERO, db2 = BigNumber.ZERO, db3 = BigNumber.ZERO, db4 = BigNumber.ZERO;
 
+//Perm
 var aTs, bTs, qTs;
 var starU;
-
 var PermJ;
+
+//Statics
+var PubTimes = 0; 
+var Tap = 0; //Equation taps
 
 
 quaternaryEntries = [];
@@ -178,8 +183,8 @@ var init = () => {
     //j
     {
         PermJ = theory.createPermanentUpgrade(10, currencyS, new ExponentialCost(1, 8));
-        PermJ.getDescription = (amount) => Localization.getUpgradeIncCustomDesc("j", "0.05");
-        PermJ.getInfo = (amount) => Localization.getUpgradeIncCustomInfo("j", "0.05");
+        PermJ.getDescription = (amount) => Localization.getUpgradeIncCustomDesc("j", "5");
+        PermJ.getInfo = (amount) => Localization.getUpgradeIncCustomInfo("j", "5");
         PermJ.bought = (_) => { theory.invalidateTertiaryEquation(); updateAvailability(); };
         PermJ.maxLevel = 19;
         PermJ.isAvailable = false;
@@ -224,6 +229,15 @@ var init = () => {
     /////////////////
     //// Achievements
     
+    var AC1 = theory.createAchievementCategory(0, "Progress");
+    var AC2 = theory.createAchievementCategory(1, "Rho");
+    var AC3 = theory.createAchievementCategory(2, "Stars");
+    var ACS = theory.createAchievementCategory(100, "Secret");
+    
+    //AC1
+    let bID = 0; //base ID
+    theory.createAchievement((bID), AC1, "100", "rho greater then 100", () => currency.value >= 100);
+    theory.createAchievement((bID + 1), AC1, "Faster then before", "Publish once", () => PubTimes > 0);
 
     ///////////////////
     //// Story chapters
@@ -278,11 +292,21 @@ var tick = (elapsedTime, multiplier) => {
     
 }
 
+//tap
+var getEquationOverlay = () => ui.createGrid({
+    onTouched: (e) => {
+        if (e.type != TouchType.PRESSED) return;
+        Tap++;
+    }
+})
+
+//Pub
 var postPublish = () => {
     b1 = BigNumber.ONE;
     b2 = BigNumber.ONE;
     b3 = BigNumber.ONE;
     b4 = BigNumber.ONE;
+    PubTimes += 1;
 }
 
 //Equation
