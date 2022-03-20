@@ -34,10 +34,19 @@ var init = () => {
     //a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency, new ExponentialCost(6000, Math.log2(3)));
+        a2 = theory.createUpgrade(1, currency, new ExponentialCost(500, Math.log2(3)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
-        a2.getInfo = (amount) => "+ " + getPubPerSecMulti(80) + " /sec";
+        a2.getInfo = (amount) => "+ " + getPubPerSecMulti(10) + " /sec";
         a2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+    }
+    //a3
+    {
+        let getDesc = (level) => "a_3=" + getA3(level).toString(0);
+        a3 = theory.createUpgrade(2, currency, new ExponentialCost(6000, Math.log2(5)));
+        a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
+        a3.getInfo = (amount) => "+ " + getPubPerSecMulti(80) + " /sec";
+        a3.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        a3.isAvailable = false;
     }
     
     /////////////////////
@@ -58,13 +67,15 @@ var updateAvailability = () => {
     Pub.isAvailable = a1.level > 5;
     BuyAll.isAvailable = a2.level > 10;
     Auto.isAvailable = a2.level > 100;
+    
+    a3.isAvailable = a2.level >= 4;
 }
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    let TotalA = getA1(a1.level) + getA2(a2.level);
+    let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level);
     currency.value += TotalA;
 }
 
@@ -75,16 +86,17 @@ var getPrimaryEquation = () => {
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 
-var getPublicationMultiplier = (tau) => tau.pow(0.2) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.2}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.236) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.236}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 function getPubPerSecMulti (plus) {
-    return plus * theory.getPublicationMultiplier;
+    return BigNumber.from(plus * theory.getPublicationMultiplier);
 }
 
 var getA1 = (level) => BigNumber.from(level * 0.1);
-var getA2 = (level) => BigNumber.from(level * 80);
+var getA2 = (level) => BigNumber.from(level * 10);
+var getA3 = (level) => BigNumber.from(level * 80);
 
 init();
