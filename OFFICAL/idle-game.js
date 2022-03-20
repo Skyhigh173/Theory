@@ -26,14 +26,14 @@ var init = () => {
         let getDesc = (level) => "a_1=" + getA1(level).toString(0);
         a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(2))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
-        a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
+        a1.getInfo = (amount) => "+ 2 \\text{/sec}";
         a1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
        
     //a2
     {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency, new ExponentialCost(750, Math.log2(3)));
+        a2 = theory.createUpgrade(1, currency, new ExponentialCost(6000, Math.log2(3)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -41,7 +41,7 @@ var init = () => {
     
     /////////////////////
     // Permanent Upgrades
-    Pub = theory.createPublicationUpgrade(0, currency, 1e10);
+    Pub = theory.createPublicationUpgrade(0, currency, 100);
     Pub.isAvailable = false;
     BuyAll = theory.createBuyAllUpgrade(1, currency, 1e13);
     BuyAll.isAvailable = false;
@@ -68,7 +68,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\sum_{i=1}^{} a_i";
+    let result = "\\sum_{i=1}^{} a_i";
     return result;
 }
 
@@ -79,7 +79,7 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.2}
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 12, 0);
-var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 7, 0);
+var getA1 = (level) => BigNumber.from(level * 2);
+var getA2 = (level) => BigNumber.from(level * 140);
 
 init();
