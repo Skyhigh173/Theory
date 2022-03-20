@@ -25,7 +25,7 @@ var init = () => {
     //a1 
     {
         let getDesc = (level) => "a_1=" + (0.1 * a1.level);
-        a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(2))));
+        a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => "+ " + getPubPerSecMulti(0.1) + " /sec";
         a1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -86,8 +86,8 @@ var getPrimaryEquation = () => {
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 
-var getPublicationMultiplier = (tau) => tau.pow(0.273) / BigNumber.TWO;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.273}}{2}";
+var getPublicationMultiplier = (tau) => tau.pow(0.389) / BigNumber.TWO;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.389}}{2}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
