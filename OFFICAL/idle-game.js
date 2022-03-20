@@ -76,7 +76,7 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level);
-    currency.value += TotalA;
+    currency.value += bonus * dt * TotalA;
 }
 
 var getPrimaryEquation = () => {
