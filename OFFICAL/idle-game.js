@@ -24,10 +24,10 @@ var init = () => {
     
     //a1 
     {
-        let getDesc = (level) => "a_1=" + (0.1 * a1.level);
+        let getDesc = (level) => "a_1=" + (a1.level / 2);
         a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
-        a1.getInfo = (amount) => "+ " + getPubPerSecMulti(0.1) + " /sec";
+        a1.getInfo = (amount) => "+ " + getPubPerSecMulti(0.5) + " /sec";
         a1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
        
