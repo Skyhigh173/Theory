@@ -12,6 +12,7 @@ var version = 1;
 
 var currency;
 var Pub, BuyAll, Auto;
+var PubBonus;
 var a1, a2, a3, a4;
 
 
@@ -26,7 +27,7 @@ var init = () => {
         let getDesc = (level) => "a_1=" + getA1(level).toString(0);
         a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(2))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
-        a1.getInfo = (amount) => "+ 2 / sec";
+        a1.getInfo = (amount) => "+ " + getPubPerSecMulti(0.1) + " /sec";
         a1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
        
@@ -35,7 +36,7 @@ var init = () => {
         let getDesc = (level) => "a_2=" + getA2(level).toString(0);
         a2 = theory.createUpgrade(1, currency, new ExponentialCost(6000, Math.log2(3)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
-        a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
+        a2.getInfo = (amount) => "+ " + getPubPerSecMulti(80) + " /sec";
         a2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
     
@@ -79,7 +80,9 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.2}
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getA1 = (level) => BigNumber.from(level * 2);
-var getA2 = (level) => BigNumber.from(level * 140);
+var getPubPerSecMulti = (plus) => BigNumber.from(plus * theory.getPublicationMultiplier());
+
+var getA1 = (level) => BigNumber.from(level * 0.1);
+var getA2 = (level) => BigNumber.from(level * 80);
 
 init();
