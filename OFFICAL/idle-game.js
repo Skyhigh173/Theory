@@ -81,7 +81,7 @@ var init = () => {
     Auto.isAvailable = false;
     
     {
-        BuyBT = theory.createPermanentUpgrade(3, currency, new CustomCost(getBUnlockInfo(BuyBT.level + 1)));
+        BuyBT = theory.createPermanentUpgrade(3, currency, new CustomCost(getBUnlockInfo(1)));
         BuyBT.maxLevel = 1;
         BuyBT.getDescription = (amount) => Localization.getUpgradeUnlockDesc("b_1");
         BuyBT.getInfo = (amount) => Localization.getUpgradeUnlockInfo("b_1");
