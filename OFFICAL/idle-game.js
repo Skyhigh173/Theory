@@ -46,7 +46,7 @@ var init = () => {
     //a3
     {
         let getDesc = (level) => "a_3=" + (80 * a3.level);
-        a3 = theory.createUpgrade(2, currency, new ExponentialCost(8000, Math.log2(5)));
+        a3 = theory.createUpgrade(2, currency, new ExponentialCost(8000, Math.log2(3)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => "+ " + getPubPerSecMulti(80) + " /sec";
         a3.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -55,7 +55,7 @@ var init = () => {
     //a4
     {
         let getDesc = (level) => "a_4=" + (560 * a4.level);
-        a4 = theory.createUpgrade(3, currency, new ExponentialCost(30000, Math.log2(5)));
+        a4 = theory.createUpgrade(3, currency, new ExponentialCost(30000, Math.log2(4.5)));
         a4.getDescription = (_) => Utils.getMath(getDesc(a4.level));
         a4.getInfo = (amount) => "+ " + getPubPerSecMulti(560) + " /sec";
         a4.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -64,7 +64,7 @@ var init = () => {
     //a5
     {
         let getDesc = (level) => "a_5=" + (10000 * a5.level);
-        a5 = theory.createUpgrade(4, currency, new ExponentialCost(700000, Math.log2(8)));
+        a5 = theory.createUpgrade(4, currency, new ExponentialCost(700000, Math.log2(6)));
         a5.getDescription = (_) => Utils.getMath(getDesc(a5.level));
         a5.getInfo = (amount) => "+ " + getPubPerSecMulti(10000) + " /sec";
         a5.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -75,9 +75,9 @@ var init = () => {
     // Permanent Upgrades
     Pub = theory.createPublicationUpgrade(0, currency, 100);
     Pub.isAvailable = false;
-    BuyAll = theory.createBuyAllUpgrade(1, currency, 1e10);
+    BuyAll = theory.createBuyAllUpgrade(1, currency, 100000);
     BuyAll.isAvailable = false;
-    Auto = theory.createAutoBuyerUpgrade(2, currency, 1e30);
+    Auto = theory.createAutoBuyerUpgrade(2, currency, 1e6);
     Auto.isAvailable = false;
     
     {
@@ -101,8 +101,8 @@ var init = () => {
 
 var updateAvailability = () => {
     Pub.isAvailable = (a1.level > 5);
-    BuyAll.isAvailable = a2.level > 10;
-    Auto.isAvailable = a2.level > 100;
+    BuyAll.isAvailable = a2.level > 6;
+    Auto.isAvailable = a3.level > 5;
     BuyBT.isAvailable = a4.level >= 5 && PubTimes >= 6;
     
     a3.isAvailable = a2.level >= 4;
@@ -130,6 +130,7 @@ var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 
 var postPublish = () => {
     PubTimes += 1;
+    updateAvailability();
 }
 var getPublicationMultiplier = (tau) => tau.pow(0.314) / BigNumber.TWO;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2}";
