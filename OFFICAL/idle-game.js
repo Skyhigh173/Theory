@@ -14,7 +14,8 @@ var currency;
 var Pub, BuyAll, Auto;
 var PubBonus;
 var a1, a2, a3, a4;
-
+var Ch1, Ch2, Ch3;
+var PubTimes = 0;
 
 var init = () => {
     currency = theory.createCurrency();
@@ -34,7 +35,7 @@ var init = () => {
     //a2
     {
         let getDesc = (level) => "a_2=" + (10 * a2.level);
-        a2 = theory.createUpgrade(1, currency, new ExponentialCost(300, Math.log2(2.5)));
+        a2 = theory.createUpgrade(1, currency, new ExponentialCost(500, Math.log2(2.5)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => "+ " + getPubPerSecMulti(10) + " /sec";
         a2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -42,7 +43,7 @@ var init = () => {
     //a3
     {
         let getDesc = (level) => "a_3=" + (80 * a3.level);
-        a3 = theory.createUpgrade(2, currency, new ExponentialCost(2000, Math.log2(5)));
+        a3 = theory.createUpgrade(2, currency, new ExponentialCost(8000, Math.log2(5)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => "+ " + getPubPerSecMulti(80) + " /sec";
         a3.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -67,7 +68,14 @@ var init = () => {
     Auto = theory.createAutoBuyerUpgrade(2, currency, 1e30);
     Auto.isAvailable = false;
     
+    //useless
     theory.setMilestoneCost(new LinearCost(0, 10));
+    
+    ///////////////////
+    //// Story chapters (TBC)
+    //Ch1 = theory.createStoryChapter(0, "The beginning", "You are getting board. \nYou write a program for you.\nIt is a idle game.", () => a1.level > 0);
+    //Ch2 = theory.createStoryChapter(1, "Publication", "The game are getting slow. \nYou publish like before... \n", () => PubTimes > 0);
+
     
     updateAvailability();
 }
@@ -90,14 +98,19 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\sum_{i=1}^{} a_i";
+    let result = "\\dot{\\rho} = \\sum_{i=1}^{} a_i";
     return result;
 }
 
+
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 
-var getPublicationMultiplier = (tau) => tau.pow(0.389) / BigNumber.TWO;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.389}}{2}";
+
+var postPublish = () => {
+    PubTimes += 1;
+}
+var getPublicationMultiplier = (tau) => tau.pow(0.273) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.273}}{3}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
