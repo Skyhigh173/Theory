@@ -136,8 +136,8 @@ var tick = (elapsedTime, multiplier) => {
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level);
     currency.value += bonus * dt * TotalA * ((K.level) / 10 + 1);
     updateAvailability();
-    invalidatePrimaryEquation();
-    invalidateSecondaryEquation();
+    theory.invalidatePrimaryEquation();
+    theory.invalidateSecondaryEquation();
 }
 
 var getPrimaryEquation = () => {
