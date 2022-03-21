@@ -120,12 +120,12 @@ var updateAvailability = () => {
     Pub.isAvailable = (a1.level > 5);
     BuyAll.isAvailable = a2.level > 6;
     Auto.isAvailable = a3.level > 5;
-    BuyBT.isAvailable = a4.level >= 5 && PubTimes >= 6;
+    BuyBT.isAvailable = a4.level >= 5;
     K.isAvailable = UnK.level > 0;
     
     a3.isAvailable = a2.level >= 4;
     a4.isAvailable = a3.level >= 5;
-    a5.isAvailable = a4.level >= 4 && PubTimes >= 5;
+    a5.isAvailable = a4.level >= 4;
     
 }
 
@@ -149,7 +149,7 @@ var getPrimaryEquation = () => {
 
 var getSecondaryEquation = () => {
     let result = theory.latexSymbol + "=\\max\\rho";
-    result += "\\\\\\ P =";
+    result += "\\qquad P =";
     result += PubTimes;
     return result;
 }
@@ -160,7 +160,7 @@ var postPublish = () => {
     updateAvailability();
 }
 var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 10));
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times \\frac{P}{10}";
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times ( 1 + \\frac{P}{10} )";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
