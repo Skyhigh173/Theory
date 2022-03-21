@@ -12,9 +12,12 @@ var version = 1;
 
 var currency;
 var Pub, BuyAll, Auto;
-var PubBonus;
-var a1, a2, a3, a4;
+var a1, a2, a3, a4, a5;
+var b1, b2, b3, b4;
+var BuyBT;
+
 var Ch1, Ch2, Ch3;
+
 var PubTimes = 0;
 
 var init = () => {
@@ -58,16 +61,32 @@ var init = () => {
         a4.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
         a4.isAvailable = false;
     }
+    //a5
+    {
+        let getDesc = (level) => "a_5=" + (10000 * a5.level);
+        a5 = theory.createUpgrade(4, currency, new ExponentialCost(500000, Math.log2(8)));
+        a5.getDescription = (_) => Utils.getMath(getDesc(a5.level));
+        a5.getInfo = (amount) => "+ " + getPubPerSecMulti(10000) + " /sec";
+        a5.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        a5.isAvailable = false;
+    }
     
     /////////////////////
     // Permanent Upgrades
     Pub = theory.createPublicationUpgrade(0, currency, 100);
     Pub.isAvailable = false;
-    BuyAll = theory.createBuyAllUpgrade(1, currency, 1e13);
+    BuyAll = theory.createBuyAllUpgrade(1, currency, 1e10);
     BuyAll.isAvailable = false;
     Auto = theory.createAutoBuyerUpgrade(2, currency, 1e30);
     Auto.isAvailable = false;
     
+    {
+        BuyBT = theory.createPermanentUpgrade(3, currency, new CustomCost(getBUnlockInfo(BuyBT.level + 1)));
+        BuyBT.maxLevel = 1;
+        BuyBT.getDescription = (amount) => Localization.getUpgradeUnlockDesc("b_1");
+        BuyBT.getInfo = (amount) => Localization.getUpgradeUnlockInfo("b_1");
+        BuyBT.isAvailable = false;
+    }
     //useless
     theory.setMilestoneCost(new LinearCost(0, 10));
     
@@ -84,9 +103,12 @@ var updateAvailability = () => {
     Pub.isAvailable = (a1.level > 5);
     BuyAll.isAvailable = a2.level > 10;
     Auto.isAvailable = a2.level > 100;
+    BuyBT.isAvailable = a4.level >= 5 && PubTimes >= 6;
     
     a3.isAvailable = a2.level >= 4;
     a4.isAvailable = a3.level >= 5;
+    a5.isAvailable = a4.level >= 4 && PubTimes >= 5;
+    
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -117,6 +139,15 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 function getPubPerSecMulti (plus) {
     return BigNumber.from(plus);
 }
+function getBUnlockInfo (level) {
+    //these code is to see if level is 1, or 2, or somethin
+    switch (level) {
+        case 1:
+           return 700000;
+            break;
+    }
+}
+    
 
 var getA1 = (level) => BigNumber.from(level);
 var getA2 = (level) => BigNumber.from(level * 10);
