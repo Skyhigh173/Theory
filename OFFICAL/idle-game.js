@@ -55,7 +55,7 @@ var init = () => {
     //a4
     {
         let getDesc = (level) => "a_4=" + (560 * a4.level);
-        a4 = theory.createUpgrade(3, currency, new ExponentialCost(40000, Math.log2(6)));
+        a4 = theory.createUpgrade(3, currency, new ExponentialCost(30000, Math.log2(5)));
         a4.getDescription = (_) => Utils.getMath(getDesc(a4.level));
         a4.getInfo = (amount) => "+ " + getPubPerSecMulti(560) + " /sec";
         a4.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -64,7 +64,7 @@ var init = () => {
     //a5
     {
         let getDesc = (level) => "a_5=" + (10000 * a5.level);
-        a5 = theory.createUpgrade(4, currency, new ExponentialCost(500000, Math.log2(8)));
+        a5 = theory.createUpgrade(4, currency, new ExponentialCost(700000, Math.log2(8)));
         a5.getDescription = (_) => Utils.getMath(getDesc(a5.level));
         a5.getInfo = (amount) => "+ " + getPubPerSecMulti(10000) + " /sec";
         a5.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -131,8 +131,8 @@ var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
 var postPublish = () => {
     PubTimes += 1;
 }
-var getPublicationMultiplier = (tau) => tau.pow(0.273) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.273}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.314) / BigNumber.TWO;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
