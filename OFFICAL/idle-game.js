@@ -141,15 +141,7 @@ function getPubPerSecMulti (plus) {
 }
 function getBUnlockInfo (level) {
     //these code is to see if level is 1, or 2, or somethin
-    switch (level) {
-        case 1:
-            return 700000;
-            break;
-        case 2:
-            return 1e10;
-            break;
-          
-    }
+    return 600000;
 }
     
 
