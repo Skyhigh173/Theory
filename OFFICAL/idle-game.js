@@ -15,6 +15,7 @@ var Pub, BuyAll, Auto;
 var a1, a2, a3, a4, a5;
 var b1, b2, b3, b4;
 var BuyBT;
+var UnK, K;
 
 var Ch1, Ch2, Ch3;
 
@@ -70,6 +71,15 @@ var init = () => {
         a5.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
         a5.isAvailable = false;
     }
+    //k
+    {
+        let getDesc = (level) => "K=" + (K.level / 10 + 1);
+        K = theory.createUpgrade(10, currency, new ExponentialCost(200000, Math.log2(2)));
+        K.getDescription = (_) => Utils.getMath(getDesc(K.level));
+        K.getInfo = (amount) => "Increase rho speed";
+        K.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        K.isAvailable = false;
+    }
     
     /////////////////////
     // Permanent Upgrades
@@ -81,7 +91,14 @@ var init = () => {
     Auto.isAvailable = false;
     
     {
-        BuyBT = theory.createPermanentUpgrade(3, currency, new ExponentialCost(700000, Math.log2(2)));
+        UnK = theory.createPermanentUpgrade(3, currency, new ExponentialCost(1000000, Math.log2(3)));
+        UnK.maxLevel = 1;
+        UnK.getDescription = (amount) => Localization.getUpgradeUnlockDesc("K");
+        UnK.getInfo = (amount) => Localization.getUpgradeUnlockInfo("K");
+        
+    }
+    {
+        BuyBT = theory.createPermanentUpgrade(4, currency, new ExponentialCost(2000000, Math.log2(3)));
         BuyBT.maxLevel = 1;
         BuyBT.getDescription = (amount) => Localization.getUpgradeUnlockDesc("b_1");
         BuyBT.getInfo = (amount) => Localization.getUpgradeUnlockInfo("b_1");
@@ -104,6 +121,7 @@ var updateAvailability = () => {
     BuyAll.isAvailable = a2.level > 6;
     Auto.isAvailable = a3.level > 5;
     BuyBT.isAvailable = a4.level >= 5 && PubTimes >= 6;
+    K.isAvailable = UnK.level > 0;
     
     a3.isAvailable = a2.level >= 4;
     a4.isAvailable = a3.level >= 5;
@@ -116,11 +134,13 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level);
-    currency.value += bonus * dt * TotalA;
+    currency.value += bonus * dt * TotalA * ((K.level) / 10 + 1);
+    updateAvailability();
 }
 
 var getPrimaryEquation = () => {
     let result = "\\dot{\\rho} = \\sum_{i=1}^{} a_i";
+    if (UnK.level > 0) result += " \\times K";
     return result;
 }
 
