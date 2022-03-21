@@ -125,15 +125,20 @@ var getPrimaryEquation = () => {
 }
 
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+var getSecondaryEquation = () => {
+    let result = theory.latexSymbol + "=\\max\\rho";
+    result += "\\\\\\ P =";
+    result += PubTimes;
+    return result;
+}
 
 
 var postPublish = () => {
     PubTimes += 1;
     updateAvailability();
 }
-var getPublicationMultiplier = (tau) => tau.pow(0.314) / BigNumber.TWO;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2}";
+var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 10));
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times \\frac{P}{10}";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
