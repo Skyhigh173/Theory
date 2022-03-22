@@ -84,6 +84,7 @@ var init = () => {
             } else {
                 return "K=" + getK(K.level);
             }
+        }
         K = theory.createUpgrade(10, currency, new ExponentialCost(200000, Math.log2(2)));
         K.getDescription = (_) => Utils.getMath(getDesc(K.level));
         K.getInfo = (amount) => "Increase rho speed";
@@ -99,6 +100,7 @@ var init = () => {
             } else {
                 return "b_1=" + getB1(b1.level);
             }
+        }
         b1 = theory.createUpgrade(11, currency, new ExponentialCost(1e6, Math.log2(5)));
         b1.getDescription = (_) => Utils.getMath(getDesc(b1.level));
         b1.getInfo = (amount) => "Increase rho speed";
