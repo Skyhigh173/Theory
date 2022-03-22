@@ -14,6 +14,7 @@ var currency;
 var c1, c2;
 var c1Exp, c2Exp;
 var Clemma; //current lemma
+var LemmaU;
 
 const lemmaCount = 2;
 var achievement1, achievement2;
@@ -64,6 +65,13 @@ var init = () => {
         c2Exp.description = Localization.getUpgradeIncCustomExpDesc("c_2", "0.05");
         c2Exp.info = Localization.getUpgradeIncCustomExpInfo("c_2", "0.05");
         c2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
+    
+    {
+        LemmaU = theory.createMilestoneUpgrade(1083, 1);
+        LemmaU.description = "unlock a new thing";
+        LemmaU.info = "yesbrrrrr";
+        LemmaU.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     {
         Clemma = theory.createMilestoneUpgrade(2, 1);
@@ -122,6 +130,6 @@ var getC2Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
 var canGoToPreviousStage = () => Clemma.level == 1;
 var goToPreviousStage = () => Clemma.level -= 1;
-var canGoToNextStage = () => Clemma.level == 0;
+var canGoToNextStage = () => Clemma.level == 0 && LemmaU.level == 1;;
 var goToNextStage = () => Clemma.level += 1;
 init();
