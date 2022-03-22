@@ -65,7 +65,12 @@ var init = () => {
         c2Exp.info = Localization.getUpgradeIncCustomExpInfo("c_2", "0.05");
         c2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
-    
+    {
+        Clemma = theory.createMilestoneUpgrade(2, 1);
+        Clemma.description = Localization.getUpgradeProveLemma(2);
+        Clemma.info = Localization.getUpgradeProveLemma(2);
+        Clemma.boughtOrRefunded = (_) => clearGraph();
+    }
     /////////////////
     //// Achievements
     achievement1 = theory.createAchievement(0, "Achievement 1", "Description 1", () => c1.level > 1);
