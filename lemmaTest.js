@@ -94,7 +94,7 @@ var tick = (elapsedTime, multiplier) => {
     currency.value += dt * bonus * getC1(c1.level).pow(getC1Exponent(c1Exp.level)) *
                                    getC2(c2.level).pow(getC2Exponent(c2Exp.level));
     theory.invalidatePrimaryEquation();
-    theory.thinvalidateSecondaryEquation();
+    theory.invalidateSecondaryEquation();
 }
 
 var getPrimaryEquation = () => {
