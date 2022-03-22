@@ -69,7 +69,7 @@ var init = () => {
         Clemma = theory.createMilestoneUpgrade(2, 1);
         Clemma.description = Localization.getUpgradeProveLemma(2);
         Clemma.info = Localization.getUpgradeProveLemma(2);
-        Clemma.boughtOrRefunded = (_) => clearGraph();
+        Clemma.boughtOrRefunded = (_) => theory.clearGraph();
     }
     /////////////////
     //// Achievements
