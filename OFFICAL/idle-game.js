@@ -18,7 +18,7 @@ var version = 1;
 var currency;
 var Pub, BuyAll, Auto;
 var a1, a2, a3, a4, a5;
-var b1, b2, b3, b4;
+var b1, b2;
 var BuyBT;
 var UnK, K;
 
@@ -35,7 +35,7 @@ var init = () => {
     //a1 
     {
         let getDesc = (level) => "a_1=" + (a1.level);
-        a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(2))));
+        a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(1.6))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => "+ " + getPubPerSecMulti(1) + " /sec";
         a1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -78,12 +78,41 @@ var init = () => {
     }
     //k
     {
-        let getDesc = (level) => "K=" + (K.level / 10 + 1);
+        let getDesc = (level) => {
+            if (BuyBT.level > 0) {
+                return "K=" + (K.level / 10 + 1) + "\\times ( 1 + b_1 )";
+            } else {
+                return "K=" + getK(K.level);
+            }
         K = theory.createUpgrade(10, currency, new ExponentialCost(200000, Math.log2(2)));
         K.getDescription = (_) => Utils.getMath(getDesc(K.level));
         K.getInfo = (amount) => "Increase rho speed";
         K.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
         K.isAvailable = false;
+    }
+    
+    //b1
+    {
+        let getDesc = (level) => {
+            if (BuyBT.level > 1) {
+                return "b_1=" + getB1(b1.level) + "\\times ( 1 + b_2 )";
+            } else {
+                return "b_1=" + getB1(b1.level);
+            }
+        b1 = theory.createUpgrade(11, currency, new ExponentialCost(1e6, Math.log2(5)));
+        b1.getDescription = (_) => Utils.getMath(getDesc(b1.level));
+        b1.getInfo = (amount) => "Increase rho speed";
+        b1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        b1.isAvailable = false;
+    }
+    //b2
+    {
+        let getDesc = (level) => "b_2=" + getB2(b2.level);
+        b2 = theory.createUpgrade(12, currency, new ExponentialCost(1e7, Math.log2(6.2)));
+        b2.getDescription = (_) => Utils.getMath(getDesc(b2.level));
+        b2.getInfo = (amount) => "Increase rho speed";
+        b2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        b2.isAvailable = false;
     }
     
     /////////////////////
@@ -113,7 +142,7 @@ var init = () => {
         
     }
     {
-        BuyBT = theory.createPermanentUpgrade(11, currency, new ExponentialCost(2000000, Math.log2(3)));
+        BuyBT = theory.createPermanentUpgrade(11, currency, new ExponentialCost(2000000, Math.log2(6)));
         BuyBT.maxLevel = 2;
         BuyBT.getDescription = (amount) => {
             if (BuyBT.level == 0) return Localization.getUpgradeUnlockDesc("b_1");
@@ -141,13 +170,16 @@ var updateAvailability = () => {
     Pub.isAvailable = (a1.level > 5);
     BuyAll.isAvailable = a2.level > 6;
     Auto.isAvailable = a3.level > 5;
-    BuyBT.isAvailable = a4.level >= 5;
+    BuyBT.isAvailable = a4.level >= 5 && UnK.level > 0;
+    UnK.isAvailable = a4.level >= 2;
     K.isAvailable = UnK.level > 0;
     
     a3.isAvailable = a2.level >= 4;
     a4.isAvailable = a3.level >= 5;
     a5.isAvailable = a4.level >= 4;
     
+    b1.isAvailable = BuyBT.level > 0;
+    b2.isAvailable = BuyBT.level > 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -155,7 +187,7 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level);
-    currency.value += bonus * dt * TotalA * ((K.level) / 10 + 1);
+    currency.value += bonus * dt * TotalA * getK(K.level);
     updateAvailability();
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
@@ -188,10 +220,7 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 function getPubPerSecMulti (plus) {
     return BigNumber.from(plus);
 }
-function getBUnlockInfo (level) {
-    //these code is to see if level is 1, or 2, or somethin
-    return 600000;
-}
+
     
 
 var getA1 = (level) => BigNumber.from(level);
@@ -199,15 +228,35 @@ var getA2 = (level) => BigNumber.from(level * 10);
 var getA3 = (level) => BigNumber.from(level * 80);
 var getA4 = (level) => BigNumber.from(level * 560);
 
+var getK = (level) => {
+    if (UnK.level == 0) {
+        return BigNumber.ONE;
+    } else if (UnK.level == 1 && BuyBT.level == 0) {
+        return BigNumber.from(1 + level / 10);
+    } else {
+        return BigNumber.from((1 + level / 10) * getB1(b1.level));
+    }
+}
+var getB1 = (level) => {
+    if (BuyBT.level == 0) {
+        return BigNumber.ONE;
+    } else if (BuyBT.level == 1) {
+        return Utils.getStepwisePowerSum(level, 2, 8, 1);
+    } else {
+        return (Utils.getStepwisePowerSum(level, 2, 8, 1) * getB2(b2.level)));
+    }
+}
+var getB2 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 1);
+
 init();
 
 
 //////////////////////////////////////////////////
 var WhatsNewPUP = ui.createPopup({
-    title: "Whats new",
+    title: "Whats new in v0",
     content: ui.createStackLayout({
         children: [
-            ui.createLabel({text: "-current nothing\nTYFP!"}),
+            ui.createLabel({text: "-b variables \n Thank you for playing!"}),
             ui.createButton({text: "Close", onClicked: () => WhatsNewPUP.hide()})
             ]
     })
