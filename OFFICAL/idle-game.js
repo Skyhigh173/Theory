@@ -18,9 +18,12 @@ var version = 1;
 var currency;
 var Pub, BuyAll, Auto;
 var a1, a2, a3, a4, a5;
-var b1, b2;
-var BuyBT;
+var b1, b2, n1, n2;
+var starU, star;
+var BuyBT, MiniTheory;
 var UnK, K;
+var Lemma, LemmaLevel;
+var xi1, xi2, xi3, xi4;
 
 var Ch1, Ch2, Ch3;
 
