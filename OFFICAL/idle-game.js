@@ -245,7 +245,7 @@ var getB1 = (level) => {
     } else if (BuyBT.level == 1) {
         return Utils.getStepwisePowerSum(level, 2, 8, 1);
     } else {
-        return (Utils.getStepwisePowerSum(level, 2, 8, 1) * getB2(b2.level)));
+        return (Utils.getStepwisePowerSum(level, 2, 8, 1) * getB2(b2.level));
     }
 }
 var getB2 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 1);
