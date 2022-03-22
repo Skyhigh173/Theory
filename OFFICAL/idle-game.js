@@ -3,6 +3,11 @@ import { Localization } from "../api/Localization";
 import { parseBigNumber, BigNumber } from "../api/BigNumber";
 import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
+import { Popup } from "../api/ui/Popup";
+import { Color } from "../api/ui/properties/Color";
+import { ImageSource } from "../api/ui/properties/ImageSource";
+import { Thickness } from "../api/ui/properties/Thickness";
+import { ui } from "../api/ui/UI"
 
 var id = "idle-game";
 var name = "Idle Game";
@@ -20,7 +25,7 @@ var UnK, K;
 var Ch1, Ch2, Ch3;
 
 var PubTimes = 0;
-
+var WNPUP;
 var init = () => {
     currency = theory.createCurrency();
 
@@ -83,25 +88,41 @@ var init = () => {
     
     /////////////////////
     // Permanent Upgrades
-    Pub = theory.createPublicationUpgrade(0, currency, 100);
+    
+    {
+        WNPUP = theory.createPermanentUpgrade(0, currency, new FreeCost());
+        WNPUP.getDescription = (amount) => "Whats new";
+        WNPUP.getInfo = (amount) => "Open Whats new panel";
+        WNPUP.bought = (amount) => {
+            WhatsNewPUP.show();
+        }
+    }
+    
+    Pub = theory.createPublicationUpgrade(1, currency, 100);
     Pub.isAvailable = false;
-    BuyAll = theory.createBuyAllUpgrade(1, currency, 100000);
+    BuyAll = theory.createBuyAllUpgrade(2, currency, 100000);
     BuyAll.isAvailable = false;
-    Auto = theory.createAutoBuyerUpgrade(2, currency, 1e6);
+    Auto = theory.createAutoBuyerUpgrade(3, currency, 1e6);
     Auto.isAvailable = false;
     
     {
-        UnK = theory.createPermanentUpgrade(3, currency, new ExponentialCost(1000000, Math.log2(3)));
+        UnK = theory.createPermanentUpgrade(10, currency, new ExponentialCost(1000000, Math.log2(3)));
         UnK.maxLevel = 1;
         UnK.getDescription = (amount) => Localization.getUpgradeUnlockDesc("K");
         UnK.getInfo = (amount) => Localization.getUpgradeUnlockInfo("K");
         
     }
     {
-        BuyBT = theory.createPermanentUpgrade(4, currency, new ExponentialCost(2000000, Math.log2(3)));
-        BuyBT.maxLevel = 1;
-        BuyBT.getDescription = (amount) => Localization.getUpgradeUnlockDesc("b_1");
-        BuyBT.getInfo = (amount) => Localization.getUpgradeUnlockInfo("b_1");
+        BuyBT = theory.createPermanentUpgrade(11, currency, new ExponentialCost(2000000, Math.log2(3)));
+        BuyBT.maxLevel = 2;
+        BuyBT.getDescription = (amount) => {
+            if (BuyBT.level == 0) return Localization.getUpgradeUnlockDesc("b_1");
+            if (BuyBT.level == 1) return Localization.getUpgradeUnlockDesc("b_2");
+        }
+        BuyBT.getInfo = (amount) => {
+            if (BuyBT.level == 0) return Localization.getUpgradeUnlockInfo("b_1");
+            if (BuyBT.level == 1) return Localization.getUpgradeUnlockInfo("b_2");
+        }
         BuyBT.isAvailable = false;
     }
     //useless
@@ -179,3 +200,15 @@ var getA3 = (level) => BigNumber.from(level * 80);
 var getA4 = (level) => BigNumber.from(level * 560);
 
 init();
+
+
+//////////////////////////////////////////////////
+var WhatsNewPUP = ui.createPopup({
+    title: "Whats new",
+    content: ui.createStackLayout({
+        children: [
+            ui.createLabel({text: "-current nothing\nTYFP!"}),
+            ui.createButton({text: "Close", onClicked: () => WhatsNewPUP.hide()})
+            ]
+    })
+});
