@@ -14,8 +14,9 @@ var currency;
 var c1, c2;
 var c1Exp, c2Exp;
 var Clemma; //current lemma
+var Lemma;
 
-const lemmaCount = 2;
+
 var achievement1, achievement2;
 var chapter1, chapter2;
 
@@ -86,6 +87,7 @@ var init = () => {
 
 var updateAvailability = () => {
     c2Exp.isAvailable = c1Exp.level > 0;
+    c1.isAvailable = Lemma == 0;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -119,8 +121,8 @@ var getC2 = (level) => BigNumber.TWO.pow(level);
 var getC1Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 var getC2Exponent = (level) => BigNumber.from(1 + 0.05 * level);
 
-var canGoToPreviousStage = () => Clemma.level == 1;
-var goToPreviousStage = () => Clemma.level -= 1;
-var canGoToNextStage = () => Clemma.level == 0;
-var goToNextStage = () => Clemma.level += 1;
+var canGoToPreviousStage = () => Clemma.level == 1 && Lemma == 1;
+var goToPreviousStage = () => Lemma -= 1;
+var canGoToNextStage = () => Clemma.level == 1 && Lemma == 0;
+var goToNextStage = () => Lemma += 1;
 init();
