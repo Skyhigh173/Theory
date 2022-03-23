@@ -285,6 +285,7 @@ var getPrimaryEquation = () => {
         let result = "\\dot{\\rho} = ( \\sum_{i=1}^{} a_i )";
         if (UnK.level > 0) result += " \\times K";
         if (UnlockN.level > 0) result += " + n_1";
+        if (UnlockQ.level > 0) result += "q";
         return result;
     } else if (Lemma.level == Xi12Page) {
         let result = "\\xi = k_1 k_2 + k_3 q j";
@@ -304,10 +305,10 @@ var getSecondaryEquation = () => {
 
 var postPublish = () => {
     PubTimes += 1;
-    updateAvailability();
+    n1 = 0;
 }
-var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 10));
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times ( 1 + \\frac{P}{10} )";
+var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 20));
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times ( 1 + \\frac{P}{20} )";
 var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
