@@ -264,10 +264,11 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     n1 += getDN1(dn1.level);
+    let Q = 1
     if (UnlockQ.level == 0) {
-        let Q = 1;
+        Q += 0;
     } else {
-        let Q = getA1(a1.level).pow(3);
+        Q += getA1(a1.level).pow(3) - 1;
     }
 
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level) + getA5(a5.level);
