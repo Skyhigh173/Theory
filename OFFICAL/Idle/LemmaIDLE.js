@@ -232,10 +232,11 @@ var getPrimaryEquation = () => {
     if (Lemma.level == MainPage) {
         let result = "\\dot{\\rho} = \\sum_{i=1}^{} a_i";
         if (UnK.level > 0) result += " \\times K";
+        return result;
     } else {
         let result = "\\xi = k_1 k_2 + k_3 q j";
+        return result;
     }
-    return result;
 }
 
 
