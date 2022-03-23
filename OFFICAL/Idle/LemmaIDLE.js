@@ -139,7 +139,7 @@ var init = () => {
     //n1
     {
         let getDesc = (level) => "\\dot{n}_1=" + getDN1(dn1.level);
-        dn1 = theory.createUpgrade(12, currency, new ExponentialCost(1e8, Math.log2(1.8)));
+        dn1 = theory.createUpgrade(13, currency, new ExponentialCost(1e8, Math.log2(1.8)));
         dn1.getDescription = (_) => Utils.getMath(getDesc(dn1.level));
         dn1.getInfo = (amount) => "Increase n faster";
         dn1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
