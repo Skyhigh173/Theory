@@ -9,6 +9,7 @@ import { ImageSource } from "../api/ui/properties/ImageSource";
 import { Thickness } from "../api/ui/properties/Thickness";
 import { ui } from "../api/ui/UI"
 
+
 var id = "idle-game";
 var name = "Idle Game";
 var description = "yes it is a idle game. trust me";
@@ -22,7 +23,7 @@ var b1, b2, n1, n2;
 var starU, star;
 var BuyBT, MiniTheory;
 var UnK, K;
-var Lemma, LemmaLevel;
+var Lemma, UnlockXi;
 var xi1, xi2, xi3, xi4;
 
 var Ch1, Ch2, Ch3;
@@ -155,12 +156,21 @@ var init = () => {
     Auto.isAvailable = false;
     
     {
-        UnK = theory.createPermanentUpgrade(10, currency, new ExponentialCost(1000000, Math.log2(3)));
+        UnK = theory.createPermanentUpgrade(9, currency, new ExponentialCost(1000000, Math.log2(3)));
         UnK.maxLevel = 1;
         UnK.getDescription = (amount) => Localization.getUpgradeUnlockDesc("K");
         UnK.getInfo = (amount) => Localization.getUpgradeUnlockInfo("K");
         
     }
+
+    {
+        UnlockXi = theory.createPermanentUpgrade(10, currency, new ExponentialCost(1000, Math.log2(3)));
+        UnlockXi.maxLevel = 1;
+        UnlockXi.getDescription = (amount) => Localization.getUpgradeUnlockDesc("\\xi");
+        UnlockXi.getInfo = (amount) => Localization.getUpgradeUnlockInfo("\\xi");
+        
+    }
+
     {
         BuyBT = theory.createPermanentUpgrade(11, currency, new ExponentialCost(2000000, Math.log2(6)));
         BuyBT.maxLevel = 2;
@@ -187,20 +197,24 @@ var init = () => {
 }
 
 var updateAvailability = () => {
-    //MainPage
-    Pub.isAvailable = (a1.level > 5);
+    Pub.isAvailable = a1.level > 5;
     BuyAll.isAvailable = a2.level > 6;
     Auto.isAvailable = a3.level > 5;
-    BuyBT.isAvailable = a4.level >= 5 && UnK.level > 0;
-    UnK.isAvailable = a4.level >= 2;
-    K.isAvailable = UnK.level > 0;
+
+    //MainPage
+
+    BuyBT.isAvailable = Lemma.level == (MainPage) && a4.level >= 5 && UnK.level > 0 && BuyBT.level == 0;
+    UnK.isAvailable = Lemma.level == (MainPage) && a4.level >= 2 && UnK.level == 0;
+    K.isAvailable = Lemma.level == (MainPage) && UnK.level > 0;
+    UnlockXi.isAvailable = Lemma.level == (MainPage);
+    a1.isAvailable = Lemma.level == (MainPage);
+    a2.isAvailable = Lemma.level == (MainPage);
+    a3.isAvailable = Lemma.level == (MainPage) && a2.level >= 4;
+    a4.isAvailable = Lemma.level == (MainPage) && a3.level >= 5;
+    a5.isAvailable = Lemma.level == (MainPage) && a4.level >= 4;
     
-    a3.isAvailable = a2.level >= 4;
-    a4.isAvailable = a3.level >= 5;
-    a5.isAvailable = a4.level >= 4;
-    
-    b1.isAvailable = BuyBT.level > 0;
-    b2.isAvailable = BuyBT.level > 1;
+    b1.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 0;
+    b2.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -215,8 +229,12 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = \\sum_{i=1}^{} a_i";
-    if (UnK.level > 0) result += " \\times K";
+    if (Lemma.level == MainPage) {
+        let result = "\\dot{\\rho} = \\sum_{i=1}^{} a_i";
+        if (UnK.level > 0) result += " \\times K";
+    } else {
+        let result = "\\xi = k_1 k_2 + k_3 q j";
+    }
     return result;
 }
 
@@ -269,20 +287,27 @@ var getB1 = (level) => {
 }
 var getB2 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 1);
 
-var canGoToPreviousStage = () => Lemma.level !== 1;
-var goToPreviousStage = () => Lemma.level -= 1;
-var canGoToNextStage = () => Clemma.level == 0 && LemmaU.level == 1;;
-var goToNextStage = () => Lemma.level += 1;
+var canGoToPreviousStage = () => Lemma.level !== 0;
+var goToPreviousStage = () => {
+    Lemma.level -= 1;
+    theory.clearGraph();
+}
+var canGoToNextStage = () => Lemma.level == 0 && XiUnlock.level > 0;
+var goToNextStage = () => {
+    Lemma.level += 1;
+    theory.clearGraph();
+}
+    
 
 init();
 
 
 //////////////////////////////////////////////////
 var WhatsNewPUP = ui.createPopup({
-    title: "Whats new in v0",
+    title: "Whats new in v1",
     content: ui.createStackLayout({
         children: [
-            ui.createLabel({text: "-b variables \n Thank you for playing!"}),
+            ui.createLabel({text: "-Lemma(more page) \n Thank you for playing!"}),
             ui.createButton({text: "Close", onClicked: () => WhatsNewPUP.hide()})
             ]
     })
