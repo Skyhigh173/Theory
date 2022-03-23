@@ -264,8 +264,11 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     n1 += getDN1(dn1.level);
-    if (UnlockQ.level == 0) let Q = 1
-    if (UnlockQ.level == 1) let Q = getA1(a1.level).pow(3);
+    if (UnlockQ.level == 0) {
+        let Q = 1;
+    } else {
+        let Q = getA1(a1.level).pow(3);
+    }
 
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level) + getA5(a5.level);
     currency.value += bonus * dt * ( TotalA * getK(K.level) + BigNumber.from(n1) * Q );
