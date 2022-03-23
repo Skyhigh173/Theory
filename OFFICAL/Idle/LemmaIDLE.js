@@ -257,7 +257,7 @@ var updateAvailability = () => {
     
     b1.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 0;
     b2.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 1;
-    dn1.isAvailable = UnlockN.level > 0;
+    dn1.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 0;
 }
 
 var tick = (elapsedTime, multiplier) => {
