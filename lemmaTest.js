@@ -68,13 +68,13 @@ var init = () => {
     }
     
     {
-        LemmaU = theory.createMilestoneUpgrade(1083, currency, new FreeCost());
+        LemmaU = theory.createMilestoneUpgrade(1083, 1);
         LemmaU.description = "unlock a new thing";
         LemmaU.info = "yesbrrrrr";
         LemmaU.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     {
-        Clemma = theory.createUpgrade(20000, 1);
+        Clemma = theory.createUpgrade(20000, currency, new FreeCost());
         Clemma.description = Localization.getUpgradeProveLemma(2);
         Clemma.info = Localization.getUpgradeProveLemma(2);
         Clemma.boughtOrRefunded = (_) => theory.clearGraph();
