@@ -179,7 +179,7 @@ var init = () => {
         UnlockXi.getDescription = (amount) => {
             if (currency.value > 1.5e8) {
                 return Localization.getUpgradeUnlockDesc("\\xi");
-            else {
+            } else {
                 return "Unlock ???";
             }
         }
