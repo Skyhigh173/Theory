@@ -21,10 +21,11 @@ var Pub, BuyAll, Auto;
 var a1, a2, a3, a4, a5;
 var b1, b2, n1, n2;
 var starU, star;
-var BuyBT, MiniTheory;
+var BuyBT, UnlockXi, UnlockQ, UnlockN;
 var UnK, K;
-var Lemma, UnlockXi;
+var Lemma;
 var xi1, xi2, xi3, xi4;
+var n1 = BigNumber.ZERO, dn1;
 
 var Ch1, Ch2, Ch3;
 /////////////////
@@ -88,10 +89,10 @@ var init = () => {
     }
     //a5
     {
-        let getDesc = (level) => "a_5=" + (10000 * a5.level);
+        let getDesc = (level) => "a_5=" + (6000 * a5.level);
         a5 = theory.createUpgrade(4, currency, new ExponentialCost(700000, Math.log2(6)));
         a5.getDescription = (_) => Utils.getMath(getDesc(a5.level));
-        a5.getInfo = (amount) => "+ " + getPubPerSecMulti(10000) + " /sec";
+        a5.getInfo = (amount) => "+ " + getPubPerSecMulti(6000) + " /sec";
         a5.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
         a5.isAvailable = false;
     }
@@ -134,6 +135,15 @@ var init = () => {
         b2.getInfo = (amount) => "Increase rho speed";
         b2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
         b2.isAvailable = false;
+    }
+    //n1
+    {
+        let getDesc = (level) => "\\dot{n}_1=" + getDN1(dn1.level);
+        dn1 = theory.createUpgrade(12, currency, new ExponentialCost(1e8, Math.log2(1.8)));
+        dn1.getDescription = (_) => Utils.getMath(getDesc(dn1.level));
+        dn1.getInfo = (amount) => "Increase n faster";
+        dn1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        dn1.isAvailable = false;
     }
     
     /////////////////////
@@ -184,6 +194,13 @@ var init = () => {
         }
         BuyBT.isAvailable = false;
     }
+    {
+        UnlockN = theory.createPermanentUpgrade(12, currency, new ExponentialCost(1e8, Math.log2(15)));
+        UnlockN.maxLevel = 1;
+        UnlockN.getDescription = (amount) => Localization.getUpgradeUnlockDesc("n_1");
+        UnlockN.getInfo = (amount) => Localization.getUpgradeUnlockInfo("n_1");
+        UnlockN.isAvailable = false;
+    }
     //useless
     theory.setMilestoneCost(new LinearCost(0, 10));
     
@@ -197,16 +214,18 @@ var init = () => {
 }
 
 var updateAvailability = () => {
-    Pub.isAvailable = a1.level > 5;
-    BuyAll.isAvailable = a2.level > 6;
-    Auto.isAvailable = a3.level > 5;
+    Pub.isAvailable = Lemma.level == (MainPage) && a1.level > 5 && Pub.level == 0;
+    BuyAll.isAvailable = Lemma.level == (MainPage) && a2.level > 6 && BuyAll.level == 0;
+    Auto.isAvailable = Lemma.level == (MainPage) && a3.level > 5 && BuyAll.level == 0;
 
     //MainPage
 
     BuyBT.isAvailable = Lemma.level == (MainPage) && a4.level >= 5 && UnK.level > 0 && BuyBT.level == 0;
     UnK.isAvailable = Lemma.level == (MainPage) && a4.level >= 2 && UnK.level == 0;
+    UnlockXi.isAvailable = Lemma.level == (MainPage) && UnlockXi.level == 0;
+    UnlockN.isAvailable = Lemma.level == (MainPage) && K.level >= 2;
+    
     K.isAvailable = Lemma.level == (MainPage) && UnK.level > 0;
-    UnlockXi.isAvailable = Lemma.level == (MainPage);
     a1.isAvailable = Lemma.level == (MainPage);
     a2.isAvailable = Lemma.level == (MainPage);
     a3.isAvailable = Lemma.level == (MainPage) && a2.level >= 4;
@@ -221,8 +240,9 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level);
-    currency.value += bonus * dt * TotalA * getK(K.level);
+    n1 += getDN1(dn1.level);
+    let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level) + getA5(a5.level);
+    currency.value += bonus * dt * ( TotalA * getK(K.level) + BigNumber.from(n1) );
     updateAvailability();
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
@@ -267,6 +287,7 @@ var getA1 = (level) => BigNumber.from(level);
 var getA2 = (level) => BigNumber.from(level * 10);
 var getA3 = (level) => BigNumber.from(level * 80);
 var getA4 = (level) => BigNumber.from(level * 560);
+var getA5 = (level) => BigNumber.from(level * 6000);
 
 var getK = (level) => {
     if (UnK.level == 0) {
@@ -288,6 +309,9 @@ var getB1 = (level) => {
 }
 var getB2 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 1);
 
+var getDN1 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
+
+////////////////
 var canGoToPreviousStage = () => Lemma.level !== 0;
 var goToPreviousStage = () => {
     Lemma.level -= 1;
@@ -297,8 +321,8 @@ var canGoToNextStage = () => Lemma.level == 0 && UnlockXi.level > 0;
 var goToNextStage = () => {
     Lemma.level += 1;
     theory.clearGraph();
-}
-    
+} 
+////////////////  
 
 init();
 
