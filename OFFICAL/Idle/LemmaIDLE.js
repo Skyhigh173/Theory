@@ -277,6 +277,7 @@ var tick = (elapsedTime, multiplier) => {
     updateAvailability();
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
+    theory.invalidateQuaternaryValues();
 }
 
 var getPrimaryEquation = () => {
