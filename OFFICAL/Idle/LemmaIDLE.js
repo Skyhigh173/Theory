@@ -367,11 +367,12 @@ var getQuaternaryEntries = () => {
         quaternaryEntries.push(new QuaternaryEntry("?", null));
         quaternaryEntries.push(new QuaternaryEntry("?", null));
     }
-
-    quaternaryEntries[0].value = UnlockN.level > 0 ? n1.toString() : null;
-    quaternaryEntries[1].value = null;
-    quaternaryEntries[2].value = null;
-    quaternaryEntries[3].value = null;
+    if (quaternaryEntries.length > 0) {
+        quaternaryEntries[0].value = UnlockN.level > 0 ? n1.toString() : null;
+        quaternaryEntries[1].value = null;
+        quaternaryEntries[2].value = null;
+        quaternaryEntries[3].value = null;
+    }
     return quaternaryEntries;
 }
 
