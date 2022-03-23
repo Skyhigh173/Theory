@@ -238,7 +238,7 @@ var init = () => {
 var updateAvailability = () => {
     Pub.isAvailable = Lemma.level == (MainPage) && a1.level > 5 && Pub.level == 0;
     BuyAll.isAvailable = Lemma.level == (MainPage) && a2.level > 6 && BuyAll.level == 0;
-    Auto.isAvailable = Lemma.level == (MainPage) && a3.level > 5 && BuyAll.level == 0;
+    Auto.isAvailable = Lemma.level == (MainPage) && a3.level > 5 && Auto.level == 0;
 
     //MainPage
 
