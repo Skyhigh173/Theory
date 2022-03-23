@@ -26,6 +26,13 @@ var Lemma, LemmaLevel;
 var xi1, xi2, xi3, xi4;
 
 var Ch1, Ch2, Ch3;
+/////////////////
+var MainPage = 0;
+var Xi12Page = 1;
+var Xi34Page = 2;
+var ThetaPage = 3;
+var Rho2Page = 4;
+/////////////////
 
 var PubTimes = 0;
 var WNPUP;
@@ -33,6 +40,14 @@ var init = () => {
     currency = theory.createCurrency();
 
     ///////////////////
+    //Lemma thing
+    {
+        Lemma = theory.createUpgrade(69420, currency, new FreeCost());
+        Lemma.description = Localization.getUpgradeProveLemma(2);
+        Lemma.info = Localization.getUpgradeProveLemma(2);
+        Lemma.boughtOrRefunded = (_) => theory.clearGraph();
+        Lemma.isAvailable = false; // always unavailable
+    }
     // Regular Upgrades
     
     //a1 
@@ -172,6 +187,7 @@ var init = () => {
 }
 
 var updateAvailability = () => {
+    //MainPage
     Pub.isAvailable = (a1.level > 5);
     BuyAll.isAvailable = a2.level > 6;
     Auto.isAvailable = a3.level > 5;
