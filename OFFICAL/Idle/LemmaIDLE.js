@@ -293,7 +293,7 @@ var goToPreviousStage = () => {
     Lemma.level -= 1;
     theory.clearGraph();
 }
-var canGoToNextStage = () => Lemma.level == 0 && XiUnlock.level > 0;
+var canGoToNextStage = () => Lemma.level == 0 && UnlockXi.level > 0;
 var goToNextStage = () => {
     Lemma.level += 1;
     theory.clearGraph();
