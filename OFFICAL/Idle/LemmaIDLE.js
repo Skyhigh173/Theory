@@ -9,6 +9,7 @@ import { ImageSource } from "../api/ui/properties/ImageSource";
 import { Thickness } from "../api/ui/properties/Thickness";
 import { ui } from "../api/ui/UI"
 
+quaternaryEntries = [];
 
 var id = "idle-game";
 var name = "Idle Game";
