@@ -15,7 +15,7 @@ var id = "idle-game";
 var name = "Idle Game";
 var description = "yes it is a idle game. trust me";
 var authors = "skyhigh173";
-var version = "Alpha v0.1.0;
+var version = "Alpha v0.1.0";
 
 var currency;
 var Pub, BuyAll, Auto;
