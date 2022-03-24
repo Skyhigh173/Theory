@@ -6,13 +6,14 @@ import { Utils } from "./api/Utils";
 
 var id = "theory10-null";
 var name = "T10";
-var description = "A j100ba,s'ic ?!the!o!.ry.. \n1010110100010011110100010101101010001010101010010";
-var authors = "ERROR";
+var description = "A j100ba,s'ic ?!the!o!.ry.. \n101011010001001111010001010111001001010001010101010010";
+var authors = "ERROR LOL \n \n \n print(gg)";
 var version = "4.1";
 
 var currency;
 var c1, c2;
 var c1Exp, c2Exp;
+var a, b, c, d;
 
 var achievement1, achievement2;
 var chapter1, chapter2;
@@ -25,7 +26,7 @@ var init = () => {
 
     // c1
     {
-        let getDesc = (level) => "c_1=" + getC1(level).toString(0);
+        let getDesc = (level) => "c_0 \\neq" + getC1(level).toString(0);
         c1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(1, Math.log2(1.001))));
         c1.getDescription = (_) => Utils.getMath(getDesc(c1.level));
         c1.getInfo = (amount) => Utils.getMathTo(getDesc(c1.level), getDesc(c1.level + amount));
@@ -33,7 +34,7 @@ var init = () => {
 
     // c2
     {
-        let getDesc = (level) => "c_2=2^{" + level + "}";
+        let getDesc = (level) => "c_2==c_{1}^{" + level + "}";
         let getInfo = (level) => "c_2=" + getC2(level).toString(0);
         c2 = theory.createUpgrade(1, currency, new ExponentialCost(1, Math.log2(1234)));
         c2.getDescription = (_) => Utils.getMath(getDesc(c2.level));
@@ -88,12 +89,13 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
+    theory.primaryEquationHeight = 80;
     let result = "\\dot{\\rho} = \\int_{\\oint  \\cdots \\oint_{ \\partial V}^{}}^{n-1} F \\times d^{ \\upsilon } \\times ( e^{\\pi i} +1)";
 
     return result;
 }
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho";
+var getSecondaryEquation = () => theory.latexSymbol + "=\\min\\rho";
 var getPublicationMultiplier = (tau) => tau.pow(0.3) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{ \\pi}}{3}";
 var getTau = () => currency.value;
