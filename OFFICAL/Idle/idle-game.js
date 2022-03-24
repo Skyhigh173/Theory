@@ -288,7 +288,7 @@ var getPrimaryEquation = () => {
         if (UnlockQ.level > 0) result += "q";
         return result;
     } else if (Lemma.level == Xi12Page) {
-        let result = "\\xi = k_1 k_2 + k_3 q j";
+        let result = "\\xi_{1} = k_1 k_2 + k_3 q j";
         return result;
     }
 }
