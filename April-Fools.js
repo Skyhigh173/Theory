@@ -4,9 +4,9 @@ import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
-var id = "theory9";
-var name = "T9";
-var description = "A basic theory.";
+var id = "theory10-null";
+var name = "T10";
+var description = "A j100ba,s'ic ?!the!o!.ry.. \n1010110100010011110100010101101010001010101010010";
 var authors = "ERROR";
 var version = "4.1";
 
@@ -88,7 +88,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = \\underbrace{\\oint  \\cdots \\oint_{ \\partial V}^{}}_{n-1} F \\times d^{ \\upsilon } \\times ( e^{\\pi i} +1)";
+    let result = "\\dot{\\rho} = \\int_{\\oint  \\cdots \\oint_{ \\partial V}^{}}^{n-1} F \\times d^{ \\upsilon } \\times ( e^{\\pi i} +1)";
 
     return result;
 }
