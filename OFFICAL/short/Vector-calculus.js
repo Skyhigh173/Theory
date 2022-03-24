@@ -130,10 +130,10 @@ var getPrimaryEquation = () => {
     
     // Lemma 1
     if (lemma.level == 1) {
-        theory.primaryEquationScale = 0.8;
+        theory.primaryEquationScale = 0.75;
         theory.primaryEquationHeight = 80;
         
-        let result = "f_1(\\varphi)=\\int_{L[p \\rightarrow q] \\subset \\mathbb{R}^{n\\varphi}}^{}  \\nabla \\varphi \\times dr = \\varphi(q) - \\varphi(p) \\";
+        let result = "\\int_{L[p \\rightarrow q] \\subset \\mathbb{R}^{n\\varphi}}^{}  \\nabla \\varphi \\times dr = \\varphi(q) - \\varphi(p) \\";
         result += " \\dot{\\rho_{1}} = x_1 y_1 z_1";
         return result;
     }
