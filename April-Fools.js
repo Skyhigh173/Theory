@@ -98,7 +98,7 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => theory.latexSymbol + "=\\min\\rho";
 var getPublicationMultiplier = (tau) => tau.pow(0.3) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{ \\pi}}{3}";
-var getTau = () => currency.value.pow(BigNumber.HUNDRED).pow(BigNumber.HUNDRED).pow(BigNumber.HUNDRED).pow(BigNumber.HUNDRED).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.from(currency.value);
+var getTau = () => currency.value.pow(BigNumber.HUNDRED).pow(BigNumber.HUNDRED).pow(BigNumber.HUNDRED).pow(BigNumber.HUNDRED).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.THOUSAND).pow(BigNumber.from(currency.value));
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + Math.random() * currency.value.abs()).log10().toNumber();
 
 var getC1 = (level) => Utils.getStepwisePowerSum(level, 7, 2, 0);
