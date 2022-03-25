@@ -136,7 +136,7 @@ var skillData = [
         info: (amount) => Localization.getUpgradeMultCustomInfo("\\ominus\\text{ speed}", "{eff}"),
         effect: (level) => 1 + level * .05,
         effectText: (level) => "+0.05 / level",
-        starValue: [1, 2, 4, 8, 16, 32],
+        starValue: [50, 200, 400, 800, 1600, 3200], ///////////////////CHANGED
         starCost: new LinearCost(0, 5),
     }, 
     {
