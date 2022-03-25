@@ -81,7 +81,7 @@ var updateAvailability = () => {
 
 var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
-    let dt = = BigNumber.from(elapsedTime * multiplier);
+    let dt = BigNumber.from(elapsedTime * multiplier);
     q += elapsedTime;
     let totalXYZ = getX(x.level).pow(0.5) * getY(y.level).pow(0.7) * getZ(z.level);
     let sinOutPut = getALP(alpha.level) / 1.5 + q.sin();
