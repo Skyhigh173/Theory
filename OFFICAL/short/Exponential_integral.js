@@ -87,6 +87,8 @@ var tick = (elapsedTime, multiplier) => {
     let sinOutPut = getALP(alpha.level) / 1.5 + q.sin();
     let KTotal = getK1(k1.level) * getK2(k2.level) * sinOutPut;
     currency.value += dt * bonus * BigNumber.from(totalXYZ + KTotal);
+    theory.invalidateTertiaryEquation();
+    
 }
 
 var getPrimaryEquation = () => {
