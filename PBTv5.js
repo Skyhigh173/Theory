@@ -1296,7 +1296,7 @@ var tick = (elapsedTime, multiplier) => {
         prg2 -= prg2.floor();
     }
     if (gachaUnlock.level > 0) {
-        let spd = 1 / 300 * getSkillEffect(2);
+        let spd = 1 / 30 * getSkillEffect(2); /////////////////////*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/
         if (diceUnlock.level > 0) spd *= ((dicePoints + 1).log10() + 1).pow(1 / getSkillEffect(17));
         prgGacha += dt * spd;
     }
