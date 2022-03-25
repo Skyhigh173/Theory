@@ -97,7 +97,7 @@ var getPrimaryEquation = () => {
     if (1 == 0) {
         result += "";
     } else {
-        result +="\\dot{\\rho}=  x^{0.5}  y^{0.7}  z  + k_1 k_2 \\times (\\alpha\frac{1}{1.5} + \\sin(q))";
+        result +="\\dot{\\rho}=  x^{0.5}  y^{0.7}  z  + k_1 k_2 \\times (\\alpha\\frac{1}{1.5} + \\sin(q))";
     }
     return result;
 }
