@@ -11,7 +11,7 @@ var authors = "Skyhigh173";
 var version = 1;
 
 var currency;
-var x, y, z, C, n;
+var x, y, z, k1, k2, alpha;
 var UnlockFractor;
 var xF, yF, zF;
 var q;
@@ -41,9 +41,34 @@ var init = () => {
     // z
     {
         let getDesc = (level) => "z=" + getZ(level).toString(0);
-        z = theory.createUpgrade(2, currency, new FirstFreeCost(new ExponentialCost(600, Math.log2(2.3))));
+        z = theory.createUpgrade(2, currency, new ExponentialCost(600, Math.log2(2.3)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getDesc(z.level), getDesc(z.level + amount));
+    }
+    
+    // k1
+    {
+        let getDesc = (level) => "k_1=" + getK1(level).toString(0);
+        k1 = theory.createUpgrade(3, currency, new ExponentialCost(20, Math.log2(2.5)));
+        k1.getDescription = (_) => Utils.getMath(getDesc(k1.level));
+        k1.getInfo = (amount) => Utils.getMathTo(getDesc(k1.level), getDesc(k1.level + amount));
+    }
+      
+    // k2
+    {
+        let getDesc = (level) => "k_2=2^{" + level + "}";
+        let getInfo = (level) => "k_2=" + getK2(level).toString(0);
+        k2 = theory.createUpgrade(4, currency, new ExponentialCost(40, Math.log2(3.2)));
+        k2.getDescription = (_) => Utils.getMath(getDesc(k2.level));
+        k2.getInfo = (amount) => Utils.getMathTo(getInfo(k2.level), getInfo(k2.level + amount));
+    }
+    
+    // alpha
+    {
+        let getDesc = (level) => "\\alpha=" + getALP(level).toString(0);
+        alpha = theory.createUpgrade(5, currency, new ExponentialCost(100, Math.log2(4)));
+        alpha.getDescription = (_) => Utils.getMath(getDesc(alpha.level));
+        alpha.getInfo = (amount) => Utils.getMathTo(getDesc(alpha.level), getDesc(alpha.level + amount));
     }
     
     updateAvailability();
@@ -58,13 +83,17 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     let dt = = BigNumber.from(elapsedTime * multiplier);
     q += elapsedTime;
-    currency.value += 0;
+    let totalXYZ = getX(x.level).pow(0.5) * getY(y.level).pow(0.7) * getZ(z.level);
+    let sinOutPut = getALP(alpha.level) / 1.5 + q.sin();
+    let KTotal = getK1(k1.level) * getK2(k2.level) * sinOutPut;
+    currency.value += dt * bonus * BigNumber.from(totalXYZ + KTotal);
 }
 
 var getPrimaryEquation = () => {
+    theory.primaryEquationHeight = 80;
     let result = "E(x)= \\int_{- \\infty}^{x} \\frac{e^t}{t}dt \\\\\\ ";
-    if (UnlockFractor.level > 0) {
-        
+    if (1 == 0) {
+        result += "";
     } else {
         result +="\\dot{\\rho}=  x^{0.5}  y^{0.7}  z  + k_1 k_2 \\times (\\alpha\frac{1}{1.5} + \\sin(q))";
     }
@@ -75,11 +104,18 @@ var getSecondaryEquation = () => {
     let result = "\\dot{q} = 1";
 }
 
+
 var getTertiaryEquation = () => {
     let result = "q=";
     result += q;
     return result;
 }
+var getX = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getY = (level) => Utils.getStepwisePowerSum(level, 2, 7, 1);
+var getZ = (level) => Utils.getStepwisePowerSum(level, 2, 5, 1);
+var getK1 = (level) => Utils.getStepwisePowerSum(level, 3, 8, 1);
+var getK2 = (level) => BigNumber.TWO.pow(level);
+var getALP = (level) => Utils.getStepwisePowerSum(level, 5, 8, 1);
 
 var getPublicationMultiplier = (tau) => tau.pow(0.198) / BigNumber.TEN;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.198}}{10}";
