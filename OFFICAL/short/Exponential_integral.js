@@ -104,6 +104,7 @@ var getPrimaryEquation = () => {
 
 var getSecondaryEquation = () => {
     let result = "\\dot{q} = 1";
+    return result;
 }
 
 
