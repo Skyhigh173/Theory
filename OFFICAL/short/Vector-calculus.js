@@ -121,7 +121,7 @@ var getPrimaryEquation = () => {
             result += "0";
             return result;
         } else {
-            result += "\\rho_{1}^{0.3} ";
+            result += "\\max \\rho_{1}^{0.3} ";
             if (Unlock2.level > 0) result += "\\rho_{2}^{0.5}";
             if (Unlock3.level > 0) result += "\\rho_{3}^{0.7}";
             return result;
@@ -134,7 +134,7 @@ var getPrimaryEquation = () => {
         theory.primaryEquationHeight = 80;
         
         let result = "\\int_{L[p \\rightarrow q] \\subset \\mathbb{R}^{n\\varphi}}^{}  \\nabla \\varphi \\times dr = \\varphi(q) - \\varphi(p) \\";
-        result += " \\dot{\\rho_{1}} = x_1 y_1 z_1";
+        result += " \\dot{\\rho_{1}} = ( x_1 y_1 z_1 ) \\times \\nabla C^{n}";
         return result;
     }
 }
