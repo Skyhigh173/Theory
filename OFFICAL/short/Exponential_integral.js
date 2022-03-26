@@ -14,7 +14,7 @@ var currency;
 var x, y, z, k1, k2, alpha;
 var UnlockFractor;
 var xF, yF, zF;
-var q;
+var q = 0;
 
 var init = () => {
     currency = theory.createCurrency();
