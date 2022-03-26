@@ -56,7 +56,7 @@ var init = () => {
       
     // k2
     {
-        let getDesc = (level) => "k_2=2^{" + level + "}";
+        let getDesc = (level) => "k_2=5^{" + level + "}";
         let getInfo = (level) => "k_2=" + getK2(level).toString(0);
         k2 = theory.createUpgrade(4, currency, new ExponentialCost(40, Math.log2(3.2)));
         k2.getDescription = (_) => Utils.getMath(getDesc(k2.level));
@@ -65,7 +65,7 @@ var init = () => {
     
     // alpha
     {
-        let getDesc = (level) => "\\alpha=" + getALP(level).toString(0);
+        let getDesc = (level) => "\\alpha =" + getALP(level).toString(0);
         alpha = theory.createUpgrade(5, currency, new ExponentialCost(100, Math.log2(4)));
         alpha.getDescription = (_) => Utils.getMath(getDesc(alpha.level));
         alpha.getInfo = (amount) => Utils.getMathTo(getDesc(alpha.level), getDesc(alpha.level + amount));
@@ -82,7 +82,7 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     let dt = BigNumber.from(elapsedTime * multiplier);
-    q += elapsedTime;
+    q += 10 * elapsedTime;
     let totalXYZ = getX(x.level).pow(0.5) * getY(y.level).pow(0.7) * getZ(z.level);
     let sinOutPut = getALP(alpha.level) / 1.5 + Math.sin(q);
     let KTotal = getK1(k1.level) * getK2(k2.level) * sinOutPut;
@@ -92,7 +92,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    theory.primaryEquationHeight = 80;
+    theory.primaryEquationHeight = 100;
     let result = "E(x)= \\int_{- \\infty}^{x} \\frac{e^t}{t}dt \\\\\\ ";
     if (1 == 0) {
         result += "";
@@ -103,7 +103,7 @@ var getPrimaryEquation = () => {
 }
 
 var getSecondaryEquation = () => {
-    let result = "\\dot{q} = 1";
+    let result = "\\dot{q} = 10";
     return result;
 }
 
@@ -116,8 +116,8 @@ var getTertiaryEquation = () => {
 var getX = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getY = (level) => Utils.getStepwisePowerSum(level, 2, 7, 1);
 var getZ = (level) => Utils.getStepwisePowerSum(level, 2, 5, 1);
-var getK1 = (level) => Utils.getStepwisePowerSum(level, 3, 8, 1);
-var getK2 = (level) => BigNumber.TWO.pow(level);
+var getK1 = (level) => Utils.getStepwisePowerSum(level, 4, 4, 1);
+var getK2 = (level) => BigNumber.FIVE.pow(level);
 var getALP = (level) => Utils.getStepwisePowerSum(level, 5, 8, 1);
 
 var getPublicationMultiplier = (tau) => tau.pow(0.198) / BigNumber.TEN;
