@@ -10,6 +10,10 @@ var description = "more fun equation, just like t9";
 var authors = "Skyhigh173";
 var version = 1;
 
-var Lemma;
 var b11, b12, a11, a12, q11, TotalUpgrade1;
 
+var init = () => {
+    currency = theory.createCurrency();
+
+    ///////////////////
+    // Regular Upgrades
