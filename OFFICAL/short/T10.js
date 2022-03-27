@@ -17,3 +17,12 @@ var init = () => {
 
     ///////////////////
     // Regular Upgrades
+    
+    // b1
+    {
+        let getDesc = (level) => "c_1=" + getC11(level).toString(0);
+        let getInfo = (level) => "c_1=" + getC11(level).toString(0);
+        b11 = theory.createUpgrade(baseId + 0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(2.6))));
+        b11.getDescription = (amount) => Utils.getMath(getDesc(c11.level));
+        cb1.getInfo = (amount) => Utils.getMathTo(getInfo(c11.level), getInfo(c11.level + amount));
+    }
