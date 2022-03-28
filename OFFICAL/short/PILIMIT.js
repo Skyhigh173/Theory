@@ -10,7 +10,7 @@ var description = "more fun equation, just like t9";
 var authors = "Skyhigh173";
 var version = 1;
 
-var b1, b2, a1, a2, q1, TotalUpgrade = 0, q = 0;
+var b1, b2, a1, a2, q1, TotalUpgrade = 0, q = 0, qExp;
 var currency;
 
 var init = () => {
@@ -86,7 +86,8 @@ var tick = (elapsedTime, multiplier) => {
     
     TotalUpgrade = BigNumber.from(a1.level + a2.level + b1.level + b2.level + q1.level);
     q += Math.floor(elapsedTime * 10) / 10;
-    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow((TotalUpgrade / 500));
+    qExp = TotalUpgrade / 500;
+    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow(qExp);
     let piSUM = BigNumber.PI - (getA1(a1.level) / getA2(a2.level));
     
     currency.value += bSUM / piSUM;
@@ -107,9 +108,9 @@ var getSecondaryEquation = () => {
 
 var getTertiaryEquation = () => {
     let result = "q^{";
-    result += (TotalUpgrade / 500);
+    result += qExp;
     result += "} = ";
-    result += (q.pow((TotalUpgrade / 500)));
+    result += (q.pow(qExp);
     result += "\\qquad \\frac{a_1}{a_2} =";
     result += getA1(a1.level) / getA2(a2.level);
     return result;
