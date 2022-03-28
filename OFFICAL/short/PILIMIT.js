@@ -86,7 +86,7 @@ var tick = (elapsedTime, multiplier) => {
     
     TotalUpgrade = BigNumber.from(a1.level + a2.level + b1.level + b2.level + q1.level);
     q += Math.floor(elapsedTime * 10) / 10;
-    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow(TotalUpgrade / 500);
+    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow((TotalUpgrade / 500));
     let piSUM = BigNumber.PI - (getA1(a1.level) / getA2(a2.level));
     
     currency.value += bSUM / piSUM;
@@ -109,7 +109,7 @@ var getTertiaryEquation = () => {
     let result = "q^{";
     result += (TotalUpgrade / 500);
     result += "} = ";
-    result += (q.pow(TotalUpgrade / 500));
+    result += (q.pow((TotalUpgrade / 500)));
     result += "\\qquad \\frac{a_1}{a_2} =";
     result += getA1(a1.level) / getA2(a2.level);
     return result;
