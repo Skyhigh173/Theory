@@ -21,6 +21,8 @@ import { FontFamily } from "./api/ui/properties/FontFamily";
 import { ImageSource } from "./api/ui/properties/ImageSource";
 import { StackOrientation } from "./api/ui/properties/StackOrientation";
 
+
+
 var id = "probability_theory";
 var name = "Probability Theory";
 var getDescription = () => {
@@ -97,6 +99,8 @@ var perm9, perm10, perm11, perm12;
 var perm13, perm14, perm15;
 var d4Master, d6Master, d8Master, d10Master, d12Master, d20Master;
 var diceMasteries = "....................................";
+
+var alwaysShowRefundButtons = () => true;
 
 var skills = [], skillExp = [];
 
