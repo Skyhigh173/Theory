@@ -97,7 +97,7 @@ var perm9, perm10, perm11, perm12;
 var perm13, perm14, perm15;
 var d4Master, d6Master, d8Master, d10Master, d12Master, d20Master;
 var diceMasteries = "....................................";
-
+var alwaysShowRefundButtons = () => true;
 var skills = [], skillExp = [];
 
 var ac1, ac2, ac3, ac4, ac5, ac6;
