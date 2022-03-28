@@ -1662,7 +1662,8 @@ var getSecondaryEquation = () => {
         }
     }
     else if (stage == 4) {
-        rVal = `\\dot{\\ominus} \\leftarrow \\dot{\\ominus} \\times \\sqrt[${getSkillEffect(17)}]{\\log(\\boxdot + 1) + 1}`;
+        rVal = `\\dot{\\ominus} \\leftarrow \\dot{\\ominus} \\times \\sqrt[${getSkillEffect(17)}]{\\log(\\boxdot + 1) + 1}  D=`;
+        rVal += diceMasteries;
     } 
     else if (stage == 5) {
         let seed = rpgTheory * 50 + rpgLemma;
