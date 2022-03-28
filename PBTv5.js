@@ -691,7 +691,91 @@ var init = () => {
         perm8.getInfo = (amount) => Localization.getUpgradeMultCustomInfo("\\rho_3 \\text{ gain}", getPerm8(perm8.level));
         perm8.bought = (_) => { theory.invalidateSecondaryEquation(); };
     }
-    
+      
+    {
+        d4Master = theory.createPermanentUpgrade(11, currency3, new FreeCost());
+        d4Master.getDescription = (amount) => "$d4$ Mastery";
+        d4Master.getInfo = (amount) => "\\textsf{" + ["MT", "EX", "DL", "SD", "CL", "CT"].filter((x, i) => diceMasteries[i] == "#").join(" ") + "}";
+        d4Master.maxLevel = 6;
+        d4Master.bought = (amount) => {
+            if (tSkill == 0) {
+                tSkill = null;
+            } else {
+                d4Master.level -= amount;
+                showDiceMasteryPopup(0);
+            }
+        }
+    }
+    {
+        d6Master = theory.createPermanentUpgrade(12, currency3, new FreeCost());
+        d6Master.getDescription = (amount) => "$d6$ Mastery";
+        d6Master.getInfo = (amount) => "\\textsf{" + ["MT", "EX", "DL", "SD", "CL", "CT"].filter((x, i) => diceMasteries[i + 6] == "#").join(" ") + "}";
+        d6Master.maxLevel = 6;
+        d6Master.bought = (amount) => {
+            if (tSkill == 1) {
+                tSkill = null;
+            } else {
+                d6Master.level -= amount;
+                showDiceMasteryPopup(1);
+            }
+        }
+    }
+    {
+        d8Master = theory.createPermanentUpgrade(13, currency3, new FreeCost());
+        d8Master.getDescription = (amount) => "$d8$ Mastery";
+        d8Master.getInfo = (amount) => "\\textsf{" + ["MT", "EX", "DL", "SD", "CL", "CT"].filter((x, i) => diceMasteries[i + 12] == "#").join(" ") + "}";
+        d8Master.maxLevel = 6;
+        d8Master.bought = (amount) => {
+            if (tSkill == 2) {
+                tSkill = null;
+            } else {
+                d8Master.level -= amount;
+                showDiceMasteryPopup(2);
+            }
+        }
+    }
+    {
+        d10Master = theory.createPermanentUpgrade(14, currency3, new FreeCost());
+        d10Master.getDescription = (amount) => "$d10$ Mastery";
+        d10Master.getInfo = (amount) => "\\textsf{" + ["MT", "EX", "DL", "SD", "CL", "CT"].filter((x, i) => diceMasteries[i + 18] == "#").join(" ") + "}";
+        d10Master.maxLevel = 6;
+        d10Master.bought = (amount) => {
+            if (tSkill == 3) {
+                tSkill = null;
+            } else {
+                d10Master.level -= amount;
+                showDiceMasteryPopup(3);
+            }
+        }
+    }
+    {
+        d12Master = theory.createPermanentUpgrade(15, currency3, new FreeCost());
+        d12Master.getDescription = (amount) => "$d12$ Mastery";
+        d12Master.getInfo = (amount) => "\\textsf{" + ["MT", "EX", "DL", "SD", "CL", "CT"].filter((x, i) => diceMasteries[i + 24] == "#").join(" ") + "}";
+        d12Master.maxLevel = 6;
+        d12Master.bought = (amount) => {
+            if (tSkill == 4) {
+                tSkill = null;
+            } else {
+                d12Master.level -= amount;
+                showDiceMasteryPopup(4);
+            }
+        }
+    }
+    {
+        d20Master = theory.createPermanentUpgrade(16, currency3, new FreeCost());
+        d20Master.getDescription = (amount) => "$d20$ Mastery";
+        d20Master.getInfo = (amount) => "\\textsf{" + ["MT", "EX", "DL", "SD", "CL", "CT"].filter((x, i) => diceMasteries[i + 30] == "#").join(" ") + "}";
+        d20Master.maxLevel = 6;
+        d20Master.bought = (amount) => {
+            if (tSkill == 5) {
+                tSkill = null;
+            } else {
+                d20Master.level -= amount;
+                showDiceMasteryPopup(5);
+            }
+        }
+    }
     {
         perm9 = theory.createPermanentUpgrade(17, currency3, new ConstantCost(1e12));
         perm9.maxLevel = 1;
@@ -1178,6 +1262,7 @@ var updateAvailability = () => {
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
+    diceMasteries = "####################################";
     
     prg += dt * getPrgSpeed(prgSpeed.level) * getSkillEffect(0);
     if (prg >= 1) {
