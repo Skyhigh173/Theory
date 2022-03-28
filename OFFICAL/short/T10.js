@@ -77,3 +77,26 @@ var init = () => {
 }
 
 var updateAvailability = () => {
+    
+}
+var tick = (elapsedTime, multiplier) => {
+    let dt = BigNumber.from(elapsedTime * multiplier);
+    let bonus = theory.publicationMultiplier;
+    
+    TotalUpgrade = a1.level + a2.level + b1.level + b2.level + q1.level;
+    let q = getA1(a1.level) * getB1(b1.level) / getQ1(q1.level);
+    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow(TotalUpgrade / 500);
+    let piSUM = getA1(a1.level) / getA2(a2.level) - BigNumber.PI;
+    
+    currency.value += bSUM / piSUM;
+    theory.invalidateTertiaryEquation();
+}
+
+var getPrimaryEquation = () => {
+    let result = "( b_1 b_2 - q^{n} ) \\div ( \\frac{a_1}{a_2} - \\pi )";
+    return result;
+}
+var getSecondaryEquation = () => {
+    let result = "";
+    return result;
+}
