@@ -46,6 +46,7 @@ var init = () => {
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
         a1.isAutoBuyable = false;
+        a1.canBeRefunded = (_) => true;
     }
       
     // a2
@@ -55,6 +56,7 @@ var init = () => {
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.isAutoBuyable = false;
+        a2.canBeRefunded = (_) => true;
     }
        
     // q1
@@ -87,7 +89,7 @@ var tick = (elapsedTime, multiplier) => {
     TotalUpgrade = BigNumber.from(a1.level + a2.level + b1.level + b2.level + q1.level);
     q += Math.floor(elapsedTime * 10) / 10;
     qExp = TotalUpgrade / 500;
-    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow(qExp);
+    let bSUM = getB1(b1.level) * getB2(b2.level) - q.pow(BigNumber.from(qExp));
     let piSUM = BigNumber.PI - (getA1(a1.level) / getA2(a2.level));
     
     currency.value += bSUM / piSUM;
@@ -110,7 +112,7 @@ var getTertiaryEquation = () => {
     let result = "q^{";
     result += qExp;
     result += "} = ";
-    result += (q.pow(qExp);
+    result += (q.pow(BigNumber.from(qExp));
     result += "\\qquad \\frac{a_1}{a_2} =";
     result += getA1(a1.level) / getA2(a2.level);
     return result;
@@ -127,7 +129,7 @@ var getA1 = (level) => 1 + BigNumber.from(level);
 var getA2 = (level) => 1 + BigNumber.from(level);
 var getQ1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 
-var alwaysShowRefundButtons = () => true;
+
 
 
 init();
