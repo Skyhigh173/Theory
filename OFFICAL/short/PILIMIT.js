@@ -112,7 +112,7 @@ var getTertiaryEquation = () => {
     let result = "q^{";
     result += qExp;
     result += "} = ";
-    result += (q.pow(BigNumber.from(qExp));
+    result += q.pow(BigNumber.from(qExp));
     result += "\\qquad \\frac{a_1}{a_2} =";
     result += getA1(a1.level) / getA2(a2.level);
     return result;
