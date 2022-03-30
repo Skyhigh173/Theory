@@ -263,7 +263,7 @@ var updateAvailability = () => {
     BuyBT.isAvailable = Lemma.level == (MainPage) && a4.level >= 5 && UnK.level > 0 && BuyBT.level == 0;
     UnK.isAvailable = Lemma.level == (MainPage) && a4.level >= 2 && UnK.level == 0;
     UnlockXi.isAvailable = Lemma.level == (MainPage) && UnlockXi.level == 0 && a5.level > 0;
-    UnlockN.isAvailable = Lemma.level == (MainPage) && K.level >= 2 && UnlockN.level == 0;
+    UnlockN.isAvailable = Lemma.level == (MainPage) && K.level >= 2 && UnlockN.level < 2;
     UnlockQ.isAvailable = Lemma.level == (MainPage) && K.level >= 4 && UnlockQ.level == 0;
     
     K.isAvailable = Lemma.level == (MainPage) && UnK.level > 0;
