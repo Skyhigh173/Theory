@@ -220,7 +220,7 @@ var init = () => {
         BuyBT.isAvailable = false;
     }
     {
-        UnlockN = theory.createPermanentUpgrade(12, currency, new ExponentialCost(1e8, 1e22));
+        UnlockN = theory.createPermanentUpgrade(12, currency, new LinearCost(1e8, 22));
         UnlockN.maxLevel = 2;
         UnlockN.getDescription = (amount) => {
             if (UnlockN.level == 0) return Localization.getUpgradeUnlockDesc("n_1");
