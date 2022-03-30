@@ -5,7 +5,7 @@ import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
 var id = "theory10-null";
-var name = "T10";
+var name = "I know this name is a bit long but pls listen to me. this is a normal theory";
 var description = "A j100ba,s'ic ?!the!o!.ry.. \n101011010001001111010001010111001001010001010101010010";
 var authors = "ERROR LOL \n \n \n print(gg)";
 var version = "4.1";
