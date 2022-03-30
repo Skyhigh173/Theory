@@ -339,6 +339,7 @@ var getSecondaryEquation = () => {
 var postPublish = () => {
     PubTimes += 1;
     n1 = 0;
+    n2 = 0;
 }
 var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 20));
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times ( 1 + \\frac{P}{20} )";
