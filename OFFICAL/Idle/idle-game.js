@@ -20,7 +20,7 @@ var version = "Alpha v0.1.2";
 var currency;
 var Pub, BuyAll, Auto;
 var a1, a2, a3, a4, a5;
-var b1, b2, n1, n2;
+var b1, b2;
 var starU, star;
 var BuyBT, UnlockXi, UnlockQ, UnlockN;
 var UnK, K;
