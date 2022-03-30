@@ -283,9 +283,9 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    if (UnlockN.level == 1) n1 += getDN1(dn1.level);
-    if (UnlockN.level == 2) n1 += getDN1(dn1.level) * n2;
-    if (UnlockN.level == 2) n2 += getDN2(dn2.level);
+    if (UnlockN.level > 0) n1 += getDN1(dn1.level);
+    if (UnlockN.level > 1) n1 += getDN1(dn1.level) * n2;
+    if (UnlockN.level > 1) n2 += getDN2(dn2.level);
     
     let Q = 1
     if (UnlockQ.level == 0) {
