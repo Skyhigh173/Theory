@@ -289,9 +289,9 @@ var tick = (elapsedTime, multiplier) => {
     
     let Q = 1
     if (UnlockQ.level == 0) {
-        Q += 0;
+        Q = 1;
     } else {
-        Q += getA1(a1.level).pow(3) - 1;
+        Q = getA1(a1.level).pow(2) - 1;
     }
     
     
@@ -326,7 +326,7 @@ var getSecondaryEquation = () => {
         let result = theory.latexSymbol + "=\\max\\rho";
         result += "\\qquad P =";
         result += PubTimes;
-        if (UnlockQ.level > 0) result += "\\qquad q = a_{1}^{3}";
+        if (UnlockQ.level > 0) result += "\\qquad q = a_{1}^{2}";
         return result;
     }
     if (Lemma.level == Xi12Page) {
