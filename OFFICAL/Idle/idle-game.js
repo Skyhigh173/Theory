@@ -13,9 +13,9 @@ quaternaryEntries = [];
 
 var id = "idle-game";
 var name = "Idle Game";
-var description = "yes it is a idle game. trust me";
+var description = "A idle game that will unlocks a lots of thing during mid-game.";
 var authors = "skyhigh173";
-var version = "Alpha v0.1.0";
+var version = "Alpha v0.1.2";
 
 var currency;
 var Pub, BuyAll, Auto;
@@ -25,8 +25,8 @@ var starU, star;
 var BuyBT, UnlockXi, UnlockQ, UnlockN;
 var UnK, K;
 var Lemma;
-var xi1, xi2, xi3, xi4;
-var n1 = BigNumber.ZERO, dn1;
+var xi = BigNumber.ONE, xi1 = BigNumber.ONE, xi2 = BigNumber.ONE, xi3 = BigNumber.ONE, xi4 = BigNumber.ONE;
+var n1 = BigNumber.ZERO, n2 = BigNumber.ONE, dn1, dn2;
 
 var Ch1, Ch2, Ch3;
 /////////////////
@@ -139,12 +139,24 @@ var init = () => {
     }
     //n1
     {
-        let getDesc = (level) => "\\dot{n}_1=" + getDN1(dn1.level);
+        let getDesc = (level) => {
+            if (UnlockN.level == 1) return "\\dot{n}_1=" + getDN1(dn1.level);
+            if (UnlockN.level == 2) return "\\dot{n}_1=" + getDN1(dn1.level) + " \\times n_2";
+        }
         dn1 = theory.createUpgrade(13, currency, new ExponentialCost(1e8, Math.log2(4.5)));
         dn1.getDescription = (_) => Utils.getMath(getDesc(dn1.level));
-        dn1.getInfo = (amount) => "Increase n faster";
+        dn1.getInfo = (amount) => "Increase n1";
         dn1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
         dn1.isAvailable = false;
+    }
+    //n2
+    {
+        let getDesc = (level) => "\\dot{n}_2=" + getDN2(dn2.level);
+        dn2 = theory.createUpgrade(14, currency, new ExponentialCost(1e28, Math.log2(4.8)));
+        dn2.getDescription = (_) => Utils.getMath(getDesc(dn2.level));
+        dn2.getInfo = (amount) => "Increase n2";
+        dn2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+        dn2.isAvailable = false;
     }
     
     /////////////////////
@@ -208,10 +220,16 @@ var init = () => {
         BuyBT.isAvailable = false;
     }
     {
-        UnlockN = theory.createPermanentUpgrade(12, currency, new ExponentialCost(1e8, Math.log2(15)));
-        UnlockN.maxLevel = 1;
-        UnlockN.getDescription = (amount) => Localization.getUpgradeUnlockDesc("n_1");
-        UnlockN.getInfo = (amount) => Localization.getUpgradeUnlockInfo("n_1");
+        UnlockN = theory.createPermanentUpgrade(12, currency, new ExponentialCost(1e8, 1e22));
+        UnlockN.maxLevel = 2;
+        UnlockN.getDescription = (amount) => {
+            if (UnlockN.level == 0) return Localization.getUpgradeUnlockDesc("n_1");
+            if (UnlockN.level == 1) return Localization.getUpgradeUnlockDesc("n_2");
+        }
+        UnlockN.getInfo = (amount) => {
+            if (UnlockN.level == 0) return Localization.getUpgradeUnlockInfo("n_1");
+            if (UnlockN.level == 1) return Localization.getUpgradeUnlockInfo("n_2");
+        }
         UnlockN.isAvailable = false;
     }
 
@@ -258,22 +276,29 @@ var updateAvailability = () => {
     b1.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 0;
     b2.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 1;
     dn1.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 0;
+    dn2.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    n1 += getDN1(dn1.level);
+    if (UnlockN.level == 1) n1 += getDN1(dn1.level);
+    if (UnlockN.level == 2) n1 += getDN1(dn1.level) * n2;
+    if (UnlockN.level == 2) n2 += getDN2(dn2.level);
+    
     let Q = 1
     if (UnlockQ.level == 0) {
         Q += 0;
     } else {
         Q += getA1(a1.level).pow(3) - 1;
     }
-
+    
+    
+    
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level) + getA5(a5.level);
     currency.value += bonus * dt * ( TotalA * getK(K.level) + BigNumber.from(n1) * Q );
+    
     updateAvailability();
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
@@ -281,12 +306,14 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
+    
     if (Lemma.level == MainPage) {
         let result = "\\dot{\\rho} = ( \\sum_{i=1}^{} a_i )";
         if (UnK.level > 0) result += " \\times K";
         if (UnlockN.level > 0) result += " + n_1";
         if (UnlockQ.level > 0) result += "q";
         return result;
+        
     } else if (Lemma.level == Xi12Page) {
         let result = "\\xi_{1} = k_1 k_2 + k_3 q j";
         return result;
@@ -295,11 +322,17 @@ var getPrimaryEquation = () => {
 
 
 var getSecondaryEquation = () => {
-    let result = theory.latexSymbol + "=\\max\\rho";
-    result += "\\qquad P =";
-    result += PubTimes;
-    if (UnlockQ.level > 0) result += "\\qquad q = a_{1}^{3}";
-    return result;
+    if (Lemma.level == MainPage) {
+        let result = theory.latexSymbol + "=\\max\\rho";
+        result += "\\qquad P =";
+        result += PubTimes;
+        if (UnlockQ.level > 0) result += "\\qquad q = a_{1}^{3}";
+        return result;
+    }
+    if (Lemma.level == Xi12Page) {
+        let result = "j = ???";
+        return result;
+    }
 }
 
 
@@ -345,24 +378,30 @@ var getB1 = (level) => {
 var getB2 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 1);
 
 var getDN1 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
-
+var getDN2 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 0);
 ////////////////
 var canGoToPreviousStage = () => Lemma.level !== 0;
 var goToPreviousStage = () => {
     Lemma.level -= 1;
-    theory.clearGraph();
+    lemmaChanged();
 }
 var canGoToNextStage = () => Lemma.level == 0 && UnlockXi.level > 0;
 var goToNextStage = () => {
     Lemma.level += 1;
-    theory.clearGraph();
+    lemmaChanged();
 } 
+
+function lemmaChanged () {
+    theory.clearGraph();
+    quaternaryEntries = [];
+}
+    
 ////////////////  
 
 
 //////
 var getQuaternaryEntries = () => {
-    if (quaternaryEntries.length == 0 && UnlockN.level > 0)
+    if (quaternaryEntries.length == 0 && UnlockN.level > 0 && Lemma.level == 0)
     {
         quaternaryEntries.push(new QuaternaryEntry("n_1", null));
         quaternaryEntries.push(new QuaternaryEntry("n_2", null));
@@ -371,7 +410,7 @@ var getQuaternaryEntries = () => {
     }
     if (quaternaryEntries.length > 0) {
         quaternaryEntries[0].value = UnlockN.level > 0 ? n1.toString() : null;
-        quaternaryEntries[1].value = null;
+        quaternaryEntries[1].value = UnlockN.level > 1 ? n2.toString() : null;
         quaternaryEntries[2].value = null;
         quaternaryEntries[3].value = null;
     }
@@ -385,10 +424,10 @@ init();
 
 //////////////////////////////////////////////////
 var WhatsNewPUP = ui.createPopup({
-    title: "Whats new in Alpha v0.1.0",
+    title: "Whats new in Alpha v0.1.2",
     content: ui.createStackLayout({
         children: [
-            ui.createLabel({text: "-Xi(more page) \n-q and n1 \n Thank you for playing!"}),
+            ui.createLabel({text: "-Xi1 part one \n-n2 \n -ouo \n Thank you for playing!"}),
             ui.createButton({text: "Close", onClicked: () => WhatsNewPUP.hide()})
             ]
     })
