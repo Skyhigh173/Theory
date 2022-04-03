@@ -409,6 +409,8 @@ var getB2 = (level) => Utils.getStepwisePowerSum(level, 2, 4, 1);
 
 var getDN1 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 var getDN2 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 0);
+
+var getK1 = (level) => Utils.getStepwisePowerSum(level, 2, 5, 0);
 ////////////////
 var canGoToPreviousStage = () => Lemma.level !== 0;
 var goToPreviousStage = () => {
