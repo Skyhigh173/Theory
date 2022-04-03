@@ -313,7 +313,7 @@ var tick = (elapsedTime, multiplier) => {
     }
     
     if (UnlockXi.level > 0) {
-        xi1 += BigNumber.from(getK1(k1.level);
+        xi1 += BigNumber.from(getK1(k1.level));
         xi = BigNumber.from(xi1 * xi2 * xi3 * xi4);
     } else {
         xi = BigNumber.ZERO;
