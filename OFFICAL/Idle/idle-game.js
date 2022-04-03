@@ -294,7 +294,7 @@ var updateAvailability = () => {
     dn1.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 0;
     dn2.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 1;
     
-    k1.isAvailable = Lemma.level =  (Xi12Page);
+    k1.isAvailable = Lemma.level == (Xi12Page);
 }
 
 var tick = (elapsedTime, multiplier) => {
