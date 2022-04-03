@@ -28,13 +28,17 @@ var Lemma;
 var xi = BigNumber.ONE, xi1 = BigNumber.ONE, xi2 = BigNumber.ONE, xi3 = BigNumber.ONE, xi4 = BigNumber.ONE;
 var n1 = BigNumber.ZERO, n2 = BigNumber.ONE, dn1, dn2;
 
+var k1, k2, k3;
+
+
 var Ch1, Ch2, Ch3;
 /////////////////
 var MainPage = 0;
 var Xi12Page = 1;
 var Xi34Page = 2;
 var ThetaPage = 3;
-var Rho2Page = 4;
+var DerivativePage = 4;
+var Rho2Page = 5;
 /////////////////
 
 var PubTimes = 0;
@@ -159,6 +163,18 @@ var init = () => {
         dn2.isAvailable = false;
     }
     
+    ///////////X1 & X2
+    
+    //k1
+    {
+        let getDesc = (level) => "k_1=" + getK1(k1.level);
+        k1 = theory.createUpgrade(50, currency, new ExponentialCost(2e10, Math.log2(4)));
+        k1.getDescription = (_) => Utils.getMath(getDesc(k1.level));
+        k1.getInfo = (amount) => "Increase k1";
+        k1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+    }
+    
+    
     /////////////////////
     // Permanent Upgrades
     
@@ -277,6 +293,8 @@ var updateAvailability = () => {
     b2.isAvailable = Lemma.level == (MainPage) && BuyBT.level > 1;
     dn1.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 0;
     dn2.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 1;
+    
+    k1.isAvailable = Lemma.level =  (Xi12Page);
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -294,10 +312,15 @@ var tick = (elapsedTime, multiplier) => {
         Q = getA1(a1.level).pow(2) - 1;
     }
     
-    
+    if (UnlockXi.level > 0) {
+        xi1 += BigNumber.from(getK1(k1.level);
+        xi = BigNumber.from(xi1 * xi2 * xi3 * xi4);
+    } else {
+        xi = BigNumber.ZERO;
+    }
     
     let TotalA = getA1(a1.level) + getA2(a2.level) + getA3(a3.level) + getA4(a4.level) + getA5(a5.level);
-    currency.value += bonus * dt * ( TotalA * getK(K.level) + BigNumber.from(n1) * Q );
+    currency.value += bonus * dt * ( TotalA * getK(K.level) + BigNumber.from(n1) * Q ) + xi;
     
     updateAvailability();
     theory.invalidatePrimaryEquation();
@@ -312,6 +335,7 @@ var getPrimaryEquation = () => {
         if (UnK.level > 0) result += " \\times K";
         if (UnlockN.level > 0) result += " + n_1";
         if (UnlockQ.level > 0) result += "q";
+        if (UnlockXi.level > 0) result += "+ \\xi";
         return result;
         
     } else if (Lemma.level == Xi12Page) {
@@ -327,6 +351,7 @@ var getSecondaryEquation = () => {
         result += "\\qquad P =";
         result += PubTimes;
         if (UnlockQ.level > 0) result += "\\qquad q = a_{1}^{2}";
+        if (UnlockXi.level > 0) result += "\\qquad \\xi = \\xi_{1}";
         return result;
     }
     if (Lemma.level == Xi12Page) {
@@ -340,11 +365,15 @@ var postPublish = () => {
     PubTimes += 1;
     n1 = 0;
     n2 = 0;
+    xi1 = BigNumber.ONE;
 }
 var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 20));
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times ( 1 + \\frac{P}{20} )";
 var getTau = () => currency.value;
-var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
+var get2DGraphValue = () => {
+    if (Lemma.level == MainPage) return currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
+    if (Lemma.level == Xi12Page) return BigNumber.from(xi).sign * (BigNumber.ONE + BigNumber.from(xi).abs()).log10().toNumber();
+}
 
 function getPubPerSecMulti (plus) {
     return BigNumber.from(plus);
@@ -428,7 +457,7 @@ var WhatsNewPUP = ui.createPopup({
     title: "Whats new in Alpha v0.1.2",
     content: ui.createStackLayout({
         children: [
-            ui.createLabel({text: "-Xi1 part one \n-n2 \n -ouo \n Thank you for playing!"}),
+            ui.createLabel({text: "-k1 variable (real) \n-n2 \n -ouob \n Thank you for playing!"}),
             ui.createButton({text: "Close", onClicked: () => WhatsNewPUP.hide()})
             ]
     })
