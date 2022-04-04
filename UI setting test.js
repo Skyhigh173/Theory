@@ -56,7 +56,7 @@ var getEquationOverlay = () => ui.createGrid({
     children: [
         prgbar = ui.createProgressBar({ progress: (Math.random()), verticalOptions: LayoutOptions.START })
     ]
-)};
+});
 function PRGSHOWHIDE () {
     PGB = 1 - PGB;
     return null;
