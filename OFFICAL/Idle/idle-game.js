@@ -15,7 +15,7 @@ var id = "idle-game";
 var name = "Idle Game";
 var description = "A idle game that will unlocks a lots of thing during mid-game.";
 var authors = "skyhigh173";
-var version = "Alpha v0.1.2";
+var version = "Alpha v0.1.3";
 
 var currency;
 var Pub, BuyAll, Auto;
@@ -174,6 +174,15 @@ var init = () => {
         k1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
     }
     
+    //k2
+    {
+        let getDesc = (level) => "k_2=" + k2.level + "\\times" + k1.level;
+        k2 = theory.createUpgrade(51, currency, new ExponentialCost(5e11, Math.log2(8)));
+        k2.getDescription = (_) => Utils.getMath(getDesc(k2.level));
+        k2.getInfo = (amount) => "Increase k2";
+        k2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
+    }
+    
     
     /////////////////////
     // Permanent Upgrades
@@ -235,8 +244,25 @@ var init = () => {
         }
         BuyBT.isAvailable = false;
     }
+    
+    let NCost = new CustomCost((level) =>
     {
-        UnlockN = theory.createPermanentUpgrade(12, currency, new LinearCost(1e8, 22));
+        var cost = 1e10;
+
+        switch(level+1)
+        {
+            case 1: cost = 1e8; break;
+            case 2: cost = 1e30; break;
+        }
+
+        return BigNumber.from(cost);
+    });
+ 
+
+    
+    
+    {
+        UnlockN = theory.createPermanentUpgrade(12, currency, NCost);
         UnlockN.maxLevel = 2;
         UnlockN.getDescription = (amount) => {
             if (UnlockN.level == 0) return Localization.getUpgradeUnlockDesc("n_1");
@@ -295,14 +321,16 @@ var updateAvailability = () => {
     dn2.isAvailable = Lemma.level == (MainPage) && UnlockN.level > 1;
     
     k1.isAvailable = Lemma.level == (Xi12Page);
+    k2.isAvailable = Lemma.level == (Xi12Page);
 }
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
+    let n1UnK = 1;
     
-    if (UnlockN.level > 0) n1 += getDN1(dn1.level);
-    if (UnlockN.level > 1) n1 += getDN1(dn1.level) * n2;
+    if (UnlockN.level > 1) n1UnK = n2;
+    if (UnlockN.level > 0) n1 += getDN1(dn1.level) * n1UnK;
     if (UnlockN.level > 1) n2 += getDN2(dn2.level);
     
     let Q = 1
@@ -313,7 +341,7 @@ var tick = (elapsedTime, multiplier) => {
     }
     
     if (UnlockXi.level > 0) {
-        xi1 += BigNumber.from(getK1(k1.level));
+        xi1 += BigNumber.from(getK1(k1.level) * getK2(k2.level));
         xi = BigNumber.from(xi1 * xi2 * xi3 * xi4);
     } else {
         xi = BigNumber.ZERO;
@@ -325,7 +353,9 @@ var tick = (elapsedTime, multiplier) => {
     updateAvailability();
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
+    theory.invalidateTertiaryEquation();
     theory.invalidateQuaternaryValues();
+    
 }
 
 var getPrimaryEquation = () => {
@@ -339,7 +369,7 @@ var getPrimaryEquation = () => {
         return result;
         
     } else if (Lemma.level == Xi12Page) {
-        let result = "\\xi_{1} = k_1 k_2 + k_3 q j";
+        let result = "\\xi_{1} = k_1 k_2 + k_3 q";
         return result;
     }
 }
@@ -355,11 +385,20 @@ var getSecondaryEquation = () => {
         return result;
     }
     if (Lemma.level == Xi12Page) {
-        let result = "j = ???";
+        let result = "q = a_{1}^{2}";
         return result;
     }
 }
 
+var getTertiaryEquation = () => {
+    if (Lemma.level == MainPage) {
+        if (UnlockXi.level == 0) return " ";
+        if (UnlockXi.level >= 1) return "\\xi =" + xi;
+    } else if (Lemma.level == Xi12Page) {
+        let result = "\\xi_1 =" + xi1;
+        return result;
+    }
+}
 
 var postPublish = () => {
     PubTimes += 1;
@@ -367,6 +406,10 @@ var postPublish = () => {
     n2 = 0;
     xi1 = BigNumber.ONE;
 }
+
+
+
+
 var getPublicationMultiplier = (tau) => (tau.pow(0.314) / BigNumber.TWO) * (1 + (PubTimes / 20));
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.314}}{2} \\times ( 1 + \\frac{P}{20} )";
 var getTau = () => currency.value;
@@ -411,6 +454,7 @@ var getDN1 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 var getDN2 = (level) => Utils.getStepwisePowerSum(level, 2, 6, 0);
 
 var getK1 = (level) => Utils.getStepwisePowerSum(level, 2, 5, 0);
+var getK2 = (level) => BigNumber.from(1 + level * k1.level);
 ////////////////
 var canGoToPreviousStage = () => Lemma.level !== 0;
 var goToPreviousStage = () => {
@@ -456,10 +500,10 @@ init();
 
 //////////////////////////////////////////////////
 var WhatsNewPUP = ui.createPopup({
-    title: "Whats new in Alpha v0.1.2",
+    title: "Whats new in Alpha v0.1.3",
     content: ui.createStackLayout({
         children: [
-            ui.createLabel({text: "-k1 variable (real) \n-n2 \n -ouob \n Thank you for playing!"}),
+            ui.createLabel({text: "-k1 and k2 variable (real) \n-n2 \n -xi display \n Thank you for playing!"}),
             ui.createButton({text: "Close", onClicked: () => WhatsNewPUP.hide()})
             ]
     })
