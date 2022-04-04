@@ -11,7 +11,7 @@ import { theory } from "../api/Theory";
 import { Utils } from "../api/Utils";
 
 var id = "custom_ui_id";
-var name = "Custom UI";
+var name = "Make the game crash???";
 var description = "A custom theory to demonstrate UI capabilities.";
 var authors = "Gilles-Philippe Paillé";
 var version = 1;
@@ -30,10 +30,10 @@ var init = () => {
         
   {
       settings = theory.createPermanentUpgrade(0, currency, new FreeCost());
-      settings.getDescription = (amount) => "setting";
-      settings.getInfo = (amount) => "Open Whats setting";
+      settings.getDescription = (amount) => "try click the button near Permanent";
+      settings.getInfo = (amount) => ":)";
       settings.bought = (amount) => {
-          STP.show();
+          //STP.show();
       }
   }
     ac1 = theory.createAchievement(0, "Achievement 1", "Description 1", () => currency.value > 1);
