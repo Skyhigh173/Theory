@@ -29,13 +29,13 @@ var init = () => {
     currency = theory.createCurrency();
         
   {
-        settings = theory.createPermanentUpgrade(0, currency, new FreeCost());
-        settings.getDescription = (amount) => "setting";
-        settings.getInfo = (amount) => "Open Whats setting";
-        settings.bought = (amount) => {
-            STP.show();
-        }
-    }
+      settings = theory.createPermanentUpgrade(0, currency, new FreeCost());
+      settings.getDescription = (amount) => "setting";
+      settings.getInfo = (amount) => "Open Whats setting";
+      settings.bought = (amount) => {
+          STP.show();
+      }
+  }
     ac1 = theory.createAchievement(0, "Achievement 1", "Description 1", () => currency.value > 1);
     cp1 = theory.createStoryChapter(0, "My First Chapter", "This is line 1,\nand this is line 2.\n\nNice.", () => currency.value > 10);
 }
@@ -80,3 +80,5 @@ var STP = ui.createPopup({
     })
 });
 
+
+init();
