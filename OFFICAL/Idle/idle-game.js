@@ -176,7 +176,7 @@ var init = () => {
     
     //k2
     {
-        let getDesc = (level) => "k_2=" + k2.level + "\\times" + k1.level;
+        let getDesc = (level) => "k_2=" + (k2.level + 1) + "\\times" + k1.level;
         k2 = theory.createUpgrade(51, currency, new ExponentialCost(5e11, Math.log2(8)));
         k2.getDescription = (_) => Utils.getMath(getDesc(k2.level));
         k2.getInfo = (amount) => "Increase k2";
