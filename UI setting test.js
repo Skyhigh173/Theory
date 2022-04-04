@@ -54,9 +54,7 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 var getEquationOverlay = () => ui.createGrid({
     margin: new Thickness(40, 0, 40, 0),
     children: [
-        if (PGB == 1) {
-            prgbar = ui.createProgressBar({ progress: (Math.random()), verticalOptions: LayoutOptions.START })
-        }
+        prgbar = ui.createProgressBar({ progress: (Math.random()), verticalOptions: LayoutOptions.START })
     ]
 )};
 function PRGSHOWHIDE () {
