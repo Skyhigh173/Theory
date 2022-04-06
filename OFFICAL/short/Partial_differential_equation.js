@@ -89,7 +89,7 @@ var postPublish = () => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{u}  = c \\times ( u_x + u_y + u_z) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^2}"
+    let result = "\\dot{u}  = c \\times ( u_x + u_y + u_z) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^2}";
     return result;
 }
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1}";
