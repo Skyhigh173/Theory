@@ -106,3 +106,5 @@ var getZ = (level) => {
     let index = BigNumber.E.pow(1.6) / ( BigNumber.from(x.level + 1).sqrt() );
     return BigNumber.from(level).pow(index);
 }
+
+init();
