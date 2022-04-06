@@ -31,7 +31,7 @@ var n1 = BigNumber.ZERO, n2 = BigNumber.ONE, dn1, dn2;
 var k1, k2, k3;
 
 var Enter1;
-var BuyXi2;
+var BackXi, BuyXi2;
 
 var Ch1, Ch2, Ch3;
 /////////////////
@@ -63,12 +63,24 @@ var init = () => {
     //Unlock & enter xi page
     
     {
-        Enter1 = theory.createPermanentUpgrade(69421, currency, new FreeCost());
-        Enter1.getDescription = (amount) => "";
-        Enter1.getInfo = (amount) => "Open Whats new panel";
+        Enter1 = theory.createUpgrade(69421, currency, new FreeCost());
+        Enter1.getDescription = (amount) => "Enter $\\xi_1$";
+        Enter1.getInfo = (amount) => "Open $\\xi_1$";
         Enter1.bought = (amount) => {
+            lemmaChanged();
             XiPageFull = 1;
             Enter1.level = 0;
+        }
+    }
+    
+    {
+        BackXi = theory.createPermanentUpgrade(69430, currency, new FreeCost());
+        BackXi.getDescription = (amount) => "Back";
+        BackXi.getInfo = (amount) => "Back";
+        BackXi.bought = (amount) => {
+            lemmaChanged();
+            XiPageFull = 0;
+            BackXi.level = 0;
         }
     }
     
@@ -327,6 +339,9 @@ var updateAvailability = () => {
     UnlockN.isAvailable = Lemma.level == (MainPage) && K.level >= 2 && UnlockN.level < 2;
     UnlockQ.isAvailable = Lemma.level == (MainPage) && K.level >= 4 && UnlockQ.level == 0;
     
+    Enter1.isAvailable = Lemma.level == (XiPage) && XiPageFull == 0;
+    BackXi.isAvailable = Lemma.level == (XiPage) && XiPageFull !== 0;
+    
     K.isAvailable = Lemma.level == (MainPage) && UnK.level > 0;
     a1.isAvailable = Lemma.level == (MainPage);
     a2.isAvailable = Lemma.level == (MainPage);
@@ -498,18 +513,38 @@ function lemmaChanged () {
 
 //////
 var getQuaternaryEntries = () => {
-    if (quaternaryEntries.length == 0 && UnlockN.level > 0 && Lemma.level == 0)
+    if (quaternaryEntries.length == 0)
     {
-        quaternaryEntries.push(new QuaternaryEntry("n_1", null));
-        quaternaryEntries.push(new QuaternaryEntry("n_2", null));
-        quaternaryEntries.push(new QuaternaryEntry("?", null));
-        quaternaryEntries.push(new QuaternaryEntry("?", null));
+        //Lemma1 : Main
+        if (Lemma.level == MainPage && UnlockN.level > 0) 
+        {
+            quaternaryEntries.push(new QuaternaryEntry("n_1", null));
+            quaternaryEntries.push(new QuaternaryEntry("n_2", null));
+            quaternaryEntries.push(new QuaternaryEntry("?", null));
+            quaternaryEntries.push(new QuaternaryEntry("?", null));
+        }
+        //Lemma2 Main : XiMain
+        if (Lemma.level == XiPage && XiPageFull == 0) 
+        {
+            quaternaryEntries.push(new QuaternaryEntry("\\xi_1", null));
+            quaternaryEntries.push(new QuaternaryEntry("\\xi_2", null));
+            quaternaryEntries.push(new QuaternaryEntry("\\xi_3", null));
+            quaternaryEntries.push(new QuaternaryEntry("\\xi_4", null));
+        }
     }
     if (quaternaryEntries.length > 0) {
-        quaternaryEntries[0].value = UnlockN.level > 0 ? n1.toString() : null;
-        quaternaryEntries[1].value = UnlockN.level > 1 ? n2.toString() : null;
-        quaternaryEntries[2].value = null;
-        quaternaryEntries[3].value = null;
+        if (Lemma.level == MainPage && UnlockN.level > 0) {
+            quaternaryEntries[0].value = UnlockN.level > 0 ? n1.toString() : null;
+            quaternaryEntries[1].value = UnlockN.level > 1 ? n2.toString() : null;
+            quaternaryEntries[2].value = null;
+            quaternaryEntries[3].value = null;
+        }
+        if (Lemma.level == XiPage && XiPageFull == 0) {
+            quaternaryEntries[0].value = BigNumber.from(xi1).toString();
+            quaternaryEntries[1].value = null;
+            quaternaryEntries[2].value = null;
+            quaternaryEntries[3].value = null;
+        }
     }
     return quaternaryEntries;
 }
