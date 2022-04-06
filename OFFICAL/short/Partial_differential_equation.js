@@ -94,12 +94,14 @@ var getPrimaryEquation = () => {
 }
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1}";
 
+var getTertiaryEquation = () => "U =" + BigNumber.from(U);
+
 var getPublicationMultiplier = (tau) => tau.pow(0.18) / BigNumber.TEN;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.18}}{10}";
 var getTau = () => currency.value.pow(0.1);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getC = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
+var getC = (level) => Utils.getStepwisePowerSum(level, 2, 8, 1);
 var getX = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getY = (level) => BigNumber.TWO.pow(level);
 var getZ = (level) => {
