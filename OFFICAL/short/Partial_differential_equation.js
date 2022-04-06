@@ -74,7 +74,8 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     
     U += dt * BigNumber.from( getC(c.level) * ( getX(x.level) + getY(y.level) + getZ(z.level ) ) );
-    currency.value += BigNumber.from(U) / getC(c.level).pow(2);
+    currency.value += dt * (BigNumber.from(U) / getC(c.level).pow(2));
+    theory.invalidateTertiaryEquation();
 }
 
 var getInternalState = () => `${U}`
@@ -89,6 +90,8 @@ var postPublish = () => {
 }
 
 var getPrimaryEquation = () => {
+    theory.primaryEquationHeight = 90;
+
     let result = "\\dot{u}  = c \\times ( u_x + u_y + u_z) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^2}";
     return result;
 }
