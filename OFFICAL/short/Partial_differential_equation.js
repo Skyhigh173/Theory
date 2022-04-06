@@ -73,7 +73,7 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    U += dt * BigNumber.from( getC(c.level) * ( getX(x.level) + getY(y.level) + getZ(z.level) );
+    U += dt * BigNumber.from( getC(c.level) * ( getX(x.level) + getY(y.level) + getZ(z.level ) ) );
     currency.value += U / getC(c.level).pow(2);
 }
 
