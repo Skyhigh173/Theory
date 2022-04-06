@@ -403,8 +403,8 @@ var getPrimaryEquation = () => {
         return result;
         
     } else if (Lemma.level == XiPage) {
-        if (XiPageFull == 0) return "\\xi = \\xi_1";
-        if (XiPageFull == 1) return "\\xi_{1} = k_1 k_2 + k_3 q";
+        if (XiPageFull == 0) return "\\xi = \\xi_1" + XiPageFull;
+        if (XiPageFull == 1) return "\\xi_{1} = k_1 k_2 + k_3 q" + XiPageFull;
     }
 }
 
