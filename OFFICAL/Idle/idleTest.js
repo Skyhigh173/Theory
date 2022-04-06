@@ -66,7 +66,7 @@ var init = () => {
         Enter1 = theory.createUpgrade(69421, currency, new FreeCost());
         Enter1.getDescription = (amount) => "Enter $\\xi_1$";
         Enter1.getInfo = (amount) => "Open $\\xi_1$";
-        Enter1.bought = (amount) => {
+        Enter1.boughtOrRefunded = (_) => {
             lemmaChanged();
             XiPageFull = 1;
             Enter1.level = 0;
@@ -77,7 +77,7 @@ var init = () => {
         BackXi = theory.createPermanentUpgrade(69430, currency, new FreeCost());
         BackXi.getDescription = (amount) => "Back";
         BackXi.getInfo = (amount) => "Back";
-        BackXi.bought = (amount) => {
+        BackXi.boughtOrRefunded = (_) => {
             lemmaChanged();
             XiPageFull = 0;
             BackXi.level = 0;
@@ -340,7 +340,7 @@ var updateAvailability = () => {
     UnlockQ.isAvailable = Lemma.level == (MainPage) && K.level >= 4 && UnlockQ.level == 0;
     
     Enter1.isAvailable = Lemma.level == (XiPage) && XiPageFull == 0;
-    BackXi.isAvailable = Lemma.level == (XiPage) && XiPageFull != 0;
+    BackXi.isAvailable = Lemma.level == (XiPage) && XiPageFull > 0;
     
     K.isAvailable = Lemma.level == (MainPage) && UnK.level > 0;
     a1.isAvailable = Lemma.level == (MainPage);
