@@ -340,7 +340,7 @@ var updateAvailability = () => {
     UnlockQ.isAvailable = Lemma.level == (MainPage) && K.level >= 4 && UnlockQ.level == 0;
     
     Enter1.isAvailable = Lemma.level == (XiPage) && XiPageFull == 0;
-    BackXi.isAvailable = Lemma.level == (XiPage) && XiPageFull !== 0;
+    BackXi.isAvailable = Lemma.level == (XiPage) && XiPageFull != 0;
     
     K.isAvailable = Lemma.level == (MainPage) && UnK.level > 0;
     a1.isAvailable = Lemma.level == (MainPage);
@@ -494,18 +494,19 @@ var getK2 = (level) => BigNumber.from(1 + level * k1.level);
 var canGoToPreviousStage = () => Lemma.level !== 0;
 var goToPreviousStage = () => {
     Lemma.level -= 1;
+    XiPageFull = 0;
     lemmaChanged();
 }
 var canGoToNextStage = () => Lemma.level == 0 && UnlockXi.level > 0;
 var goToNextStage = () => {
     Lemma.level += 1;
+    XiPageFull = 0;
     lemmaChanged();
 } 
 
 function lemmaChanged () {
     theory.clearGraph();
     quaternaryEntries = [];
-    XiPageFull = 0;
 }
     
 ////////////////  
