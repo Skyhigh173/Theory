@@ -30,22 +30,22 @@ var init = () => {
     
     // x
     {
-        let getDesc = (level) => "x=" + getX(level).toString(0);
-        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.65))));
+        let getDesc = (level) => "u_x =" + getX(level).toString(0);
+        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.8))));
         x.getDescription = (_) => Utils.getMath(getDesc(x.level));
         x.getInfo = (amount) => Utils.getMathTo(getDesc(x.level), getDesc(x.level + amount));
     }
     // y
     {
-        let getDesc = (level) => "y = 2^{" + level + "}";
-        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.1)));
+        let getDesc = (level) => "u_y = 2^{" + level + "}";
+        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.4)));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getDesc(y.level), getDesc(y.level + amount));
     }
     
     // z
     {
-        let getDesc = (level) => "z = " + level + "^{ e^{1.6} / \\sqrt[4]{1 + " + x.level + "}}";
+        let getDesc = (level) => "u_z = " + level + "^{ e^{1.6} / \\sqrt[4]{1 + " + x.level + "}}";
         z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.4)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getZ(z.level), getZ(z.level + amount));
@@ -73,8 +73,11 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
-    U += dt * BigNumber.from( getC(c.level) * ( getX(x.level) + getY(y.level) + getZ(z.level ) ) );
-    currency.value += dt * (BigNumber.from(U) / getC(c.level).pow(2));
+   
+    if (x.level != 0) {
+        U += dt * BigNumber.from( getC(c.level) * ( getX(x.level) + getY(y.level) + getZ(z.level ) ) );
+        currency.value += dt * (BigNumber.from(U) / getC(c.level).pow(2));
+    }
     theory.invalidateTertiaryEquation();
 }
 
@@ -97,7 +100,7 @@ var getPrimaryEquation = () => {
 }
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1}";
 
-var getTertiaryEquation = () => "U =" + BigNumber.from(U);
+var getTertiaryEquation = () => "u =" + BigNumber.from(U);
 
 var getPublicationMultiplier = (tau) => tau.pow(0.18) / BigNumber.TEN;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.18}}{10}";
