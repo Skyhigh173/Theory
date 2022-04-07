@@ -11,7 +11,8 @@ var authors = "Skyhigh173";
 var version = 2;
 
 var c, x, y, z;
-var EXP3;
+var dp;
+var EXP3, DPT;
 var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
@@ -71,7 +72,13 @@ var init = () => {
         EXP3.info = Localization.getUpgradeIncCustomExpInfo(EXPName[EXP3.level], "0.25");
         EXP3.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
-    
+        
+    {
+        DPT = theory.createMilestoneUpgrade(0, 1);
+        DPT.description = Localization.getUpgradeUnlockDesc("d \\bar{p}");
+        DPT.info = Localization.getUpgradeUnlockInfo("d \\bar{p}");
+        DPT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     updateAvailability();
 }
 var updateAvailability = () => {
@@ -84,9 +91,21 @@ var tick = (elapsedTime, multiplier) => {
     
    
     if (x.level != 0) {
-        U += dt * BigNumber.from( getC(c.level) * ( getX(x.level) + getY(y.level) + getZ(z.level ) ) );
-        currency.value += dt * (BigNumber.from(U) / getC(c.level).pow(2));
+        
+        let XEXP = getEXPNum(EXP3.level, 1);
+        let YEXP = getEXPNum(EXP3.level, 2);
+        let ZEXP = getEXPNum(EXP3.level, 3);
+        
+        dp = BigNumber.ONE;
+        if (DPT.level > 0) dp += ClacDP().pow(0.4);
+        
+        U += dt * BigNumber.from( getC(c.level) * dp * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) ) );
+        
+        
+        currency.value += bonus * dt * (BigNumber.from(U) / getC(c.level).pow(2));
     }
+    
+    theory.invalidatePrimaryEquation();
     theory.invalidateTertiaryEquation();
 }
 
@@ -104,7 +123,9 @@ var postPublish = () => {
 var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
 
-    let result = "\\dot{u} = c \\times ( u_x";
+    let result = "\\dot{u} = c ";
+    if (DPT.level > 0) result += " \\times d \\bar{p} ";
+    result += "\\times ( u_x";
     result += getEXPInfo(EXP3.level, 1);
     result += " + u_y";
     result += getEXPInfo(EXP3.level, 2);
@@ -124,6 +145,27 @@ function getEXPInfo (level, vari) {
         if (FLV == 1) return "^{1.25}";
         if (FLV >= 2) return "^{1.5}";
     }
+}
+function getEXPNum (level, vari) {
+    if (level == 0) {
+        return "";
+    } else {
+        let minus = vari * 2 - 2;
+        let FLV = level - minus;
+        if (FLV <= 0) return BigNumber.ONE;
+        if (FLV == 1) return BigNumber.from(1.25);
+        if (FLV >= 2) return BigNumber.from(1.5);
+    }
+}
+
+function CalcDP () {
+    //  from 0 to C : tar = w
+    //  (0 Down / C Up) => (x + y + z + w) dw
+    let w = BigNumber.from(getC(c.level)); //w = c
+    
+    return BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
+    //idk ouop = hard to write on programme
+    
 }
 
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1}";
