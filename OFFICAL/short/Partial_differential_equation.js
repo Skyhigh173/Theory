@@ -107,10 +107,10 @@ var tick = (elapsedTime, multiplier) => {
         dp = BigNumber.ONE;
         if (DPT.level > 0) dp += ClacDP().pow(BigNumber.from(0.4));
         
-        U += dp * dt * BigNumber.from( getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) ) );
+        U += dp * dt * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
         
-        currency.value += bonus * dt * U / getC(c.level).pow(2);
+        currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(2);
     }
     
     theory.invalidatePrimaryEquation();
