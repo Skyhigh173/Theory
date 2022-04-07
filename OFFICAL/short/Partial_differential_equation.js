@@ -105,12 +105,12 @@ var tick = (elapsedTime, multiplier) => {
         let ZEXP = getEXPNum(EXP3.level, 3);
         
         dp = BigNumber.ONE;
-        if (DPT.level > 0) dp += BigNumber.from(ClacDP()).pow(BigNumber.from(0.4));
+        if (DPT.level > 0) dp += ClacDP().pow(BigNumber.from(0.4));
         
         U += dt * BigNumber.from( getC(c.level) * dp * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) ) );
         
         
-        currency.value += bonus * dt * (BigNumber.from(U) / getC(c.level).pow(2));
+        currency.value += bonus * dt * U / getC(c.level).pow(2));
     }
     
     theory.invalidatePrimaryEquation();
