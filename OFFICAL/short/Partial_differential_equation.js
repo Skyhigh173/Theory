@@ -61,7 +61,15 @@ var init = () => {
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
     
-    
+    //ach (τ?)
+    theory.createAchievement(0, "start your journey", "Reach 1 rho", () => currency.value >= 1);
+    theory.createAchievement(1, "variable z is a lie", "Reach 10000 rho", () => currency.value >= 10000);
+    theory.createAchievement(2, "useless variable", "Reach 4 τ", () => theory.tau >= 4);
+    theory.createAchievement(3, "Publication speed", "Reach 1e8 rho", () => currency.value >= 1e8);
+    theory.createAchievement(4, "Need help", "buy a exponent upgrade", () => EXP3.level >= 1);
+    theory.createAchievement(5, "Speed : MAX", "buy all exponent upgrade", () => EXP3.level >= 6);
+    theory.createAchievement(6, "wonderful int", "buy a $d \\bar{p}$ upgrade", () => DPT.level >= 1);
+
     ///////////////////////
     //// Milestone Upgrades
     theory.setMilestoneCost(new LinearCost(10, 10));
