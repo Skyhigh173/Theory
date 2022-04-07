@@ -82,7 +82,7 @@ var init = () => {
     }
         
     {
-        DPT = theory.createMilestoneUpgrade(0, 1);
+        DPT = theory.createMilestoneUpgrade(1, 1);
         DPT.description = Localization.getUpgradeUnlockDesc("d \\bar{p}");
         DPT.info = Localization.getUpgradeUnlockInfo("d \\bar{p}");
         DPT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
