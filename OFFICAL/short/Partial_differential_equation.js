@@ -107,7 +107,7 @@ var tick = (elapsedTime, multiplier) => {
         dp = BigNumber.ONE;
         if (DPT.level > 0) dp += ClacDP().pow(0.4);
         
-        U += dt * BigNumber.from( getC(c.level) * dp * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) ) );
+        U += dt * BigNumber.from( getC(c.level) * dp * ( getX(x.level).pow(getEXPNum(EXP3.level, 1)) + getY(y.level).pow(getEXPNum(EXP3.level, 2)) + getZ(z.level).pow(getEXPNum(EXP3.level, 3)) ) );
         
         
         currency.value += bonus * dt * (BigNumber.from(U) / getC(c.level).pow(2));
