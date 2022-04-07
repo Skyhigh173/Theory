@@ -68,7 +68,7 @@ var init = () => {
     theory.createAchievement(3, "Publication speed", "Reach 1e8 rho", () => currency.value >= 1e8);
     theory.createAchievement(4, "Need help", "buy a exponent upgrade", () => EXP3.level >= 1);
     theory.createAchievement(5, "Speed : MAX", "buy all exponent upgrade", () => EXP3.level >= 6);
-    theory.createAchievement(6, "wonderful int", "buy a $d \\bar{p}$ upgrade", () => DPT.level >= 1);
+    theory.createAchievement(6, "wonderful int", "buy a dp upgrade", () => DPT.level >= 1);
 
     ///////////////////////
     //// Milestone Upgrades
