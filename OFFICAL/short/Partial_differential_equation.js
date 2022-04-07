@@ -8,9 +8,11 @@ var id = "PDE";
 var name = "Partial differential equation";
 var description = "partial differential equation (PDE) is an equation which imposes relations between the various partial derivatives of a multivariable function.";
 var authors = "Skyhigh173";
-var version = 1;
+var version = 2;
 
 var c, x, y, z;
+var EXP3;
+var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
 
@@ -61,7 +63,14 @@ var init = () => {
     
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(20, 20));
+    theory.setMilestoneCost(new LinearCost(10, 10));
+    
+    {
+        EXP3 = theory.createMilestoneUpgrade(0, 6);
+        EXP3.description = Localization.getUpgradeIncCustomExpDesc(EXPName[EXP3.level], "0.25");
+        EXP3.info = Localization.getUpgradeIncCustomExpInfo(EXPName[EXP3.level], "0.25");
+        EXP3.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     
     updateAvailability();
 }
@@ -95,15 +104,34 @@ var postPublish = () => {
 var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
 
-    let result = "\\dot{u}  = c \\times ( u_x + u_y + u_z) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^2}";
+    let result = "\\dot{u} = c \\times ( u_x";
+    result += getEXPInfo(EXP3.level, 1);
+    result += " + u_y";
+    result += getEXPInfo(EXP3.level, 2);
+    result += " + u_z";
+    result += getEXPInfo(EXP3.level, 3);
+    result += " ) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^2}";
     return result;
 }
+
+function getEXPInfo (level, vari) {
+    if (level == 0) {
+        return "";
+    } else {
+        let minus = vari * 2 - 2;
+        let FLV = level - minus;
+        if (FLV <= 0) return "";
+        if (FLV == 1) return "^{1.25}";
+        if (FLV >= 2) return "^{1.5}";
+    }
+}
+
 var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1}";
 
 var getTertiaryEquation = () => "u =" + BigNumber.from(U);
 
-var getPublicationMultiplier = (tau) => tau.pow(0.18) / BigNumber.TEN;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.18}}{10}";
+var getPublicationMultiplier = (tau) => tau.pow(2.4) / BigNumber.TEN;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2.4}}{10}";
 var getTau = () => currency.value.pow(0.1);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
