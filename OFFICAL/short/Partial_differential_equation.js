@@ -105,7 +105,8 @@ var tick = (elapsedTime, multiplier) => {
         let ZEXP = getEXPNum(EXP3.level, 3);
         
         dp = BigNumber.ONE;
-        if (DPT.level > 0) dp += ClacDP().pow(BigNumber.from(0.4));
+        let rdp = CalcDP();
+        if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.4));
         
         U += dp * dt * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
