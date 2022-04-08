@@ -72,7 +72,7 @@ var init = () => {
 
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(10, 10));
+    theory.setMilestoneCost(new LinearCost(1, 1));
     
     {
         EXP3 = theory.createMilestoneUpgrade(0, 6);
