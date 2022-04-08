@@ -156,7 +156,7 @@ function getEXPInfo (level, vari) {
 }
 function getEXPNum (level, vari) {
     if (level == 0) {
-        return "";
+        return BigNumber.ONE;
     } else {
         let minus = vari * 2 - 2;
         let FLV = level - minus;
