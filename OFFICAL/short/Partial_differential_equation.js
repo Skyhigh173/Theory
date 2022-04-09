@@ -17,6 +17,8 @@ var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
 
+var ac1, ac2, ac3;
+
 var init = () => {
     currency = theory.createCurrency();
 
@@ -43,12 +45,12 @@ var init = () => {
         let getDesc = (level) => "u_y = 2^{" + level + "}";
         y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.4)));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
-        y.getInfo = (amount) => Utils.getMathTo(getDesc(y.level), getDesc(y.level + amount));
+        y.getInfo = (amount) => Utils.getMathTo(getY(y.level), getY(y.level + amount));
     }
     
     // z
     {
-        let getDesc = (level) => "u_z = " + level + "^{ e^{1.6} / \\sqrt[4]{1 + " + x.level + "}}";
+        let getDesc = (level) => "u_z = " + level + "^{ e^{1.6} / \\sqrt{1 + " + x.level + "}}";
         z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.4)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getZ(z.level), getZ(z.level + amount));
@@ -62,22 +64,25 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
     
     //ach (τ?)
-    theory.createAchievement(0, "start your journey", "Reach 1 rho", () => currency.value >= 1);
-    theory.createAchievement(1, "variable z is a lie", "Reach 10000 rho", () => currency.value >= 10000);
-    theory.createAchievement(2, "useless variable", "Reach 4 τ", () => theory.tau >= 4);
-    theory.createAchievement(3, "Publication speed", "Reach 1e8 rho", () => currency.value >= 1e8);
-    theory.createAchievement(4, "Need help", "buy a exponent upgrade", () => EXP3.level >= 1);
-    theory.createAchievement(5, "Speed : MAX", "buy all exponent upgrade", () => EXP3.level >= 6);
-    theory.createAchievement(6, "wonderful int", "buy a dp upgrade", () => DPT.level >= 1);
-
+    
+    ac1 = theory.createAchievementCategory(0, "Progress");
+    
+    theory.createAchievement(0, ac1, "You gonna start some where", "Reach 1 rho", () => currency.value >= 1);
+    theory.createAchievement(1, ac1, "Faster than a potato", "Reach 100 rho", () => currency.value >= 100);
+    theory.createAchievement(2, ac1, "More speed!", "Reach 1e6 rho", () => currency.value >= 1e6);
+    theory.createAchievement(3, ac1, "Going up", "Reach 1e10 rho", () => currency.value >= 1e10);
+    theory.createAchievement(4, ac1, "Potato factory", "Reach 1e15 rho", () => currency.value >= 1e15);
+    theory.createAchievement(5, ac1, "Another^2 start ", "Reach 1e30 rho", () => currency.value >= 1e30);
+    theory.createAchievement(6, ac1, "gas gas gas", "Reach 1e50 rho", () => currency.value >= 1e50);
+    
     ///////////////////////
     //// Milestone Upgrades
-    theory.setMilestoneCost(new LinearCost(1, 1));
+    theory.setMilestoneCost(new LinearCost(0, 2));
     
     {
         EXP3 = theory.createMilestoneUpgrade(0, 6);
-        EXP3.description = Localization.getUpgradeIncCustomExpDesc(EXPName[EXP3.level], "0.25");
-        EXP3.info = Localization.getUpgradeIncCustomExpInfo(EXPName[EXP3.level], "0.25");
+        EXP3.description = Localization.getUpgradeIncCustomExpDesc(getExpNameVari(EXP3.level), "0.25");
+        EXP3.info = Localization.getUpgradeIncCustomExpInfo(getExpNameVari(EXP3.level), "0.25");
         EXP3.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
         
@@ -86,6 +91,7 @@ var init = () => {
         DPT.description = Localization.getUpgradeUnlockDesc("d \\bar{p}");
         DPT.info = Localization.getUpgradeUnlockInfo("d \\bar{p}");
         DPT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        
     }
     updateAvailability();
 }
@@ -115,6 +121,7 @@ var tick = (elapsedTime, multiplier) => {
     }
     
     theory.invalidatePrimaryEquation();
+    theory.invalidateSecondaryEquation();
     theory.invalidateTertiaryEquation();
 }
 
@@ -168,18 +175,33 @@ function getEXPNum (level, vari) {
 }
 
 function CalcDP () {
-    //  from 0 to C : tar = w
-    //  (0 Down / C Up) => (x + y + z + w) dw
+    // int from 0 to C : tar = w
+    // int (0 Down / C Up) => (x + y + z + w) dw
     let w = BigNumber.from(getC(c.level)); //w = c
-    
-    return BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
+    let result = BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
+    result = BigNumber.ONE + result / BigNumber.from(50); // try if this will work
+    return result;
     //idk ouop = hard to write on programme
-    
+    //toooooo powerful i will div it by (idk) 1000?
 }
 
-var getSecondaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1}";
+function getExpNameVari (vr) {
+    let vari = vr + 1;
+    if (vari <= 2) return "u_x";
+    if (vari <= 4 && vari > 2) return "u_y";
+    if (vari <= 6 && vari > 4) return "u_z";
+}
 
-var getTertiaryEquation = () => "u =" + BigNumber.from(U);
+var getSecondaryEquation = () => {
+    theory.secondaryEquationHeight = 60;
+    if (DPT.level == 0) {
+        return "";
+    } else {
+        return "p = \\int_{0}^{c} \\frac{\pi c^2}{uw}(w+u_x+u_y+u_z)dw";
+    }
+}
+
+var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\\\\\ u =" + BigNumber.from(U);
 
 var getPublicationMultiplier = (tau) => tau.pow(2.4) / BigNumber.TEN;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2.4}}{10}";
@@ -190,7 +212,7 @@ var getC = (level) => Utils.getStepwisePowerSum(level, 2, 8, 1);
 var getX = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getY = (level) => BigNumber.TWO.pow(level);
 var getZ = (level) => {
-    let index = BigNumber.E.pow(1.6) / ( BigNumber.from(x.level + 1).sqrt() );
+    let index = BigNumber.E.pow(1.6) / ( BigNumber.from(x.level + BigNumber.ONE).sqrt() );
     return BigNumber.from(level).pow(index);
 }
 
