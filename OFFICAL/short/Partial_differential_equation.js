@@ -201,7 +201,7 @@ var getSecondaryEquation = () => {
     }
 }
 
-var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\\\\\ u =" + BigNumber.from(U);
+var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\qquad u =" + BigNumber.from(U);
 
 var getPublicationMultiplier = (tau) => tau.pow(2.4) / BigNumber.TEN;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2.4}}{10}";
