@@ -12,7 +12,7 @@ var version = 2;
 
 var c, x, y, z;
 var dp;
-var EXP3, DPT;
+var EXP3, DPT, UEXP;
 var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
@@ -93,10 +93,17 @@ var init = () => {
         DPT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
         
     }
+        
+    {
+        UEXP = theory.createMilestoneUpgrade(2, 2);
+        UEXP.description = Localization.getUpgradeDecCustomDesc("\\partial c", "0.6");
+        UEXP.info = Localization.getUpgradeDecCustomInfo("\\partial c", "0.6");
+        UEXP.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     updateAvailability();
 }
 var updateAvailability = () => {
-    
+    UEXP.isAvailable = currency.value >= 1e60;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -147,7 +154,11 @@ var getPrimaryEquation = () => {
     result += getEXPInfo(EXP3.level, 2);
     result += " + u_z";
     result += getEXPInfo(EXP3.level, 3);
-    result += " ) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^2}";
+    result += " ) \\\\\\ \\dot{\\rho} =  \\frac{ \\partial^2 u}{\\partial c^{";
+    if (UEXP.level == 0) result += "2}";
+    if (UEXP.level == 1) result += "1.4}";
+    if (UEXP.level == 2) result += "0.8}";
+    
     return result;
 }
 
@@ -179,10 +190,12 @@ function CalcDP () {
     // int (0 Down / C Up) => (x + y + z + w) dw
     let w = BigNumber.from(getC(c.level)); //w = c
     let result = BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
-    result = BigNumber.ONE + result / BigNumber.from(10000); // try if this will work
+    result = BigNumber.ONE + result / BigNumber.from(9000); // try if this will work
+    if (result >= BigNumber.From(20)) result = BigNumber.From(20);
     return result;
     //idk ouop = hard to write on programme
-    //toooooo powerful i will div it by (idk) 1000?
+    //toooooo powerful i will div it by (idk) 1000? or 10000
+    //powerful thing that mulitply the thing by ee10 (removed)
 }
 
 
