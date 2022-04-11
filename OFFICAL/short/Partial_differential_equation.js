@@ -67,13 +67,15 @@ var init = () => {
     
     ac1 = theory.createAchievementCategory(0, "Progress");
     
-    theory.createAchievement(0, ac1, "You gonna start some where", "Reach 1 rho", () => currency.value >= 1);
+    theory.createAchievement(0, ac1, "Wonderful start", "Reach 1 rho", () => currency.value >= 1);
     theory.createAchievement(1, ac1, "Faster than a potato", "Reach 100 rho", () => currency.value >= 100);
     theory.createAchievement(2, ac1, "More speed!", "Reach 1e6 rho", () => currency.value >= 1e6);
     theory.createAchievement(3, ac1, "Going up", "Reach 1e10 rho", () => currency.value >= 1e10);
     theory.createAchievement(4, ac1, "Potato factory", "Reach 1e15 rho", () => currency.value >= 1e15);
     theory.createAchievement(5, ac1, "Another^2 start ", "Reach 1e30 rho", () => currency.value >= 1e30);
     theory.createAchievement(6, ac1, "gas gas gas", "Reach 1e50 rho", () => currency.value >= 1e50);
+    
+    
     
     ///////////////////////
     //// Milestone Upgrades
@@ -116,7 +118,9 @@ var tick = (elapsedTime, multiplier) => {
         let XEXP = getEXPNum(EXP3.level, 1);
         let YEXP = getEXPNum(EXP3.level, 2);
         let ZEXP = getEXPNum(EXP3.level, 3);
-        
+        let Cpow = BigNumber.from(2);
+        if (UEXP.level == 1) Cpow = BigNumber.from(1.4);
+        if (UEXP.level == 2) Cpow = BigNumber.from(0.8);
         dp = BigNumber.ONE;
         let rdp = CalcDP();
         if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.4));
@@ -124,7 +128,7 @@ var tick = (elapsedTime, multiplier) => {
         U += dp * dt * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
         
-        currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(2);
+        currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(Cpow);
     }
     
     theory.invalidatePrimaryEquation();
@@ -211,8 +215,8 @@ var getSecondaryEquation = () => {
 
 var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\qquad u =" + BigNumber.from(U);
 
-var getPublicationMultiplier = (tau) => tau.pow(2.4) / BigNumber.TEN;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2.4}}{10}";
+var getPublicationMultiplier = (tau) => tau.pow(2) / BigNumber.TEN;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2}}{10}";
 var getTau = () => currency.value.pow(0.1);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
