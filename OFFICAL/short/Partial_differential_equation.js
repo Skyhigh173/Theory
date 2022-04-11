@@ -158,7 +158,7 @@ var getPrimaryEquation = () => {
     if (UEXP.level == 0) result += "2}";
     if (UEXP.level == 1) result += "1.4}";
     if (UEXP.level == 2) result += "0.8}";
-    
+    result += "}";
     return result;
 }
 
