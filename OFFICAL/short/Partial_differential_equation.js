@@ -118,7 +118,7 @@ var init = () => {
         PERM = theory.createMilestoneUpgrade(3, 1);
         PERM.description = "Unlock Perm Upgrade";
         PERM.info = "Unlocks a new perm upgrade";
-        PERM.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        PERM.boughtOrRefunded = (_) => updateAvailability();
     }
     updateAvailability();
 }
