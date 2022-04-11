@@ -81,8 +81,8 @@ var init = () => {
     
     {
         EXP3 = theory.createMilestoneUpgrade(0, 6);
-        EXP3.description = Localization.getUpgradeIncCustomExpDesc(getExpNameVari(EXP3.level), "0.25");
-        EXP3.info = Localization.getUpgradeIncCustomExpInfo(getExpNameVari(EXP3.level), "0.25");
+        EXP3.description = Localization.getUpgradeIncCustomExpDesc("u_n", "0.25");
+        EXP3.info = Localization.getUpgradeIncCustomExpInfo("u_n", "0.25");
         EXP3.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
         
@@ -179,25 +179,20 @@ function CalcDP () {
     // int (0 Down / C Up) => (x + y + z + w) dw
     let w = BigNumber.from(getC(c.level)); //w = c
     let result = BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
-    result = BigNumber.ONE + result / BigNumber.from(1000); // try if this will work
+    result = BigNumber.ONE + result / BigNumber.from(10000); // try if this will work
     return result;
     //idk ouop = hard to write on programme
     //toooooo powerful i will div it by (idk) 1000?
 }
 
-function getExpNameVari (vr) {
-    let vari = vr + 1;
-    if (vari <= 2) return "u_x";
-    if (vari <= 4 && vari > 2) return "u_y";
-    if (vari <= 6 && vari > 4) return "u_z";
-}
+
 
 var getSecondaryEquation = () => {
     theory.secondaryEquationHeight = 60;
     if (DPT.level == 0) {
         return "";
     } else {
-        return "p = \\int_{0}^{c} \\frac{\pi c^2}{uw}(w+u_x+u_y+u_z)dw";
+        return "p = \\int_{0}^{c} \\frac{ \\pi c^2}{uw}(w+u_x+u_y+u_z)dw";
     }
 }
 
