@@ -179,7 +179,7 @@ function CalcDP () {
     // int (0 Down / C Up) => (x + y + z + w) dw
     let w = BigNumber.from(getC(c.level)); //w = c
     let result = BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
-    result = BigNumber.ONE + result / BigNumber.from(50); // try if this will work
+    result = BigNumber.ONE + result / BigNumber.from(1000); // try if this will work
     return result;
     //idk ouop = hard to write on programme
     //toooooo powerful i will div it by (idk) 1000?
