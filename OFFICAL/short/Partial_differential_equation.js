@@ -12,7 +12,8 @@ var version = 2;
 
 var c, x, y, z;
 var dp;
-var EXP3, DPT, UEXP;
+var pubM;
+var EXP3, DPT, UEXP, PERM;
 var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
@@ -28,7 +29,7 @@ var init = () => {
     // c
     {
         let getDesc = (level) => "c=" + getC(level).toString(0);
-        c = theory.createUpgrade(0, currency, new ExponentialCost(500, Math.log2(1.985)));
+        c = theory.createUpgrade(0, currency, new ExponentialCost(500, Math.log2(3.5)));
         c.getDescription = (_) => Utils.getMath(getDesc(c.level));
         c.getInfo = (amount) => Utils.getMathTo(getDesc(c.level), getDesc(c.level + amount));
     }
@@ -63,10 +64,17 @@ var init = () => {
     theory.createBuyAllUpgrade(1, currency, 1e13);
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
     
+    {
+        
+        pubM = theory.createPermanentUpgrade(3, currency, new ExponentialCost(1e20, Math.log2(24)));
+        pubM.getDescription = (_) => " $\\uparrow$ Pub multiplier by 0.5";
+        pubM.getInfo = (amount) => "Increases Pub multiplier";
+    }
+    
     //ach (τ?)
     
     ac1 = theory.createAchievementCategory(0, "Progress");
-    
+    // Progress / rho
     theory.createAchievement(0, ac1, "Wonderful start", "Reach 1 rho", () => currency.value >= 1);
     theory.createAchievement(1, ac1, "Faster than a potato", "Reach 100 rho", () => currency.value >= 100);
     theory.createAchievement(2, ac1, "More speed!", "Reach 1e6 rho", () => currency.value >= 1e6);
@@ -75,7 +83,10 @@ var init = () => {
     theory.createAchievement(5, ac1, "Another^2 start ", "Reach 1e30 rho", () => currency.value >= 1e30);
     theory.createAchievement(6, ac1, "gas gas gas", "Reach 1e50 rho", () => currency.value >= 1e50);
     
-    
+    ac2 = theory.createAchievementCategory(1, "Shadow");
+    // these are shadow achievement. They are hard/need guide to reach but they are NOT secret ach
+    theory.createAchievement(100, ac2, "Why you need to stop?", "variable z is greater than 1000", () => getZ(z.level) >= 1000);
+    theory.createAchievement(101, ac2, "We cant use that thing", "reach 1e10 rho without variable y", () => y.level == 0 && currency.value >= 1e10);
     
     ///////////////////////
     //// Milestone Upgrades
@@ -102,10 +113,18 @@ var init = () => {
         UEXP.info = Localization.getUpgradeDecCustomInfo("\\partial c", "0.6");
         UEXP.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
+    
+    {
+        PERM = theory.createMilestoneUpgrade(3, 1);
+        PERM.description = "Unlock Perm Upgrade";
+        PERM.info = "Unlocks a new perm upgrade";
+        PERM.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     updateAvailability();
 }
 var updateAvailability = () => {
     UEXP.isAvailable = currency.value >= 1e60;
+    pubM.isAvailable = PERM.level == 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -215,8 +234,8 @@ var getSecondaryEquation = () => {
 
 var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\qquad u =" + BigNumber.from(U);
 
-var getPublicationMultiplier = (tau) => tau.pow(2) / BigNumber.TEN;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2}}{10}";
+var getPublicationMultiplier = (tau) => tau.pow(2) / BigNumber.TEN * BigNumber.from(1 + pubM.level);
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{2}}{10} \\times " + (1 + pubM.level / 2);
 var getTau = () => currency.value.pow(0.1);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
