@@ -65,7 +65,6 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency, 1e30);
     
     {
-        
         pubM = theory.createPermanentUpgrade(3, currency, new ExponentialCost(1e20, Math.log2(24)));
         pubM.getDescription = (_) => " $\\uparrow$ Pub multiplier by 0.5";
         pubM.getInfo = (amount) => "Increases Pub multiplier";
@@ -124,7 +123,7 @@ var init = () => {
 }
 var updateAvailability = () => {
     UEXP.isAvailable = currency.value >= 1e60;
-    pubM.isAvailable = PERM.level == 1;
+    pubM.isAvailable = PERM.level >= 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
