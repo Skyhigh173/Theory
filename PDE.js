@@ -1,3 +1,8 @@
+/*----------
+v1:release
+----------*/
+
+
 import { ExponentialCost, FirstFreeCost, LinearCost } from "../api/Costs";
 import { Localization } from "../api/Localization";
 import { parseBigNumber, BigNumber } from "../api/BigNumber";
@@ -8,7 +13,7 @@ var id = "PDE";
 var name = "Partial differential equation";
 var description = "partial differential equation (PDE) is an equation which imposes relations between the various partial derivatives of a multivariable function.";
 var authors = "Skyhigh173";
-var version = 3;
+var version = 1;
 
 var c, x, y, z;
 var dp;
