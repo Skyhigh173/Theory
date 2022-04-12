@@ -44,14 +44,14 @@ var init = () => {
     // x
     {
         let getDesc = (level) => "u_x =" + getX(level).toString(0);
-        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(2.2))));
+        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.9))));
         x.getDescription = (_) => Utils.getMath(getDesc(x.level));
         x.getInfo = (amount) => Utils.getMathTo(getDesc(x.level), getDesc(x.level + amount));
     }
     // y
     {
         let getDesc = (level) => "u_y = 2^{" + level + "}";
-        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(3.2)));
+        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.5)));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getY(y.level), getY(y.level + amount));
     }
