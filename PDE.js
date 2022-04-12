@@ -44,14 +44,14 @@ var init = () => {
     // x
     {
         let getDesc = (level) => "u_x =" + getX(level).toString(0);
-        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.8))));
+        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(2.2))));
         x.getDescription = (_) => Utils.getMath(getDesc(x.level));
         x.getInfo = (amount) => Utils.getMathTo(getDesc(x.level), getDesc(x.level + amount));
     }
     // y
     {
         let getDesc = (level) => "u_y = 2^{" + level + "}";
-        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.4)));
+        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(3.2)));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getY(y.level), getY(y.level + amount));
     }
@@ -59,7 +59,7 @@ var init = () => {
     // z
     {
         let getDesc = (level) => "u_z = " + level + "^{ e^{1.6} / \\sqrt{1 + " + x.level + "}}";
-        z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.4)));
+        z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.5)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getZ(z.level), getZ(z.level + amount));
     }
@@ -119,8 +119,8 @@ var init = () => {
     
     {
         EXP3 = theory.createMilestoneUpgrade(0, 6);
-        EXP3.description = Localization.getUpgradeIncCustomExpDesc("u_n", "0.25");
-        EXP3.info = Localization.getUpgradeIncCustomExpInfo("u_n", "0.25");
+        EXP3.description = Localization.getUpgradeIncCustomExpDesc("u_n", "0.125");
+        EXP3.info = Localization.getUpgradeIncCustomExpInfo("u_n", "0.125");
         EXP3.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
         
@@ -217,8 +217,8 @@ function getEXPInfo (level, vari) {
         let minus = vari * 2 - 2;
         let FLV = level - minus;
         if (FLV <= 0) return "";
-        if (FLV == 1) return "^{1.25}";
-        if (FLV >= 2) return "^{1.5}";
+        if (FLV == 1) return "^{1.125}";
+        if (FLV >= 2) return "^{1.25}";
     }
 }
 function getEXPNum (level, vari) {
@@ -228,8 +228,8 @@ function getEXPNum (level, vari) {
         let minus = vari * 2 - 2;
         let FLV = level - minus;
         if (FLV <= 0) return BigNumber.ONE;
-        if (FLV == 1) return BigNumber.from(1.25);
-        if (FLV >= 2) return BigNumber.from(1.5);
+        if (FLV == 1) return BigNumber.from(1.125);
+        if (FLV >= 2) return BigNumber.from(1.25);
     }
 }
 
