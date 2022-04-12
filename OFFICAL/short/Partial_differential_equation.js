@@ -105,8 +105,8 @@ var init = () => {
     theory.createAchievement(5000, acS1, "Lucky", "you have 1/500 chance (sec) to get this achievement", () => Math.random() <= (1 / 500));
     //theory.createAchievement(5001, acS1, "Super Luck", "you have 1/5000 chance (sec) to get this achievement", () => Math.random() <= (1 / 5000));
     theory.createAchievement(5002, acS1, "Ultra Luck", "you have 1/10000 chance (sec) to get this achievement", () => Math.random() <= (1 / 10000));
-    //theory.createAchievement(5003, acS1, "ULTRA SUPER luck", "you have 1/1000000 chance (sec) to get this achievement", () => Math.random() <= (1 / 1000000));
-    theory.createAchievement(5005, acS1, "ok, you win", "you have 1/1b chance (sec) to get this achievement", () => Math.random() <= (1 / 1000000000));
+    theory.createAchievement(5003, acS1, "ULTRA SUPER luck", "you have 1/1000000 chance (sec) to get this achievement", () => Math.random() <= (1 / 1000000));
+    //theory.createAchievement(5005, acS1, "ok, you win", "you have 1/1b chance (sec) to get this achievement", () => Math.random() <= (1 / 1000000000));
     
     ///////////////////////
     //// Milestone Upgrades
