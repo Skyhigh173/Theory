@@ -1,3 +1,8 @@
+/*
+| beta edition
+*/
+
+
 import { ExponentialCost, FirstFreeCost, LinearCost } from "../api/Costs";
 import { Localization } from "../api/Localization";
 import { parseBigNumber, BigNumber } from "../api/BigNumber";
@@ -113,12 +118,13 @@ var init = () => {
     theory.setMilestoneCost(new LinearCost(0, 2));
     
     {
+        let getDesc = (level) => EXPNAME(level);
         EXP3 = theory.createMilestoneUpgrade(0, 6);
-        EXP3.description = Localization.getUpgradeIncCustomExpDesc("u_n", "0.25");
-        EXP3.info = Localization.getUpgradeIncCustomExpInfo("u_n", "0.25");
+        EXP3.description = Localization.getUpgradeIncCustomExpDesc(getDesc(EXP3.level), "0.25");
+        EXP3.info = Localization.getUpgradeIncCustomExpInfo(getDesc(EXP3.level), "0.25");
         EXP3.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
-        
+       
     {
         DPT = theory.createMilestoneUpgrade(1, 1);
         DPT.description = Localization.getUpgradeUnlockDesc("d \\bar{p}");
@@ -241,6 +247,12 @@ function CalcDP () {
     //powerful thing that mulitply the thing by ee10 (removed)
 }
 
+function EXPNAME (level) {
+    let vari = level + 1;
+    if (vari <= 2) return "u_x";
+    if (vari <= 4 && vari > 2) return "u_y";
+    if (vari <= 6 && vari > 4) return "u_z";
+}
 
 
 var getSecondaryEquation = () => {
