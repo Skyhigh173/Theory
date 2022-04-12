@@ -137,6 +137,7 @@ var init = () => {
         UEXP.description = Localization.getUpgradeDecCustomDesc("\\partial c", "0.6");
         UEXP.info = Localization.getUpgradeDecCustomInfo("\\partial c", "0.6");
         UEXP.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        UEXP.isAvailable = false;
     }
     
     {
@@ -148,7 +149,7 @@ var init = () => {
     updateAvailability();
 }
 var updateAvailability = () => {
-    UEXP.isAvailable = currency.value >= 1e90;
+    //UEXP.isAvailable = currency.value >= 1e90; let me test this first
     pubM.isAvailable = PERM.level >= 1;
 }
 
