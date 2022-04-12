@@ -149,7 +149,7 @@ var init = () => {
     updateAvailability();
 }
 var updateAvailability = () => {
-    UEXP.isAvailable = currency.value >= 1e60;
+    UEXP.isAvailable = true; //currency.value >= 1e60;
     pubM.isAvailable = PERM.level >= 1;
 }
 
