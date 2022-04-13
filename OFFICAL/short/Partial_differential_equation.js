@@ -193,6 +193,8 @@ var tick = (elapsedTime, multiplier) => {
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
     theory.invalidateTertiaryEquation();
+    
+    updateAvailability();
 }
 
 var getInternalState = () => `${U}`
