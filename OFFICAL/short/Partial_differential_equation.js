@@ -1,5 +1,6 @@
 /*
 | beta edition
+| Big fixing
 */
 
 
@@ -146,6 +147,7 @@ var init = () => {
         PERM.info = "Unlocks a new perm upgrade";
         PERM.boughtOrRefunded = (_) => updateAvailability();
     }
+    
     updateAvailability();
 }
 var updateAvailability = () => {
@@ -170,7 +172,7 @@ var tick = (elapsedTime, multiplier) => {
         let rdp = CalcDP();
         if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.4));
         
-        U += dp * dt * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
+        U += dt * dp * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
         
         currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(Cpow);
