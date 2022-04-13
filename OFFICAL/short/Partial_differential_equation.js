@@ -17,9 +17,9 @@ var authors = "Skyhigh173";
 var version = 3;
 
 var c, x, y, z;
-var dp;
+var dp, dr;
 var pubM;
-var EXP3, DPT, UEXP, PERM;
+var EXP3, DPT, DRT, UEXP, PERM;
 var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
@@ -104,8 +104,9 @@ var init = () => {
     ac3 = theory.createAchievementCategory(5, "Shadow");
     // these are shadow achievement. They are hard/need guide to reach but they are NOT secret ach
     theory.createAchievement(1000, ac3, "Why dont you stop?", "variable z is greater than 1 million", () => getZ(z.level) >= 1000000);
-    theory.createAchievement(1001, ac3, "We cant use that thing", "reach 1e10 rho without variable y", () => y.level == 0 && currency.value >= 1e10);
-    theory.createAchievement(1002, ac3, "OCD", "have variable (x/y/z) level same while level is greater than 100", () => x.level == y.level && y.level == z.level && y.level >= 100);
+    theory.createAchievement(1001, ac3, "OCD", "have variable (x/y/z) level same while level is greater than 100", () => x.level == y.level && y.level == z.level && y.level >= 100);
+    theory.createAchievement(1002, ac3, "We cant use that thing", "reach 1e10 rho without variable y", () => y.level == 0 && currency.value >= 1e10);
+    theory.createAchievement(1003, ac3, "Thats useless right?", "reach 1e30 rho without variable y", () => y.level == 0 && currency.value >= 1e30);
     
     acS1 = theory.createAchievementCategory(10, "Luck (Others)");
     theory.createAchievement(5000, acS1, "Lucky", "you have 1/500 chance (sec) to get this achievement", () => Math.random() <= (1 / 500));
@@ -131,18 +132,25 @@ var init = () => {
         DPT.description = Localization.getUpgradeUnlockDesc("d \\bar{p}");
         DPT.info = Localization.getUpgradeUnlockInfo("d \\bar{p}");
         DPT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        DPT.canBeRefunded = (_) => DRT.level == 0;
+    }
+    {
+        DRT = theory.createMilestoneUpgrade(2, 1);
+        DRT.description = Localization.getUpgradeUnlockDesc("d \\bar{r}");
+        DRT.info = Localization.getUpgradeUnlockInfo("d \\bar{r}");
+        DRT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
         
     }
         
     {
-        UEXP = theory.createMilestoneUpgrade(2, 2);
+        UEXP = theory.createMilestoneUpgrade(3, 2);
         UEXP.description = Localization.getUpgradeDecCustomDesc("\\partial c", "0.6");
         UEXP.info = Localization.getUpgradeDecCustomInfo("\\partial c", "0.6");
         UEXP.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     {
-        PERM = theory.createMilestoneUpgrade(3, 1);
+        PERM = theory.createMilestoneUpgrade(4, 1);
         PERM.description = "Unlock Perm Upgrade";
         PERM.info = "Unlocks a new perm upgrade";
         PERM.boughtOrRefunded = (_) => updateAvailability();
@@ -153,11 +161,13 @@ var init = () => {
 var updateAvailability = () => {
     UEXP.isAvailable = true; //currency.value >= 1e60;
     pubM.isAvailable = PERM.level >= 1;
+    DRT.isAvailable = DPT.level >= 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
+    
     
    
     if (x.level != 0) {
@@ -169,10 +179,12 @@ var tick = (elapsedTime, multiplier) => {
         if (UEXP.level == 1) Cpow = BigNumber.from(1.4);
         if (UEXP.level == 2) Cpow = BigNumber.from(0.8);
         dp = BigNumber.ONE;
+        dr = BigNumber.ONE;
         let rdp = CalcDP();
-        if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.4));
+        if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.6));
+        if (DRT.level > 0) dr += dp.pow(1.2);
         
-        U += dt * dp * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
+        U += dt * dp * dr * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
         
         currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(Cpow);
@@ -199,6 +211,7 @@ var getPrimaryEquation = () => {
 
     let result = "\\dot{u} = c ";
     if (DPT.level > 0) result += " \\times d \\bar{p} ";
+    if (DRT.level > 0) result += " \\times d \\bar{r} ";
     result += "\\times ( u_x";
     result += getEXPInfo(EXP3.level, 1);
     result += " + u_y";
@@ -262,7 +275,9 @@ var getSecondaryEquation = () => {
     if (DPT.level == 0) {
         return "";
     } else {
-        return "p = \\int_{0}^{c} \\frac{ \\pi c^2}{uw}(w+u_x+u_y+u_z)dw";
+        let result = "p";
+        if (DRT.level > 0) result += "r ";
+        result += = " = \\int_{0}^{c} \\frac{ \\pi c^2}{uw}(w+u_x+u_y+u_z)dw";
     }
 }
 
