@@ -1,5 +1,6 @@
 /*----------
 v1:release
+v1.1: bug fix / added dr
 HAVE SOME BUG. I WILL FIX IT
 ----------*/
 
@@ -14,12 +15,12 @@ var id = "PDE";
 var name = "Partial differential equation";
 var description = "partial differential equation (PDE) is an equation which imposes relations between the various partial derivatives of a multivariable function.";
 var authors = "Skyhigh173";
-var version = 1;
+var version = 2;
 
 var c, x, y, z;
-var dp;
+var dp, dr;
 var pubM;
-var EXP3, DPT, UEXP, PERM;
+var EXP3, DPT, DRT, UEXP, PERM;
 var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
 var U = BigNumber.ZERO;
 var currency;
@@ -45,14 +46,14 @@ var init = () => {
     // x
     {
         let getDesc = (level) => "u_x =" + getX(level).toString(0);
-        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.9))));
+        x = theory.createUpgrade(1, currency, new FirstFreeCost(new ExponentialCost(50, Math.log2(1.7))));
         x.getDescription = (_) => Utils.getMath(getDesc(x.level));
         x.getInfo = (amount) => Utils.getMathTo(getDesc(x.level), getDesc(x.level + amount));
     }
     // y
     {
         let getDesc = (level) => "u_y = 2^{" + level + "}";
-        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.5)));
+        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.7)));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getY(y.level), getY(y.level + amount));
     }
@@ -60,7 +61,7 @@ var init = () => {
     // z
     {
         let getDesc = (level) => "u_z = " + level + "^{ e^{1.6} / \\sqrt{1 + " + x.level + "}}";
-        z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.5)));
+        z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.3)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getZ(z.level), getZ(z.level + amount));
     }
@@ -74,7 +75,7 @@ var init = () => {
     
     {
         pubM = theory.createPermanentUpgrade(3, currency, new ExponentialCost(1e20, Math.log2(50)));
-        pubM.getDescription = (_) => " $\\uparrow$ Pub multiplier by 0.25";
+        pubM.getDescription = (_) => " $\\uparrow$ Pub multiplier by 0.1";
         pubM.getInfo = (amount) => "Increases Pub multiplier";
     }
     
@@ -130,11 +131,18 @@ var init = () => {
         DPT.description = Localization.getUpgradeUnlockDesc("d \\bar{p}");
         DPT.info = Localization.getUpgradeUnlockInfo("d \\bar{p}");
         DPT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-        
+        DPT.canBeRefunded = (_) => DRT.level == 0;
     }
-        
+          
     {
-        UEXP = theory.createMilestoneUpgrade(2, 2);
+        DRT = theory.createMilestoneUpgrade(2, 1);
+        DRT.description = Localization.getUpgradeUnlockDesc("d \\bar{r}");
+        DRT.info = Localization.getUpgradeUnlockInfo("d \\bar{r}");
+        DRT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        
+    }  
+    {
+        UEXP = theory.createMilestoneUpgrade(3, 2);
         UEXP.description = Localization.getUpgradeDecCustomDesc("\\partial c", "0.6");
         UEXP.info = Localization.getUpgradeDecCustomInfo("\\partial c", "0.6");
         UEXP.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
@@ -142,7 +150,7 @@ var init = () => {
     }
     
     {
-        PERM = theory.createMilestoneUpgrade(3, 1);
+        PERM = theory.createMilestoneUpgrade(4, 1);
         PERM.description = "Unlock Perm Upgrade";
         PERM.info = "Unlocks a new perm upgrade";
         PERM.boughtOrRefunded = (_) => updateAvailability();
@@ -150,8 +158,9 @@ var init = () => {
     updateAvailability();
 }
 var updateAvailability = () => {
-    //UEXP.isAvailable = currency.value >= 1e90; let me test this first
+    UEXP.isAvailable = currency.value >= 1e80; //let me test this first
     pubM.isAvailable = PERM.level >= 1;
+    DRT.isAvailable = DPT.level >= 1;
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -168,10 +177,13 @@ var tick = (elapsedTime, multiplier) => {
         if (UEXP.level == 1) Cpow = BigNumber.from(1.4);
         if (UEXP.level == 2) Cpow = BigNumber.from(0.8);
         dp = BigNumber.ONE;
+        dr = BigNumber.ONE;
         let rdp = CalcDP();
-        if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.4));
         
-        U += dp * dt * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
+        if (DPT.level > 0) dp += rdp.pow(BigNumber.from(0.4));
+        if (DRT.level > 0) dr += getX(x.level).pow(BigNumber.from(0.5));
+        if (dr >= 20) dr = BigNumber.from(20);
+        U += dt * dr * dp * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
         
         currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(Cpow);
@@ -255,14 +267,17 @@ var getSecondaryEquation = () => {
     if (DPT.level == 0) {
         return "";
     } else {
-        return "p = \\int_{0}^{c} \\frac{ \\pi c^2}{uw}(w+u_x+u_y+u_z)dw";
+        let result = "p";
+        if (DRT.level >= 1) result += " r ";
+        result += "= \\int_{0}^{c} \\frac{ \\pi c^2}{uw * u_x}(w+u_x+u_y+u_z)dw";
+        return result;
     }
 }
 
 var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\qquad u =" + BigNumber.from(U);
 
 var getPublicationMultiplier = (tau) => tau.pow(1.96) / BigNumber.TEN * BigNumber.from(1 + pubM.level / 4);
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{1.96}}{10} \\times " + (1 + pubM.level / 4);
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{1.96}}{10} \\times " + (1 + pubM.level / 10);
 var getTau = () => currency.value.pow(0.1);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
