@@ -269,7 +269,7 @@ var getSecondaryEquation = () => {
     } else {
         let result = "p";
         if (DRT.level >= 1) result += " r ";
-        result += "= \\int_{0}^{c} \\frac{ \\pi c^2}{uw * u_x}(w+u_x+u_y+u_z)dw";
+        result += "= \\int_{0}^{c} \\frac{ \\pi c^2}{uw \\times u_x}(w+u_x+u_y+u_z)dw";
         return result;
     }
 }
