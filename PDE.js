@@ -139,6 +139,7 @@ var init = () => {
         DRT.description = Localization.getUpgradeUnlockDesc("d \\bar{r}");
         DRT.info = Localization.getUpgradeUnlockInfo("d \\bar{r}");
         DRT.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        DRT.isAvailable = false;
         
     }  
     {
@@ -264,13 +265,14 @@ function CalcDP () {
 
 var getSecondaryEquation = () => {
     theory.secondaryEquationHeight = 60;
-    if (DPT.level == 0) {
-        return "";
-    } else {
-        let result = "p";
-        if (DRT.level >= 1) result += " r ";
-        result += "= \\int_{0}^{c} \\frac{ \\pi c^2}{uw \\times u_x}(w+u_x+u_y+u_z)dw";
+    if (DPT.level > 0 || DRT.level > 0) {
+        let result = "";
+        if (DPT.level >= 1) result += "p"
+        if (DRT.level >= 1) result += "r";
+        result += " = \\int_{0}^{c} \\frac{ \\pi c^2}{uw \\times u_x}(w+u_x+u_y+u_z)dw";
         return result;
+    } else {
+        return "";
     }
 }
 
