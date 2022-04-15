@@ -1,6 +1,6 @@
 /*----------
 v1:release
-v1.1: bug fix / added dr
+v1.1: bug fix / added dr / drho
 HAVE SOME BUG. I WILL FIX IT
 ----------*/
 
@@ -18,7 +18,7 @@ var authors = "Skyhigh173";
 var version = 2;
 
 var c, x, y, z;
-var dp, dr;
+var drho, dp, dr;
 var pubM;
 var EXP3, DPT, DRT, UEXP, PERM;
 var EXPName = ["u_x","u_x","u_y","u_y","u_z","u_z"];
@@ -185,8 +185,8 @@ var tick = (elapsedTime, multiplier) => {
         if (dr >= 20) dr = BigNumber.from(20);
         U += dt * dr * dp * getC(c.level) * ( getX(x.level).pow(XEXP) + getY(y.level).pow(YEXP) + getZ(z.level).pow(ZEXP) );
         
-        
-        currency.value += bonus * dt * BigNumber.from(U) / getC(c.level).pow(Cpow);
+        drho = BigNumber.from(U) / getC(c.level).pow(Cpow);
+        currency.value += bonus * dt * drho;
     }
     
     theory.invalidatePrimaryEquation();
@@ -274,7 +274,7 @@ var getSecondaryEquation = () => {
     }
 }
 
-var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\qquad u =" + BigNumber.from(U);
+var getTertiaryEquation = () => theory.latexSymbol + "=\\max\\rho^{0.1} \\qquad u =" + BigNumber.from(U) + " \\qquad \\dot{\\rho} = " + drho;
 
 var getPublicationMultiplier = (tau) => tau.pow(1.96) / BigNumber.TEN * BigNumber.from(1 + pubM.level / 4);
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{1.96}}{10} \\times " + (1 + pubM.level / 10);
