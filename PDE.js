@@ -251,6 +251,7 @@ function getEXPNum (level, vari) {
             if (FLV <= 0) return BigNumber.ONE;
             if (FLV == 1) return BigNumber.from(1.125);
             if (FLV >= 2) return BigNumber.from(1.25); 
+        }
     }
 }
 
