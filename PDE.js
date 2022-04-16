@@ -53,14 +53,14 @@ var init = () => {
     // y
     {
         let getDesc = (level) => "u_y = 2^{" + level + "}";
-        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(2.7)));
+        y = theory.createUpgrade(2, currency, new ExponentialCost(20, Math.log2(3)));
         y.getDescription = (_) => Utils.getMath(getDesc(y.level));
         y.getInfo = (amount) => Utils.getMathTo(getY(y.level), getY(y.level + amount));
     }
     
     // z
     {
-        let getDesc = (level) => "u_z = " + level + "^{ e^{1.6} / \\sqrt{1 + " + x.level + "}}";
+        let getDesc = (level) => "u_z = " + level + "^{ e^{1.7} / \\sqrt{1 + " + x.level + "}}";
         z = theory.createUpgrade(3, currency, new ExponentialCost(400, Math.log2(2.3)));
         z.getDescription = (_) => Utils.getMath(getDesc(z.level));
         z.getInfo = (amount) => Utils.getMathTo(getZ(z.level), getZ(z.level + amount));
@@ -159,9 +159,10 @@ var init = () => {
     updateAvailability();
 }
 var updateAvailability = () => {
-    UEXP.isAvailable = currency.value >= 1e80; //let me test this first
+    UEXP.isAvailable = currency.value >= 1e80 || UEXP.level >= 1; //let me test this first
     pubM.isAvailable = PERM.level >= 1;
-    DRT.isAvailable = DPT.level >= 1;
+    
+    DRT.isAvailable = DPT.level >= 1; //WHYYYYYYY
 }
 
 var tick = (elapsedTime, multiplier) => {
@@ -193,6 +194,7 @@ var tick = (elapsedTime, multiplier) => {
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
     theory.invalidateTertiaryEquation();
+    updateAvailability();
 }
 
 var getInternalState = () => `${U}`
@@ -242,9 +244,13 @@ function getEXPNum (level, vari) {
     } else {
         let minus = vari * 2 - 2;
         let FLV = level - minus;
-        if (FLV <= 0) return BigNumber.ONE;
-        if (FLV == 1) return BigNumber.from(1.125);
-        if (FLV >= 2) return BigNumber.from(1.25);
+        if (vari == 2) {
+            if (FLV <= 0) return BigNumber.ONE;
+            if (FLV >= 1) return BigNumber.from(1.05); //sorry but it will DESTROY the game
+        } else {
+            if (FLV <= 0) return BigNumber.ONE;
+            if (FLV == 1) return BigNumber.from(1.125);
+            if (FLV >= 2) return BigNumber.from(1.25); 
     }
 }
 
@@ -253,7 +259,7 @@ function CalcDP () {
     // int (0 Down / C Up) => (x + y + z + w) dw
     let w = BigNumber.from(getC(c.level)); //w = c
     let result = BigNumber.from(w * ((w + 2 * ( getX(x.level) + getY(y.level) + getZ(z.level) ) ) / 2));
-    result = BigNumber.ONE + result / BigNumber.from(9000); // try if this will work
+    result = BigNumber.ONE + result / BigNumber.from(8500); // try if this will work
     if (result >= BigNumber.From(20)) result = BigNumber.From(20);
     return result;
     //idk ouop = hard to write on programme
@@ -284,10 +290,10 @@ var getTau = () => currency.value.pow(0.1);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 var getC = (level) => Utils.getStepwisePowerSum(level, 2, 8, 1);
-var getX = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getX = (level) => Utils.getStepwisePowerSum(level, 4, 6, 0);
 var getY = (level) => BigNumber.TWO.pow(level);
 var getZ = (level) => {
-    let index = BigNumber.E.pow(1.6) / ( BigNumber.from(x.level + BigNumber.ONE).sqrt() );
+    let index = BigNumber.E.pow(1.7) / ( BigNumber.from(x.level + BigNumber.ONE).sqrt() );
     return BigNumber.from(level).pow(index);
 }
 
