@@ -21,9 +21,8 @@ var init = () => {
 
     // D1
     {
-        let getDesc = (level) => "\\dot{q}_1=" + getDQ1(level).toString(0) + "\\times q_2";
-        let getInfo = (level) => "\\dot{q}_1=" + (getDQ1(level) * q2).toString();
-        D1 = theory.createUpgrade(0, currency, new FreeCost());
-        D1.getDescription = (amount) => Utils.getMath(getDesc(dq1.level));
-        D1.getInfo = (amount) => Utils.getMathTo(getInfo(dq1.level), getInfo(dq1.level + amount));
+        let getDesc = (level) => "D_1 =" + 
+        D1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(1.6))));
+        D1.getDescription = (amount) => Utils.getMath(getDesc(D1.level));
+        D1.getInfo = "$D_1$ per second : ";
     }
