@@ -17,13 +17,14 @@ var authors = "sky =(";
 var version = 1;
 
 var getUpgradeListDelegate = () => {
-    ui.createGrid({
+    grid = ui.createGrid({
                 columnDefinitions: ["40*", "auto"],
                 children: [
                     ui.createButton({text: "Challenge1", row: 0, column: 0, onClicked: () => Empty()}),
                     ui.createButton({text: "Challenge2", row: 0, column: 1, onClicked: () => Empty()}),
                 ]
             })
+    return grid;
 }
 
 
