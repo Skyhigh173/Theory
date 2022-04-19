@@ -18,7 +18,7 @@ var version = 1;
 
 var getUpgradeListDelegate = () => {
     grid = ui.createGrid({
-                columnDefinitions: ["1*", "50"],
+                columnDefinitions: ["1*", "auto"],
                 children: [
                     ui.createButton({text: "Challenge1", row: 0, column: 0, onClicked: () => Empty()}),
                     ui.createButton({text: "Challenge2", row: 0, column: 1, onClicked: () => Empty()}),
