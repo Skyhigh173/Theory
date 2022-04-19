@@ -62,7 +62,7 @@ var getPrimaryEquation = () => {
 var getPublicationMultiplier = (tau) => tau.pow(0.001) / BigNumber.HUNDRED;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.001}}{100}";
 var getTau = () => currency1.value;
-var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
+var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 var getA1 = (level) => Utils.getStepwisePowerSum(level, 8, 2, 0) + BigNumber.from(a2.level * BigNumber.from("1e300"));
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 120, 2, 0);
