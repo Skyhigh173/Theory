@@ -80,7 +80,7 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.00
 var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
-var getA1 = (level) => Utils.getStepwisePowerSum(level, 4, 3, 0) + BigNumber.from(getA2(a2.level));
+var getA1 = (level) => Utils.getStepwisePowerSum(level, 8, 3, 0) + BigNumber.from(getA2(a2.level));
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 120, 2, 0) + BigNumber.from(getA3(a3.level));
 var getA3 = (level) => Utils.getStepwisePowerSum(level, 1e16, 2, 0) + BigNumber.from(getA4(a4.level));
 var getA4 = (level) => Utils.getStepwisePowerSum(level, 1e30, 2, 0);
