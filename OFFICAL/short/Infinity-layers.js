@@ -30,7 +30,7 @@ var init = () => {
     // a2
     {
         let getDesc = (level) => " \\alpha_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(1e300, Math.log2(4)));
+        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(1e15, Math.log2(4)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
     }
@@ -69,7 +69,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = \\aleph_0";
+    let result = "\\dot{\\rho} = \\alpha";
 
 
     return result;
