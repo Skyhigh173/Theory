@@ -23,7 +23,7 @@ var getUpgradeListDelegate = () => {
                     ui.createButton({text: "Challenge1", row: 0, column: 0, onClicked: () => Empty()}),
                     ui.createButton({text: "Challenge2", row: 0, column: 1, onClicked: () => Empty()}),
                 ]
-            }),
+            })
 }
 
 
