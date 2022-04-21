@@ -38,7 +38,7 @@ var init = () => {
     //a2
     {
         let getDesc = (level) => "a_2=" + getA2(level);
-        a2 = theory.createUpgrade(1, currency, new ExponentialCost(200, Math.log2(2.4)));
+        a2 = theory.createUpgrade(1, currency, new ExponentialCost(20, Math.log2(2.4)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
