@@ -129,7 +129,7 @@ var getTau = () => currency.value;
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
-var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 9, 0);
+var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 9, 1);
 var getA3 = (level) => BigNumber.TWO.pow(level);
 var getA4 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 
