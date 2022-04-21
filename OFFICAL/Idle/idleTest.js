@@ -63,7 +63,7 @@ var init = () => {
     //Unlock & enter xi page
     
     {
-        Enter1.isAutoBuyable = false;
+        Enter1.isAutoBuyable = (_) => false;
         Enter1 = theory.createUpgrade(69421, currency, new FreeCost());
         Enter1.getDescription = (amount) => "Enter $\\xi_1$";
         Enter1.getInfo = (amount) => "Open $\\xi_1$";
