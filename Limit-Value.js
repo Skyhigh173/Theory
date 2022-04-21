@@ -106,7 +106,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\dot{\\rho} = a_1 a_2 \\times a_3 q";
+    let result = "\\dot{\\rho} = a_1 a_2 + a_3 q";
 
     return result;
 }
