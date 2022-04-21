@@ -29,7 +29,7 @@ var init = () => {
     //a1 
     {
         let getDesc = (level) => "a_1=" + getA1(level);
-        a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(10, Math.log2(2.5))));
+        a1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(1.98))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
         a1.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -38,7 +38,7 @@ var init = () => {
     //a2
     {
         let getDesc = (level) => "a_2=" + getA2(level);
-        a2 = theory.createUpgrade(1, currency, new ExponentialCost(20, Math.log2(2.4)));
+        a2 = theory.createUpgrade(1, currency, new ExponentialCost(20, Math.log2(1.8)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
         a2.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -55,8 +55,8 @@ var init = () => {
     
     //a4
     {
-        let getDesc = (level) => "a_1=" + getA4(level);
-        a4 = theory.createUpgrade(3, currency, new ExponentialCost(140, Math.log2(2.48)));
+        let getDesc = (level) => "a_4=" + getA4(level);
+        a4 = theory.createUpgrade(3, currency, new ExponentialCost(140, Math.log2(1.97)));
         a4.getDescription = (_) => Utils.getMath(getDesc(a4.level));
         a4.getInfo = (amount) => Utils.getMathTo(getDesc(a4.level), getDesc(a4.level + amount));
         a4.boughtOrRefunded = (_) => { theory.invalidatePrimaryEquation(); updateAvailability(); };
@@ -131,6 +131,6 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
 var getA2 = (level) => Utils.getStepwisePowerSum(level, 2, 9, 1);
 var getA3 = (level) => BigNumber.TWO.pow(level);
-var getA4 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 0);
+var getA4 = (level) => Utils.getStepwisePowerSum(level, 2, 8, 5);
 
 init();
