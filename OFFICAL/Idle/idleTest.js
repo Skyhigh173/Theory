@@ -63,6 +63,7 @@ var init = () => {
     //Unlock & enter xi page
     
     {
+        Enter1.isAutoBuyable = false;
         Enter1 = theory.createUpgrade(69421, currency, new FreeCost());
         Enter1.getDescription = (amount) => "Enter $\\xi_1$";
         Enter1.getInfo = (amount) => "Open $\\xi_1$";
@@ -403,8 +404,8 @@ var getPrimaryEquation = () => {
         return result;
         
     } else if (Lemma.level == XiPage) {
-        if (XiPageFull == 0) return "\\xi = \\xi_1" + XiPageFull;
-        if (XiPageFull == 1) return "\\xi_{1} = k_1 k_2 + k_3 q" + XiPageFull;
+        if (XiPageFull == 0) return "\\xi = \\xi_1";
+        if (XiPageFull == 1) return "\\xi_{1} = k_1 k_2 + k_3 q";
     }
 }
 
