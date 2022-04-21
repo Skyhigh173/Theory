@@ -97,11 +97,12 @@ var tick = (elapsedTime, multiplier) => {
     let t1 = va1 * va2;
     let tq = va4 - va1;
     tq = tq / BigNumber.TEN;
-    if (tq < BigNumber.ZERO) tq = BigNumber.ZERO;
+    if (tq < BigNumber.ZERO || a4.level == 0) tq = BigNumber.ZERO;
     
     let tF = t1 + va3 * tq;
     
-    currency.value += dt * bonus * tF;
+    currency.value += 5 * dt * bonus * tF;
+    //base reward : 5
     theory.invalidateTertiaryEquation();
 }
 
