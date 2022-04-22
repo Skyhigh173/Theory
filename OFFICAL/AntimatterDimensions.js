@@ -31,7 +31,15 @@ var IC1, IC2, IC3, IC4, IC5, IC6, IC7, IC8;   // |  infinity challenge  |
 C1 = C2 = C3 = C4 = C5 = C6 = C7 = C8 = false;
 IC1 = IC2 = IC3 = IC4 = IC5 = IC6 = IC7 = IC8 = false;
 
-
+// news!
+var news = [
+    "The cookie is a lie.",
+    "No, mom, I can't pause this game.",
+    "Do you know? Matter is a lie!",
+    "I have a 9th, i have a dimension..."
+    
+    
+]
 
 
 var init = () => {
