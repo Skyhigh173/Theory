@@ -10,7 +10,7 @@ var description = "ad. ";
 var authors = "=)";
 var version = 1;
 
-
+var Lemma;
 
 // currency
 var Antimatter;
@@ -36,3 +36,16 @@ IC1 = IC2 = IC3 = IC4 = IC5 = IC6 = IC7 = IC8 = false;
 
 var init = () => {
     Antimatter = theory.createCurrency();
+    
+    {
+        Lemma = theory.createUpgrade(0, currency, new FreeCost());
+        Lemma.description = Localization.getUpgradeProveLemma(1);
+        Lemma.info = Localization.getUpgradeProveLemma(1);
+        Lemma.boughtOrRefunded = (_) => theory.clearGraph();
+        Lemma.isAvailable = false; // always unavailable
+    }
+    
+    ///////////////////
+    // Regular Upgrades
+    
+    // Dimensions & tickspeed
