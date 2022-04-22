@@ -17,5 +17,6 @@ var Antimatter;
 var DB, AG;
 
 // normal dimensions
-var d1, d2, d3, d4, d5, d6, d7, d8;
-var md1, md2, md3, md4, md5, md6, md7, md8;
+var d1, d2, d3, d4, d5, d6, d7, d8;           // bought dimension
+var dd1, dd2, dd3, dd4, dd5, dd6, dd7, dd8;   //  auto  dimension
+var md1, md2, md3, md4, md5, md6, md7, md8;   // multi  dimension
