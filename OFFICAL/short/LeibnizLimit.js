@@ -10,7 +10,46 @@ var description = "A theory thats limit to pi.";
 var authors = "Skyhigh173";
 var version = 1;
 
-var k, q1, q2;
+var k, q1, q2, q;
+var autobuyer, q1Exp;
+var currency;
+
+var init = () => {
+    currency = theory.createCurrency();
+
+    ///////////////////
+    // Regular Upgrades
+
+    // k
+    {
+        let getDesc = (level) => "k=" + getK(level).toString(0);
+        k = theory.createUpgrade(0, currency, new ExponentialCost(10, Math.log2(4.2)));
+        k.getDescription = (_) => Utils.getMath(getDesc(k.level));
+        k.getInfo = (amount) => Utils.getMathTo(getDesc(k.level), getDesc(k.level + amount));
+        
+    }
+  
+
+    // q1
+    {
+        let getDesc = (level) => "q_1=" + getQ1(level).toString(0);
+        q1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(5, Math.log2(1.85))));
+        q1.getDescription = (_) => Utils.getMath(getDesc(q1.level));
+        q1.getInfo = (amount) => Utils.getMathTo(getDesc(q1.level), getDesc(q1.level + amount));
+        
+    }
+        
+    // q2 
+    {
+        let getDesc = (level) => "q_2=2^{" + level + "}";
+        let getInfo = (level) => "q_2=" + getQ2(level).toString(0);
+        q2 = theory.createUpgrade(1, currency, new ExponentialCost(100, Math.log2(3)));
+        q2.getDescription = (_) => Utils.getMath(getDesc(q2.level));
+        q2.getInfo = (amount) => Utils.getMathTo(getInfo(q2.level), getInfo(q2.level + amount));
+        
+    }
+
+
 
 
 
@@ -29,5 +68,5 @@ function Pi (n) {
   return upper / lower;
 }
 
-console.log(Limit(100000));
+
 */
