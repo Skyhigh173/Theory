@@ -36,7 +36,9 @@ var news = [
     "The cookie is a lie.",
     "No, mom, I can't pause this game.",
     "Do you know? Matter is a lie!",
-    "I have a 9th, i have a dimension..."
+    "I have a 9th, i have a dimension...",
+    "Why not?!",
+    "Uhh, this news is loooong i guess, bc it is tooooooo long and you cant see it anyway"
     
     
 ]
