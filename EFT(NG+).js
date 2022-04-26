@@ -308,7 +308,7 @@ var tick = (elapsedTime, multiplier) => {
     let c = BigNumber.from(vc1 * vc2);
 
     // these R and I values are used for coordinates on the graph
-    R = BigNumber.from(b * t.cos()); // b * cos(t) - real part of solution
+    R = BigNumber.from(b * t.min(BigNumber.TWO.pow(1023)).cos()); // b * cos(t) - real part of solution
     I = BigNumber.from(c * t.sin()); // c * i * sin(t) - "imaginary" part of solution
     max_R = max_R.max(R);
     max_I = max_I.max(I);
