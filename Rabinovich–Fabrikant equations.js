@@ -16,4 +16,4 @@ var a1;
 
 
 var systems = (v) => new Vector3(v.y * (v.z - 1 + Math.pow(v.x, 2)) + gamma * v.x, v.x * (3 * v.z + 1 - Math.pow(v.x, 2)) + gamma * v.y, -2 * v.z * (alpha + v.x * v.y));
-
+var swizzles = [(v) => new Vector3(v.y, v.z, v.x), (v) => new Vector3(v.y, v.z, v.x), (v) => new Vector3(v.x, v.y, v.z)];
