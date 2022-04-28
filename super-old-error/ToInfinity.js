@@ -15,7 +15,7 @@ var init = () => {
 }
 var tick = (elapsedTime, multiplier) => {
     for (let i = 0; i < 100; i++) {
-        currency.value *= BigNumber.from(100000000000) * currency.value.pow(currency.value.pow(currency.value.pow(currency.value)));
+        currency.value *= SIGMA(currency.value, 40);
     }
 }
 var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
@@ -24,3 +24,8 @@ var getPublicationMultiplierFormula = (symbol) => "1";
 var getTau = () => currency.value;
 var get2DGraphValue = () => 1;
 init();
+
+function SIGMA(a, b) {
+    if (b == 1) return a.pow(a);
+    return SIGMA(a.pow(a), b - 1);
+}
