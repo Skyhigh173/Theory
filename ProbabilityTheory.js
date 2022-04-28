@@ -1258,6 +1258,7 @@ var updateAvailability = () => {
 
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
+    diceMasteries = "####################################";
     
     prg += dt * getPrgSpeed(prgSpeed.level) * getSkillEffect(0);
     if (prg >= 1) {
