@@ -20,5 +20,5 @@ var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
 var getPublicationMultiplier = (tau) => BigNumber.ONE;
 var getPublicationMultiplierFormula = (symbol) => "1";
 var getTau = () => currency.value;
-var get2DGraphValue = () => BigNumber.ONE;
+var get2DGraphValue = () => 1;
 init();
