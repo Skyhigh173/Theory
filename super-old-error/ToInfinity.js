@@ -14,7 +14,9 @@ var init = () => {
     currency.value = 2;
 }
 var tick = (elapsedTime, multiplier) => {
-    currency.value *= currency.value.pow(currency.value.pow(currency.value.pow(currency.value)));
+    for (let i = 0; i < 100; i++) {
+        currency.value *= BigNumber.from(100000000000) * currency.value.pow(currency.value.pow(currency.value.pow(currency.value)));
+    }
 }
 var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
 var getPublicationMultiplier = (tau) => BigNumber.ONE;
