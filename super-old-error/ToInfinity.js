@@ -18,7 +18,7 @@ var init = () => {
     currency.value = 2;
 }
 var tick = (elapsedTime, multiplier) => {
-    currency.value *= currency.vaule.pow(currency.value);
+    currency.vaule *= currency.vaule.pow(currency.value);
 }
 
 var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
