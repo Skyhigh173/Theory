@@ -17,7 +17,7 @@ var init = () => {
 }
 var tick = (elapsedTime, multiplier) => {
     for (let i = 0; i < 100; i++) {
-        currency.value *= SIGMA(SIGMA(currency.value, 100), 100);
+        currency.value *= SIGMA(currency.value, 50);
         
     }
 }
