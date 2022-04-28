@@ -9,16 +9,16 @@ var description = "huh";
 var authors = "nobody";
 var version = 1;
 var currency;
-var t;
+
 var init = () => {
     currency = theory.createCurrency();
     currency.value = 2;
-    t = BigNumber.from(2);
+    
 }
 var tick = (elapsedTime, multiplier) => {
     for (let i = 0; i < 100; i++) {
-        currency.value *= SIGMA(currency.value, t);
-        t += BigNumber.ONE;
+        currency.value *= SIGMA(SIGMA(currency.value, 100), 100);
+        
     }
 }
 var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
