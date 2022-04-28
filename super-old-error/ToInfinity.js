@@ -9,13 +9,16 @@ var description = "huh";
 var authors = "nobody";
 var version = 1;
 var currency;
+var t;
 var init = () => {
     currency = theory.createCurrency();
     currency.value = 2;
+    t = BigNumber.from(2);
 }
 var tick = (elapsedTime, multiplier) => {
     for (let i = 0; i < 100; i++) {
-        currency.value *= SIGMA(currency.value, 40);
+        currency.value *= SIGMA(currency.value, t);
+        t += BigNumber.ONE;
     }
 }
 var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
@@ -26,6 +29,6 @@ var get2DGraphValue = () => 1;
 init();
 
 function SIGMA(a, b) {
-    if (b == 1) return a.pow(a);
+    if (b <= 1) return a.pow(a);
     return SIGMA(a.pow(a), b - 1);
 }
