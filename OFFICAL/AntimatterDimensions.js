@@ -39,8 +39,6 @@ var news = [
     "I have a 9th, i have a dimension...",
     "Why not?!",
     "Uhh, this news is loooong i guess, bc it is tooooooo long and you cant see it anyway"
-    
-    
 ]
 
 
@@ -59,3 +57,22 @@ var init = () => {
     // Regular Upgrades
     
     // Dimensions & tickspeed
+    
+       // Tick speed
+    /*{
+        let getDesc = (level) => "\\dot{q}_1=" + getDQ1(level).toString(0) + "\\times q_2";
+        let getInfo = (level) => "\\dot{q}_1=" + (getDQ1(level) * q2).toString();
+        tickspeed = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(10, Math.log2(2))));
+        tickspeed.getDescription = (amount) => Utils.getMath(getDesc(dq1.level));
+        tickspeed.getInfo = (amount) => Utils.getMathTo(getInfo(dq1.level), getInfo(dq1.level + amount));
+    }
+    */
+    
+       // d1
+    {
+        let getDesc = (level) => "D_1 = " + d1.level + dd1;
+        let getInfo = (level) => "Multiplier";
+        d1 = theory.createUpgrade(0, currency, new FirstFreeCost(new ExponentialCost(10, Math.log2(2))));
+        d1.getDescription = (amount) => Utils.getMath(getDesc(d1.level));
+        d1.getInfo = (amount) => Utils.getMathTo(getInfo(d1.level), getInfo(d1.level + amount));
+    }
