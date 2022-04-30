@@ -63,6 +63,7 @@ var init = () => {
     }
 }
 var tick = (elapsedTime, multiplier) => {
+    currency1.value += BigNumber.TEN;
 }
 
 var getPrimaryEquation = () => {
@@ -81,7 +82,7 @@ function getShiftCurrency (rho) {
     return ShiftBase.pow(BigNumber.from(cr.log10() / BigNumber.THREE - BigNumber.TEN / BigNumber.THREE));
 }
 function getShiftText () {
-    return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1.value);
+    return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1.value + BigNumber.ONE);
 }
 
 init();
