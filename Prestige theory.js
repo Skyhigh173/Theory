@@ -77,7 +77,7 @@ var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 function getShiftCurrency (rho) {
-    let cr = BigNumber.from(rho);
+    let cr = rho;
     return ShiftBase.pow(cr.log10() / BigNumber.from(1000).log10() - BigNumber.TEN / BigNumber.THREE);
 }
 function getShiftText () {
