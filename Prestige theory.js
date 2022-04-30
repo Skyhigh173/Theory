@@ -67,7 +67,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\rho_{1} = idk";
+    let result = "\\dot{\\rho}_{1} = 1000";
  
     return result;
 }
@@ -81,7 +81,7 @@ function getShiftCurrency (rho) {
     return ShiftBase.pow(BigNumber.from(rho.max(BigNumber.ONE).log10() / BigNumber.THREE - BigNumber.TEN / BigNumber.THREE));
 }
 function getShiftText () {
-    return "\dot{\rho}_{2} = " + getShiftCurrency(currency1.value);
+    return "\\{" + "\\dot{\\rho}_{2} = " + getShiftCurrency(currency1.value) + "\\}";
 }
 
 init();
@@ -110,7 +110,7 @@ var shiftpupinfo = ui.createPopup({
     content: ui.createStackLayout({
         children: [
             ui.createFrame({
-                heightRequest: 300,
+                heightRequest: 225,
                 cornerRadius: 10,
                 content: ui.createLabel({
                     text: "Currency shift is a prestige layer. \n If you do a shift, you will reset your progress, \n but give a currency (rho2).",
