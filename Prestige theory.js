@@ -92,7 +92,7 @@ var shiftpup = ui.createPopup({
         children: [
             ui.createLabel({text: "You will get : "}),
             ui.createLatexLabel({
-                text: getShiftText(),
+                text: () => getShiftText(),
                 horizontalOptions: LayoutOptions.CENTER,
                 verticalOptions: LayoutOptions.CENTER
             }),
