@@ -62,7 +62,19 @@ var init = () => {
         }
     }
 }
+var tick = (elapsedTime, multiplier) => {
+}
 
+var getPrimaryEquation = () => {
+    let result = "\\rho_{1} = idk";
+ 
+    return result;
+}
+
+var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
+var getTau = () => currency1.value;
+var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 function getShiftCurrency (rho) {
     let cr = BigNumber.from(rho);
@@ -72,6 +84,8 @@ function getShiftText () {
     return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1);
 }
 
+
+/////////////////////////////////////////////////////////////
 var shiftpup = ui.createPopup({
     title: "Currency Shift",
     content: ui.createStackLayout({
@@ -88,6 +102,23 @@ var shiftpup = ui.createPopup({
                 verticalOptions: LayoutOptions.CENTER
             }),
             ui.createButton({text: "Do Currency Shift", horizontalOptions: LayoutOptions.START})
+        ]
+    })
+});
+
+var shiftpupinfo = ui.createPopup({
+    title: "Currency Shift Info",
+    content: ui.createStackLayout({
+        children: [
+            ui.createFrame({
+                heightRequest: 100,
+                cornerRadius: 10,
+                content: ui.createLabel({
+                    text: "Currency shift is a prestige layer. \n If you do a shift, you will reset your progress, \n but give a currency (rho2).",
+                    horizontalOptions: LayoutOptions.CENTER,
+                    verticalOptions: LayoutOptions.CENTER
+                })
+            })
         ]
     })
 });
