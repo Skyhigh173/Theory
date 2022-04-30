@@ -121,3 +121,7 @@ var shiftpupinfo = ui.createPopup({
         ]
     })
 });
+
+
+
+init();
