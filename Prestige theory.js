@@ -123,4 +123,5 @@ var shiftpupinfo = ui.createPopup({
     })
 });
 
-
+var getA1 = (level) => BigNumber.ONE;
+var getA2 = (level) => BigNumber.ONE;
