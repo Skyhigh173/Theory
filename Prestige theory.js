@@ -21,6 +21,9 @@ var passed1e10 = false, passed1e80 = false;
 var a1, a2, k;
 var j;
 
+var shift, boost;
+var shiftpup;
+
 var init = () => {
     currency1 = theory.createCurrency();
     currency2 = theory.createCurrency();
@@ -38,7 +41,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_2=2^{" + level + "}";
         let getInfo = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(100, Math.log2(2.6)));
+        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(50, Math.log2(2.4)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getInfo(a2.level), getInfo(a2.level + amount));
     }
@@ -46,3 +49,20 @@ var init = () => {
     
     theory.createBuyAllUpgrade(0, currency, 1e30);
     theory.createAutoBuyerUpgrade(1, currency, 1e250);
+    
+    {
+        shift = theory.createPermanentUpgrade(10, currency1, new FreeCost());
+        shift.getDescription = (amount) => "Currency shift";
+        shift.getInfo = (amount) => "Prestige Layer 1";
+        shift.bought = (amount) => {
+            shift.level = 0;
+            shiftpup.show();
+        }
+    }
+}
+
+var shiftpup = ui.createPopup({
+    title: "Currency Shift",
+    content: ui.createStackLayout({
+        children: [
+            
