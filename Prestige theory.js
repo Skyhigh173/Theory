@@ -22,7 +22,7 @@ var a1, a2, k;
 var j;
 
 var shift, boost;
-var shiftpup;
+var shiftpup, shiftpupinfo;
 
 var ShiftBase = BigNumber.TWO;
 
@@ -76,9 +76,18 @@ var shiftpup = ui.createPopup({
     title: "Currency Shift",
     content: ui.createStackLayout({
         children: [
+            ui.createImage({
+                source: ImageSource.INFO,
+                horizontalOptions: LayoutOptions.START,
+                onClicked: () => shiftpupinfo.show();
+            }),
+            ui.createLabel({text: "You will get : "}),
             ui.createLatexLabel({
                 text: getShiftText(),
                 horizontalOptions: LayoutOptions.CENTER,
                 verticalOptions: LayoutOptions.CENTER
             }),
-            ui.createButton({text: "Do Currency Shift", horizontalOptions: LayoutOptions.START}),
+            ui.createButton({text: "Do Currency Shift", horizontalOptions: LayoutOptions.START})
+        ]
+    })
+});
