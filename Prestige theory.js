@@ -81,7 +81,7 @@ function getShiftCurrency (rho) {
     return ShiftBase.pow(BigNumber.from(rho.max(BigNumber.ONE).log10() / BigNumber.THREE - BigNumber.TEN / BigNumber.THREE));
 }
 function getShiftText () {
-    return "${" + "\\dot{\\rho}_{2} = " + getShiftCurrency(currency1.value) + "}$";
+    return "$" + "\\dot{\\rho}_{2} = " + getShiftCurrency(currency1.value) + "$";
 }
 
 init();
