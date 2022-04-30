@@ -63,7 +63,8 @@ var init = () => {
     }
 }
 var tick = (elapsedTime, multiplier) => {
-    currency1.value += BigNumber.TEN;
+    let dt = BigNumber.from(elapsedTime * multiplier);
+    currency1.value += currency1.value * dt;
 }
 
 var getPrimaryEquation = () => {
