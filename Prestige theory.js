@@ -49,8 +49,8 @@ var init = () => {
     }
     
     
-    theory.createBuyAllUpgrade(0, currency, 1e30);
-    theory.createAutoBuyerUpgrade(1, currency, 1e250);
+    theory.createBuyAllUpgrade(0, currency1, 1e30);
+    theory.createAutoBuyerUpgrade(1, currency1, 1e250);
     
     {
         shift = theory.createPermanentUpgrade(10, currency1, new FreeCost());
