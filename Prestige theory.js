@@ -110,7 +110,7 @@ var shiftpupinfo = ui.createPopup({
     content: ui.createStackLayout({
         children: [
             ui.createFrame({
-                heightRequest: 225,
+                heightRequest: 175,
                 cornerRadius: 10,
                 content: ui.createLabel({
                     text: "Currency shift is a prestige layer. \n If you do a shift, you will reset your progress, \n but give a currency (rho2).",
