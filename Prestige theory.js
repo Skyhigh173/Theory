@@ -78,11 +78,10 @@ var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 function getShiftCurrency (rho) {
-    let cr = rho;
-    return ShiftBase.pow(BigNumber.from(cr.log10() / BigNumber.THREE - BigNumber.TEN / BigNumber.THREE));
+    return ShiftBase.pow(BigNumber.from(rho.max(BigNumber.ONE).log10() / BigNumber.THREE - BigNumber.TEN / BigNumber.THREE));
 }
 function getShiftText () {
-    return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1.value + BigNumber.ONE);
+    return "\dot{\rho}_{2} = " + getShiftCurrency(currency1.value);
 }
 
 init();
@@ -97,7 +96,7 @@ var shiftpup = ui.createPopup({
                 horizontalOptions: LayoutOptions.CENTER,
                 verticalOptions: LayoutOptions.CENTER
             }),
-            ui.createButton({text: "Do Currency Shift", horizontalOptions: LayoutOptions.START}),
+            ui.createButton({text: "Do Currency Shift"}),
             ui.createButton({
                 text : "Info",
                 onClicked: () => shiftpupinfo.show()
@@ -111,7 +110,7 @@ var shiftpupinfo = ui.createPopup({
     content: ui.createStackLayout({
         children: [
             ui.createFrame({
-                heightRequest: 100,
+                heightRequest: 300,
                 cornerRadius: 10,
                 content: ui.createLabel({
                     text: "Currency shift is a prestige layer. \n If you do a shift, you will reset your progress, \n but give a currency (rho2).",
