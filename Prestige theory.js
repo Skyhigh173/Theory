@@ -78,10 +78,10 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 
 function getShiftCurrency (rho) {
     let cr = rho;
-    return ShiftBase.pow(cr.log10() / BigNumber.from(1000).log10() - BigNumber.TEN / BigNumber.THREE);
+    return ShiftBase.pow(cr.log10() / BigNumber.THREE - BigNumber.TEN / BigNumber.THREE);
 }
 function getShiftText () {
-    return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1);
+    return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1.value);
 }
 
 
