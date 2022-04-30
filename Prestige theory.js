@@ -84,7 +84,7 @@ function getShiftText () {
     return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1.value);
 }
 
-
+init();
 /////////////////////////////////////////////////////////////
 var shiftpup = ui.createPopup({
     title: "Currency Shift",
@@ -123,5 +123,3 @@ var shiftpupinfo = ui.createPopup({
 });
 
 
-
-init();
