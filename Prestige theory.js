@@ -93,7 +93,7 @@ var shiftpup = ui.createPopup({
             ui.createImage({
                 source: ImageSource.INFO,
                 horizontalOptions: LayoutOptions.START,
-                onClicked: () => shiftpupinfo.show();
+                onClicked: () => shiftpupinfo.show()
             }),
             ui.createLabel({text: "You will get : "}),
             ui.createLatexLabel({
