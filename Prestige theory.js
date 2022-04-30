@@ -24,6 +24,8 @@ var j;
 var shift, boost;
 var shiftpup;
 
+var ShiftBase = BigNumber.TWO;
+
 var init = () => {
     currency1 = theory.createCurrency();
     currency2 = theory.createCurrency();
@@ -61,8 +63,22 @@ var init = () => {
     }
 }
 
+
+function getShiftCurrency (rho) {
+    let cr = BigNumber.from(rho);
+    return ShiftBase.pow(cr.log10() / BigNumber.from(1000).log10() - BigNumber.TEN / BigNumber.THREE);
+}
+function getShiftText () {
+    return "\\dot{\\rho}_2 = " + getShiftCurrency(currency1);
+}
+
 var shiftpup = ui.createPopup({
     title: "Currency Shift",
     content: ui.createStackLayout({
         children: [
-            
+            ui.createLatexLabel({
+                text: getShiftText(),
+                horizontalOptions: LayoutOptions.CENTER,
+                verticalOptions: LayoutOptions.CENTER
+            }),
+            ui.createButton({text: "Do Currency Shift", horizontalOptions: LayoutOptions.START}),
