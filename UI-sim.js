@@ -48,6 +48,10 @@ var getPrimaryEquation = () => {
 
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
+function getPrestigeText(txt) {
+    if (txt == "db") return Game.db() + Game.b();
+    if (txt == "mu") return Game.dmu() + Game.mu();
+    if (txt == "psi") return Game.dpsi() + Game.psi();
 
 psPUP = ui.createPopup({
     title: " ",
@@ -61,4 +65,16 @@ psPUP = ui.createPopup({
             ui.createLabel({
                 text: "After you Prestige, you will have:",
                 horizontalOptions: LayoutOptions.CENTER
+            }),
+            ui.createGrid({
+                columnDefinitions: ["50*", "50*", "auto"],
+                rowDefinitions: ["50*", "50*"],
+                children: [
+                    ui.createLatexLabel({text: "$b$", row: 0, column: 0}),
+                    ui.createLatexLabel({text: "$\\mu$", row: 0, column: 1}),
+                    ui.createLatexLabel({text: "$\\psi$", row: 0, column: 2}),
+                    ui.createLatexLabel({text: getPrestigeText("db"), row: 1, column: 0}),
+                    ui.createLatexLabel({text: getPrestigeText("mu"), row: 1, column: 1}),
+                    ui.createLatexLabel({text: "$0.00$", row: 1, column: 2})
+                ]
             })
