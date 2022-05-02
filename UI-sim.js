@@ -1,7 +1,8 @@
+import { Game } from "../api/Game";
 import { ExponentialCost, FirstFreeCost, LinearCost } from "../api/Costs";
 import { Localization } from "../api/Localization";
 import { parseBigNumber, BigNumber } from "../api/BigNumber";
-import { theory } from "../api/Theory";
+import { Theory } from "./Theory";
 import { Utils } from "../api/Utils";
 import { Popup } from "../api/ui/Popup";
 import { Color } from "../api/ui/properties/Color";
@@ -49,6 +50,15 @@ var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.valu
 
 
 psPUP = ui.createPopup({
-    title: "My Popup",
+    title: " ",
     content: ui.createStackLayout({
         children: [
+            ui.createLabel({
+                text: "Prestige",
+                margin: new Thickness(8, 8),
+                horizontalOptions: LayoutOptions.CENTER
+            }),
+            ui.createLabel({
+                text: "After you Prestige, you will have:",
+                horizontalOptions: LayoutOptions.CENTER
+            })
