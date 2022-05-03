@@ -67,7 +67,7 @@ psPUP = ui.createPopup({
                 horizontalOptions: LayoutOptions.CENTER
             }),
             ui.createGrid({
-                columnDefinitions: ["50*", "50*", "auto"],
+                columnDefinitions: ["25*", "50*", "75*"],
                 rowDefinitions: ["50*", "50*"],
                 children: [
                     ui.createLatexLabel({text: "$b$", row: 0, column: 0}),
