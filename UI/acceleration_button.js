@@ -24,10 +24,10 @@ var getEquationOverlay = () => {
             ui.createImage({
                 source: ImageSource.ACCELERATE,
                 verticalOptions: LayoutOptions.END,
-                onClicked: {accPress = true},
-                onReleased: {accPress = false}
+                onClicked: () => {accPress = true},
+                onReleased: () => {accPress = false}
             }),
-            ui.createLabel({text: value + "x"})
+            ui.createLabel({text: () => value + "x"})
         ]
     })
     return stack;
