@@ -21,6 +21,10 @@ var init = () => {
 var getEquationOverlay = () => {
     let stack = ui.createStackLayout({
         children: [
+            ui.createButton({
+                verticalOptions: LayoutOptions.END,
+                horizontalOptions: LayoutOptions.START,
+            }),
             ui.createImage({
                 source: ImageSource.ACCELERATE,
                 verticalOptions: LayoutOptions.END,
