@@ -21,24 +21,17 @@ var init = () => {
 var getEquationOverlay = () => {
     let stack = ui.createStackLayout({
         children: [
-            /*ui.createButton({
-                verticalOptions: LayoutOptions.END,
-                horizontalOptions: LayoutOptions.START,
-                onClicked: () => {accPress = true},
-                onReleased: () => {accPress = false},
-                //isVisible: false,
-                text: "acc"
-            }), */
             ui.createImage({
                 source: ImageSource.ACCELERATE,
                 verticalOptions: LayoutOptions.END,
                 horizontalOptions: LayoutOptions.START,
+                heightRequest: 25,
                 onTouched: (e) => {
                     if(e.type == TouchType.PRESSED) accPress = true;
                     else if(e.type.isReleased()) accPress = false;
                 }
             }),
-            ui.createLabel({text: () => value + "x"})
+            ui.createLabel({text: () => Math.round(value * 100) / 100 + "x"})
         ]
     })
     return stack;
@@ -46,14 +39,15 @@ var getEquationOverlay = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    if (accPress) TickPress += 1;
-    if (!accPress) TickPress = 0;
+    if (accPress) TickPress += dt;
+    if (!accPress) TickPress -= dt;
+    if (TickPress <= 0) TickPress = 0;
     value = 1;
     value *= Math.pow((9 * TickPress + 1), 1 / 9);
     currency.value += value;
     theory.invalidatePrimaryEquation();
 }
 var getPrimaryEquation = () => {
-    return "\\dot{\\rho} = " + value;
+    return "\\dot{\\rho} = " + Math.round(value * 100) / 100;
 }
 init();
