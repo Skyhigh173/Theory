@@ -34,8 +34,8 @@ var getEquationOverlay = () => {
                 verticalOptions: LayoutOptions.END,
                 horizontalOptions: LayoutOptions.START,
                 onTouched: (e) => {
-                    if(e.type == TouchType.PRESSED) accPressed = true;
-                    else if(e.type.isReleased()) accPressed = false;
+                    if(e.type == TouchType.PRESSED) accPress = true;
+                    else if(e.type.isReleased()) accPress = false;
                 }
             }),
             ui.createLabel({text: () => value + "x"})
@@ -51,6 +51,7 @@ var tick = (elapsedTime, multiplier) => {
     value = 1;
     value *= Math.pow((9 * TickPress + 1), 1 / 9);
     currency.value += value;
+    theory.invalidatePrimaryEquation();
 }
 var getPrimaryEquation = () => {
     return "\\dot{\\rho} = " + value;
