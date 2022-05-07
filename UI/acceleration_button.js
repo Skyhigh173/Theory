@@ -40,7 +40,7 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     if (accPress) TickPress += dt;
-    if (!accPress) TickPress /= 2 * dt;
+    if (!accPress) TickPress /= 1 + 2 * dt;
     if (TickPress <= 1) TickPress = 0;
     value = 1;
     //if (accPress)
