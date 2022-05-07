@@ -10,9 +10,9 @@ var description = "A custom theory to demonstrate UI capabilities.";
 var authors = "Skyhigh173#3120";
 var version = "v1";
 
-var value, currency;
+var value = 1, currency;
 var accPress = false;
-var TickPress;
+var TickPress = 0;
 
 var init = () => {
     currency = theory.createCurrency();
@@ -21,13 +21,27 @@ var init = () => {
 var getEquationOverlay = () => {
     let stack = ui.createStackLayout({
         children: [
-           ui.createImage({
-               source: ImageSource.ACCELERATE,
-               verticalOptions: LayoutOptions.END,
-               onClicked: accPress = true,
-               onReleased: accPress = false
-           })
+            ui.createImage({
+                source: ImageSource.ACCELERATE,
+                verticalOptions: LayoutOptions.END,
+                onClicked: {accPress = true},
+                onReleased: {accPress = false}
+            }),
+            ui.createLabel({text: value + "x"})
         ]
     })
     return stack;
 }
+var tick = (elapsedTime, multiplier) => {
+    let dt = BigNumber.from(elapsedTime * multiplier);
+    let bonus = theory.publicationMultiplier;
+    if (accPress) TickPress += 1;
+    if (!accPress) TickPress = 0;
+    value = 1;
+    value *= Math.pow((9 * TickPress + 1), 1 / 9);
+    currency.value += value;
+}
+var getPrimaryEquation = () => {
+    return value;
+}
+init();
