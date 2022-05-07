@@ -25,7 +25,7 @@ var getEquationOverlay = () => {
                 source: ImageSource.ACCELERATE,
                 verticalOptions: LayoutOptions.END,
                 horizontalOptions: LayoutOptions.START,
-                heightRequest: 25,
+                heightRequest: 42, // universe number : 42
                 onTouched: (e) => {
                     if(e.type == TouchType.PRESSED) accPress = true;
                     else if(e.type.isReleased()) accPress = false;
@@ -39,11 +39,17 @@ var getEquationOverlay = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    if (accPress) TickPress += dt;
-    if (!accPress) TickPress -= dt;
-    if (TickPress <= 0) TickPress = 0;
+    //if (accPress) TickPress += dt;
+    //if (!accPress) TickPress -= dt;
+    //if (TickPress <= 0) TickPress = 0;
     value = 1;
-    value *= Math.pow((9 * TickPress + 1), 1 / 9);
+    //value *= Math.pow((9 * TickPress + 1), 1 / 9);
+    
+    if (accPress)
+        value += dt / Math.pow(value, 8);
+    else
+        value /= Math.pow(value, 0.5 * dt);
+    
     currency.value += value;
     theory.invalidatePrimaryEquation();
 }
