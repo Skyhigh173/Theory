@@ -24,12 +24,15 @@ var getEquationOverlay = () => {
             ui.createButton({
                 verticalOptions: LayoutOptions.END,
                 horizontalOptions: LayoutOptions.START,
+                onClicked: () => {accPress = true},
+                onReleased: () => {accPress = false},
+                isVisible: false,
+                text: "acc"
             }),
             ui.createImage({
                 source: ImageSource.ACCELERATE,
                 verticalOptions: LayoutOptions.END,
-                onClicked: () => {accPress = true},
-                onReleased: () => {accPress = false}
+                horizontalOptions: LayoutOptions.START
             }),
             ui.createLabel({text: () => value + "x"})
         ]
