@@ -21,18 +21,22 @@ var init = () => {
 var getEquationOverlay = () => {
     let stack = ui.createStackLayout({
         children: [
-            ui.createButton({
+            /*ui.createButton({
                 verticalOptions: LayoutOptions.END,
                 horizontalOptions: LayoutOptions.START,
                 onClicked: () => {accPress = true},
                 onReleased: () => {accPress = false},
                 //isVisible: false,
                 text: "acc"
-            }),
+            }), */
             ui.createImage({
                 source: ImageSource.ACCELERATE,
                 verticalOptions: LayoutOptions.END,
-                horizontalOptions: LayoutOptions.START
+                horizontalOptions: LayoutOptions.START,
+                onTouched: (e) => {
+                    if(e.type == TouchType.PRESSED) accPressed = true;
+                    else if(e.type.isReleased()) accPressed = false;
+                }
             }),
             ui.createLabel({text: () => value + "x"})
         ]
