@@ -52,6 +52,6 @@ var tick = (elapsedTime, multiplier) => {
     theory.invalidatePrimaryEquation();
 }
 var getPrimaryEquation = () => {
-    return "\\dot{\\rho} = " + Math.round(value * 100) / 100 + "\\" + Math.round(TickPress);
+    return "\\dot{\\rho} = " + Math.round(value * 100) / 100 + " \\ " + Math.round(TickPress);
 }
 init();
