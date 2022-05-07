@@ -26,7 +26,7 @@ var getEquationOverlay = () => {
                 horizontalOptions: LayoutOptions.START,
                 onClicked: () => {accPress = true},
                 onReleased: () => {accPress = false},
-                isVisible: false,
+                //isVisible: false,
                 text: "acc"
             }),
             ui.createImage({
