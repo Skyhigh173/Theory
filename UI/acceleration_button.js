@@ -49,6 +49,6 @@ var tick = (elapsedTime, multiplier) => {
     currency.value += value;
 }
 var getPrimaryEquation = () => {
-    return value;
+    return "\\dot{\\rho} = " + value;
 }
 init();
