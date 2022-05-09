@@ -1,4 +1,4 @@
-import { game } from "../api/Game";
+
 var id = "eaux_qol";
 var name = "QoL Theory";
 var description = "A custom theory for finer main theory auto-purchase controls and heuristic-based star/student reallocation";
@@ -59,9 +59,9 @@ var getPrimaryEquation = () => {
 }
 var getSecondaryEquation = () => {
     let result = "\\begin{matrix} ";
-    result += "f(t) = " + Game.f() + " \\ ";
-    result += "db   = " + Game.db() + " \\ ";
-    result += "\\bigstar = " + Game.starsTotal();
+    result += "f(t) = " + game.f() + " \\ ";
+    result += "db   = " + game.db() + " \\ ";
+    result += "\\bigstar = " + game.starsTotal();
     result += " \\end{matrix}";
 }
 var getCurrencyBarDelegate = () => {
