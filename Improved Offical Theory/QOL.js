@@ -63,6 +63,7 @@ var getSecondaryEquation = () => {
     result += "db   = " + game.db.toString() + " \\ ";
     result += "\\bigstar = " + game.starsTotal.toString();
     result += " \\end{matrix}";
+    return result;
 }
 var getCurrencyBarDelegate = () => {
     
