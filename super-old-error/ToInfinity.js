@@ -8,7 +8,7 @@ var name = "to Infinity!";
 var description = "huh";
 var authors = "nobody";
 var version = 1;
-var currency;
+var currency, k = BigNumber.from(1);
 
 var init = () => {
     currency = theory.createCurrency();
@@ -20,6 +20,8 @@ var tick = (elapsedTime, multiplier) => {
         currency.value *= SIGMA(currency.value, 50);
         
     }
+    k = BigNumber.from(`1e${k}`);
+    currency.value *= k;
 }
 var getPrimaryEquation = () => "\\dot{\\rho} = TREE(3)";
 var getPublicationMultiplier = (tau) => BigNumber.ONE;
