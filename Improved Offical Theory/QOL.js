@@ -1,3 +1,4 @@
+import { game } from "../api/Game";
 var id = "eaux_qol";
 var name = "QoL Theory";
 var description = "A custom theory for finer main theory auto-purchase controls and heuristic-based star/student reallocation";
