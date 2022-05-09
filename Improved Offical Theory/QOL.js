@@ -42,6 +42,8 @@ var tick = (elapsedTime, multiplier) => {
     )
 
     theory.invalidatePrimaryEquation(); // TODO move this
+    theory.invalidateSecondaryEquation();
+    theory.secondaryEquationHeight = 120;
 
 }
 
@@ -53,6 +55,13 @@ var get2DGraphValue = () => {
 var getPrimaryEquation = () => {
     if (aTheoryState === undefined) return "Invalid";
     return `\\text{Pub Time:} ${aTheoryState.pubTime.toFixed(2)}`;
+}
+var getSecondaryEquation = () => {
+    let result = "\\begin{matrix} ";
+    result += "f(t) = " + Game.f() + " \\ ";
+    result += "db   = " + Game.db() + " \\ ";
+    result += "\\bigstar = " + Game.starsTotal();
+    result += " \\end{matrix}";
 }
 var getCurrencyBarDelegate = () => {
     
