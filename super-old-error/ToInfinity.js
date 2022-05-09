@@ -16,10 +16,10 @@ var init = () => {
     
 }
 var tick = (elapsedTime, multiplier) => {
-    for (let i = 0; i < 100; i++) {
-        currency.value *= SIGMA(currency.value, 50);
-        
-    }
+    //for (let i = 0; i < 100; i++) {
+    //    currency.value *= SIGMA(currency.value, 50);
+    //    
+    //}
     k = BigNumber.from(`1e${k}`);
     currency.value *= k;
 }
