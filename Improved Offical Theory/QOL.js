@@ -59,7 +59,7 @@ var getPrimaryEquation = () => {
 }
 var getSecondaryEquation = () => {
     let result = "\\begin{matrix} ";
-    result += "f(t) = " + game.f() + " \\ ";
+    result += "f(t) = " + game.f.toString(4) + " \\ ";
     result += "db   = " + game.db() + " \\ ";
     result += "\\bigstar = " + game.starsTotal();
     result += " \\end{matrix}";
