@@ -59,8 +59,10 @@ var getPrimaryEquation = () => {
 }
 var getSecondaryEquation = () => {
     let result = "\\begin{matrix} ";
-    result += "f(t) = " + game.f.toString(4) + " \\ ";
-    result += "db   = " + game.db.toString() + " \\ ";
+    result += "f(t)      = " + game.f.toString(6) + " \\ ";
+    result += "db        = " + game.db.toString() + " \\ ";
+    result += "d\\mu     = " + game.dmu.toString() + " \\ ";
+    result += "d\\psi    = " + game.dpsi.toString() + " \\ ";
     result += "\\bigstar = " + game.starsTotal.toString();
     result += " \\end{matrix}";
     return result;
