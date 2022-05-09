@@ -41,7 +41,7 @@ var tick = (elapsedTime, multiplier) => {
     let bonus = theory.publicationMultiplier;
     if (accPress) TickPress += dt;
     if (!accPress) TickPress -= 4 * dt;
-    if (TickPress <= 1) TickPress = 0;
+    if (TickPress <= 0) TickPress = 0;
     value = 1;
     //if (accPress)
     value *= Math.pow((9 * TickPress + 1), 1 / 9);
