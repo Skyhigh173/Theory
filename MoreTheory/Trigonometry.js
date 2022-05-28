@@ -4,16 +4,17 @@ import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
 
-// T9 : Trigonometry
+// Trigonometry
+// at start i dont think it will be well balanced :O
 var id = "Triangle?";
 var name = "Trigonometry";
 var description = "Trigonometry, talks about sin() cos() tan() and more!";
 var authors = "Skyhigh173#3120";
-var version = 1;
+var version = 1.1;
 
 var currency1;
 var a1, a2;
-var a3, a4, a3Term, a4Term;
+var a1Exp;
 var q, k, vdt;
 var Aq = BigNumber.ONE;
 var x = BigNumber.ZERO;
@@ -73,11 +74,21 @@ var init = () => {
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
-    /////////////////////
+    
     // Permanent Upgrades
     theory.createPublicationUpgrade(0, currency1, 1e10);
     theory.createBuyAllUpgrade(1, currency1, 1e13);
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
+    
+    // milestone upgrades
+    theory.setMilestoneCost(new LinearCost(20, 20));
+    
+    {
+        a1Exp = theory.createMilestoneUpgrade(0, 2);
+        a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.1");
+        a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.1");
+        a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     
     updateAvailability();
 }
@@ -99,10 +110,11 @@ var tick = (elapsedTime, multiplier) => {
     else div = x.sin();
     let div2 = div.abs() + BigNumber.TEN.pow(bf(0) - getK(k.level)); //10^(-k)
     
+    let ExpA1 = bf(1 + a1Exp.level / 10);
     
     let Q = getQ(q.level);
     Aq += Q * dt / bf(20);
-    let upTerm = getA1(a1.level) * Aq + getA2(a2.level) * Aq.pow(bf(2));
+    let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     dotrho = upTerm / div2 / bf(3);
     if (a1.level == 0) {
         dotrho = bf(0);
@@ -120,7 +132,9 @@ var setInternalState = (state) => {
 
 var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
-    let result = "\\dot{\\rho} = \\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho \\mid + 10^{-k}}"
+    let result = "\\dot{\\rho} = \\frac{a_1";
+    if (a1Exp.level >= 1) result += "^{" + 1 + a1Exp.level / 10 + "}";
+    result += " q + a_2 q^{2}}{\\mid \\varrho \\mid + 10^{-k}}";
     return result;
 }
 
