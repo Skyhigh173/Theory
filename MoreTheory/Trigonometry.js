@@ -1,0 +1,72 @@
+import { ExponentialCost, FreeCost, LinearCost } from "./api/Costs";
+import { Localization } from "./api/Localization";
+import { BigNumber } from "./api/BigNumber";
+import { theory } from "./api/Theory";
+import { Utils } from "./api/Utils";
+
+// T9 : Trigonometry
+var id = "Triangle?";
+var name = "Trigonometry";
+var description = "Trigonometry, talks about sin() cos() tan() and more!";
+var authors = "Skyhigh173#3120";
+var version = 1;
+
+var currency1;
+var a1, a2;
+var a3, a4, a3Term, a4Term;
+var q, x, k, vdt;
+
+var init = () => {
+    currency1 = theory.createCurrency();
+    
+    // Regular upgrades
+    
+    // a1
+    {
+        let getDesc = (level) => "a_1=5^{" + level + "}";
+        let getInfo = (level) => "a_1=" + getA1(level).toString(0);
+        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3))));
+        a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
+        a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
+    }
+    // a2
+    {
+        let getDesc = (level) => "a_2=4^{" + level + "}";
+        let getInfo = (level) => "a_2=" + getA2(level).toString(0);
+        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(50, Math.log2(2.8)));
+        a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
+        a2.getInfo = (amount) => Utils.getMathTo(getInfo(a2.level), getInfo(a2.level + amount));
+    }
+    // q
+    {
+        let getDesc = (level) => "q=1.9^{" + level + "}";
+        let getInfo = (level) => "q=" + getQ(level).toString(0);
+        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(1.985)));
+        q.getDescription = (_) => Utils.getMath(getDesc(q.level));
+        q.getInfo = (amount) => Utils.getMathTo(getInfo(q.level), getInfo(q.level + amount));
+    }
+    // x
+    {
+        let getDesc = (level) => "x=e \\times " + getX(level).toString(0);
+        let getInfo = (level) => "x=" + getX(level).toString(0);
+        x = theory.createUpgrade(3, currency, new ExponentialCost(100, Math.log2(2.3)));
+        x.getDescription = (_) => Utils.getMath(getDesc(x.level));
+        x.getInfo = (amount) => Utils.getMathTo(getInfo(x.level), getInfo(x.level + amount));
+    }
+    // k
+    {
+        let getDesc = (level) => "x=e \\times " + getX(level).toString(0);
+        let getInfo = (level) => "x=" + getX(level).toString(0);
+        k = theory.createUpgrade(4, currency, new ExponentialCost(100, Math.log2(2.3)));
+        k.getDescription = (_) => Utils.getMath(getDesc(k.level));
+        k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
+        k.maxLevel =  30;
+        // k = -0.5 -> k = 1 (step = 0.05)
+    }
+     // vdt
+    {
+        let getDesc = (level) => "\\vartheta=" + getDT(level).toString(0);
+        vdt = theory.createUpgrade(5, currency, new ExponentialCost(8, Math.log2(2.5)));
+        vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
+        vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
+    }
