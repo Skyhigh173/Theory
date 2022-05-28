@@ -69,7 +69,7 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(100, Math.log2(50)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(20)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
