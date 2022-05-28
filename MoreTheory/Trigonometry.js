@@ -101,7 +101,7 @@ var tick = (elapsedTime, multiplier) => {
     
     let Q = getQ(q.level);
     let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
-    dotrho = upTerm / div2 / bf(6);
+    dotrho = upTerm / div2 / bf(5);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
