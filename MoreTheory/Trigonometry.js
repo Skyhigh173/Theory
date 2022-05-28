@@ -41,11 +41,10 @@ var init = () => {
     }
     // q
     {
-        let getDesc = (level) => "q=1.8^{" + level + "}";
-        let getInfo = (level) => "q=" + getQ(level).toString(3);
+        let getDesc = (level) => "q=" + getQ(level);
         q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(2.5)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
-        q.getInfo = (amount) => Utils.getMathTo(getInfo(q.level), getInfo(q.level + amount));
+        q.getInfo = (amount) => Utils.getMathTo(getDesc(q.level), getDesc(q.level + amount));
     }
     /* x
     {
@@ -125,15 +124,20 @@ var getTertiaryEquation = () => {
     r += "\\qquad \\varrho =" + div;
     return r;
 }
+
+var postPublish = () => {
+    x = BigNumber.ZERO;
+}
+
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
-//var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
-var getQ = (level) => BigNumber.from(1.8).pow(level);
+var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getK = (level) => BigNumber.from(level * 0.05);
 var getDT = (level) => BigNumber.from(10 * level + 8);
 init();
