@@ -120,7 +120,7 @@ var getTertiaryEquation = () => {
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
 var getTau = () => currency1.value;
-var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
+var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 //var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getA1 = (level) => BigNumber.FIVE.pow(level);
