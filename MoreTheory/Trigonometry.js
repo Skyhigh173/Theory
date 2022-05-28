@@ -130,6 +130,7 @@ var getTertiaryEquation = () => {
     r += "\\qquad x =" + x;
     r += "\\qquad \\dot{\\rho} =" + dotrho;
     r += "\\qquad \\varrho =" + div;
+    r += "\\qquad q =" + Aq;
     return r;
 }
 
