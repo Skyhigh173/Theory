@@ -58,13 +58,13 @@ var init = () => {
     */
     // k
     {
-        let getDesc = (level) => "k=" + getK(level).toString(0);
-        let getInfo = (level) => "k=" + getK(level).toString(0);
-        k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(100)));
+        let getDesc = (level) => "k=" + getK(level).toString(3);
+        let getInfo = (level) => "k=" + getK(level).toString(3);
+        k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(90)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
-        k.maxLevel = 30;
-        // k = -0.5 -> k = 1 (step = 0.05)
+        k.maxLevel = 20;
+        // k = -0 -> k = 1 (step = 0.05)
     }
      // vdt
     {
@@ -134,6 +134,6 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 var getA1 = (level) => BigNumber.THREE.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => BigNumber.from(1.9).pow(level);
-var getK = (level) => BigNumber.from(level * 0.05 - 0.5);
+var getK = (level) => BigNumber.from(level * 0.05);
 var getDT = (level) => BigNumber.from(10 * level + 4);
 init();
