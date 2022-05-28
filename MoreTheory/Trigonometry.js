@@ -103,6 +103,7 @@ var tick = (elapsedTime, multiplier) => {
     let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
     let dotrho = upTerm / div2;
     currency1.value += dotrho * bonus * dt;
+    theory.invalidateTertiaryEquation();
 }
 
 var getPrimaryEquation = () => {
@@ -117,7 +118,9 @@ var getSecondaryEquation = () => {
     return result;
 }
 var getTertiaryEquation = () => {
-    return theory.latexSymbol + "=\\max\\rho";
+    let r = theory.latexSymbol + "=\\max\\rho";
+    r += "\\qquad x =" + x;
+    return r;
 }
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
@@ -129,5 +132,5 @@ var getA1 = (level) => BigNumber.FOUR.pow(level);
 var getA2 = (level) => BigNumber.THREE.pow(level);
 var getQ = (level) => BigNumber.from(1.9).pow(level);
 var getK = (level) => BigNumber.E * level;
-var getDT = (level) => BigNumber.from(level + 10);
+var getDT = (level) => BigNumber.from(level + 4);
 init();
