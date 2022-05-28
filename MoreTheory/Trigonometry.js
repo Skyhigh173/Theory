@@ -16,7 +16,7 @@ var a1, a2;
 var a3, a4, a3Term, a4Term;
 var q, k, vdt;
 var x = BigNumber.ZERO;
-var dotrho;
+var dotrho, div;
 
 var init = () => {
     currency1 = theory.createCurrency();
@@ -27,7 +27,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_1=3^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(4))));
+        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3.8))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
@@ -93,7 +93,7 @@ var tick = (elapsedTime, multiplier) => {
     let bpi = BigNumber.PI;
     
     x += bf(0.1) * dt;
-    let div = bf(1);
+    div = bf(1);
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
     if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi);
     else div = x.sin();
@@ -122,6 +122,7 @@ var getTertiaryEquation = () => {
     let r = theory.latexSymbol + "=\\max\\rho";
     r += "\\qquad x =" + x;
     r += "\\qquad \\dot{\\rho} =" + dotrho;
+    r += "\\qquad \\varrho =" + div;
     return r;
 }
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
