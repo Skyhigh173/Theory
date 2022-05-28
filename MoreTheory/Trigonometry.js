@@ -25,7 +25,7 @@ var init = () => {
     
     // a1
     {
-        let getDesc = (level) => "a_1=3^{" + level + "}";
+        let getDesc = (level) => "a_1=2^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
         a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3.8))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
@@ -35,7 +35,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_2=2^{" + level + "}";
         let getInfo = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(100, Math.log2(3.9)));
+        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(100, Math.log2(4)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getInfo(a2.level), getInfo(a2.level + amount));
     }
@@ -131,7 +131,7 @@ var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 //var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-var getA1 = (level) => BigNumber.THREE.pow(level);
+var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => BigNumber.from(1.8).pow(level);
 var getK = (level) => BigNumber.from(level * 0.05);
