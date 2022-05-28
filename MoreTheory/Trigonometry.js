@@ -106,11 +106,13 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
+    theory.primaryEquationHeight = 90;
     let result = "\\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho + 10^{-k} \\mid}"
     return result;
 }
 
 var getSecondaryEquation = () => {
+    theory.secondaryEquationHeight = 80;
     let result = "\\varrho = \\sum_{n=0}^{\\vartheta} \\frac{(-1)^{n} x^{2n+1}}{(2n+1)!}";
     return result;
 }
