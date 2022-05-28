@@ -42,7 +42,7 @@ var init = () => {
     // q
     {
         let getDesc = (level) => "q=" + getQ(level);
-        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(2.5)));
+        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(5)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getDesc(q.level), getDesc(q.level + amount));
     }
@@ -96,8 +96,8 @@ var tick = (elapsedTime, multiplier) => {
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
     if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi);
     else div = x.sin();
-    let div2 = div + BigNumber.TEN.pow(bf(0) - getK(k.level)); //10^(-k)
-    div2 = div2.abs();
+    let div2 = div.abs() + BigNumber.TEN.pow(bf(0) - getK(k.level)); //10^(-k)
+    
     
     let Q = getQ(q.level);
     let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
@@ -108,7 +108,7 @@ var tick = (elapsedTime, multiplier) => {
 
 var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
-    let result = "\\dot{\\rho} = \\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho + 10^{-k} \\mid}"
+    let result = "\\dot{\\rho} = \\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho \\mid + 10^{-k}}"
     return result;
 }
 
