@@ -69,7 +69,7 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(8)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(6)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
@@ -95,7 +95,7 @@ var tick = (elapsedTime, multiplier) => {
     x += bf(0.15) * dt;
     div = bf(1);
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
-    if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi);
+    if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi) + x.sin();
     else div = x.sin();
     let div2 = div.abs() + BigNumber.TEN.pow(bf(0) - getK(k.level)); //10^(-k)
     
@@ -103,7 +103,7 @@ var tick = (elapsedTime, multiplier) => {
     let Q = getQ(q.level);
     Aq += Q * dt / bf(25);
     let upTerm = getA1(a1.level) * Aq + getA2(a2.level) * Aq.pow(bf(2));
-    dotrho = upTerm / div2 / bf(5);
+    dotrho = upTerm / div2 / bf(4);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
