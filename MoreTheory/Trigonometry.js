@@ -91,7 +91,7 @@ var tick = (elapsedTime, multiplier) => {
     let bf = (num) => BigNumber.from(num);
     let bpi = BigNumber.PI;
     
-    x += bf(0.1) * dt;
+    x += bf(0.15) * dt;
     div = bf(1);
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
     if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi);
@@ -104,6 +104,11 @@ var tick = (elapsedTime, multiplier) => {
     dotrho = upTerm / div2 / bf(5);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
+}
+var getInternalState = () => `${x}`;
+var setInternalState = (state) => {
+    let values = state.split(" ");
+    if (values.length > 0) x = parseBigNumber(values[0]);
 }
 
 var getPrimaryEquation = () => {
