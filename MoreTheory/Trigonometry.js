@@ -117,7 +117,7 @@ var tick = (elapsedTime, multiplier) => {
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     
     let stage = 3;
-    if (currency.value >= bf(1e22)) stage = 2;
+    if (currency1.value >= bf(1e22)) stage = 2;
     
     dotrho = upTerm / div2 / bf(stage);
     if (a1.level == 0) {
