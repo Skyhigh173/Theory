@@ -14,7 +14,8 @@ var version = 1;
 var currency1;
 var a1, a2;
 var a3, a4, a3Term, a4Term;
-var q, x, k, vdt;
+var q, k, vdt;
+var x = BigNumber.ZERO;
 
 var init = () => {
     currency1 = theory.createCurrency();
@@ -45,7 +46,7 @@ var init = () => {
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getInfo(q.level), getInfo(q.level + amount));
     }
-    // x
+    /* x
     {
         let getDesc = (level) => "x=e \\times " + getX(level).toString(0);
         let getInfo = (level) => "x=" + getX(level).toString(0);
@@ -53,11 +54,12 @@ var init = () => {
         x.getDescription = (_) => Utils.getMath(getDesc(x.level));
         x.getInfo = (amount) => Utils.getMathTo(getInfo(x.level), getInfo(x.level + amount));
     }
+    */
     // k
     {
         let getDesc = (level) => "x=e \\times " + getX(level).toString(0);
         let getInfo = (level) => "x=" + getX(level).toString(0);
-        k = theory.createUpgrade(4, currency, new ExponentialCost(100, Math.log2(2.3)));
+        k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(2.3)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
         k.maxLevel =  30;
@@ -66,7 +68,37 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta=" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency, new ExponentialCost(8, Math.log2(2.5)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(8, Math.log2(2.5)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
+    /////////////////////
+    // Permanent Upgrades
+    theory.createPublicationUpgrade(0, currency1, 1e10);
+    theory.createBuyAllUpgrade(1, currency1, 1e13);
+    theory.createAutoBuyerUpgrade(2, currency1, 1e30);
+    
+    updateAvailability();
+}
+var updateAvailability = () => {
+    
+}
+var tick = (elapsedTime, multiplier) => {
+    let dt = BigNumber.from(elapsedTime * multiplier);
+    let bonus = theory.publicationMultiplier;
+    
+    let bf = (num) => BigNumber.from(num);
+    let bpi = BigNumber.PI;
+    
+    x += bf(1) * dt;
+    let div = bf(1);
+    // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
+    if (x > vdt * bpi / bf(4)) div = (x - vdt * bpi / bf(4)).pow(bpi);
+    else div = x.sin();
+    let div2 = div + BigNumber.TEN.pow(bf(0) - k); //10^(-k)
+    div2 = div2.abs();
+    
+    let upTerm = getA1(a1.level) * q + getA2(a2.level) * q.pow(bf(2));
+    let dotrho = upTerm / div2;
+    currency1.value += dotrho * bonus * dt;
+}
