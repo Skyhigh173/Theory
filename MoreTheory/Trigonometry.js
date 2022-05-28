@@ -41,9 +41,9 @@ var init = () => {
     }
     // q
     {
-        let getDesc = (level) => "q=1.9^{" + level + "}";
-        let getInfo = (level) => "q=" + getQ(level).toString(0);
-        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(2.3)));
+        let getDesc = (level) => "q=1.8^{" + level + "}";
+        let getInfo = (level) => "q=" + getQ(level).toString(3);
+        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(2.5)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getInfo(q.level), getInfo(q.level + amount));
     }
@@ -58,8 +58,8 @@ var init = () => {
     */
     // k
     {
-        let getDesc = (level) => "k=" + getK(level).toString(3);
-        let getInfo = (level) => "k=" + getK(level).toString(3);
+        let getDesc = (level) => "k=" + getK(level).toString(2);
+        let getInfo = (level) => "k=" + getK(level).toString(2);
         k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(90)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
@@ -102,7 +102,7 @@ var tick = (elapsedTime, multiplier) => {
     
     let Q = getQ(q.level);
     let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
-    dotrho = upTerm / div2 / bf(8);
+    dotrho = upTerm / div2 / bf(6);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
@@ -133,7 +133,7 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 //var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getA1 = (level) => BigNumber.THREE.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
-var getQ = (level) => BigNumber.from(1.9).pow(level);
+var getQ = (level) => BigNumber.from(1.8).pow(level);
 var getK = (level) => BigNumber.from(level * 0.05);
 var getDT = (level) => BigNumber.from(10 * level + 4);
 init();
