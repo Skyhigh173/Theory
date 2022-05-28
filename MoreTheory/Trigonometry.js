@@ -58,18 +58,18 @@ var init = () => {
     */
     // k
     {
-        let getDesc = (level) => "x=e \\times " + getK(level).toString(0);
-        let getInfo = (level) => "x=" + getK(level).toString(0);
+        let getDesc = (level) => "k=e \\times " + getK(level).toString(0);
+        let getInfo = (level) => "k=" + getK(level).toString(0);
         k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(100)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
-        k.maxLevel =  30;
+        k.maxLevel = 30;
         // k = -0.5 -> k = 1 (step = 0.05)
     }
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(8, Math.log2(3)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(100, Math.log2(50)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
