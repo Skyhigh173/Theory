@@ -135,5 +135,5 @@ var getA1 = (level) => BigNumber.THREE.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => BigNumber.from(1.9).pow(level);
 var getK = (level) => BigNumber.E * level;
-var getDT = (level) => BigNumber.from(level + 4);
+var getDT = (level) => BigNumber.from(10 * level + 4);
 init();
