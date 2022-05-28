@@ -42,7 +42,7 @@ var init = () => {
     }
     // q
     {
-        let getDesc = (level) => "\\dot{q}=" + getQ(level) / BigNumber.from(25);
+        let getDesc = (level) => "\\dot{q}=" + getQ(level) / BigNumber.from(20);
         q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(4.8)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getDesc(q.level), getDesc(q.level + amount));
@@ -69,7 +69,7 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(6)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(4)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
@@ -101,7 +101,7 @@ var tick = (elapsedTime, multiplier) => {
     
     
     let Q = getQ(q.level);
-    Aq += Q * dt / bf(25);
+    Aq += Q * dt / bf(20);
     let upTerm = getA1(a1.level) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     dotrho = upTerm / div2 / bf(4);
     currency1.value += dotrho * bonus * dt;
