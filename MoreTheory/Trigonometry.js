@@ -90,9 +90,9 @@ var tick = (elapsedTime, multiplier) => {
     
     // bignumber setup
     let bf = (num) => BigNumber.from(num);
-    let bpi = BigNumber.PI;
+    let bpi = BigNumber.TWO;
     
-    x += bf(0.15) * dt;
+    x += bf(0.125) * dt;
     div = bf(1);
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
     if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi) + x.sin();
@@ -103,7 +103,7 @@ var tick = (elapsedTime, multiplier) => {
     let Q = getQ(q.level);
     Aq += Q * dt / bf(20);
     let upTerm = getA1(a1.level) * Aq + getA2(a2.level) * Aq.pow(bf(2));
-    dotrho = upTerm / div2 / bf(4);
+    dotrho = upTerm / div2 / bf(3);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
