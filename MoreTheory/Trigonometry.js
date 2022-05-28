@@ -106,7 +106,7 @@ var tick = (elapsedTime, multiplier) => {
 }
 
 var getPrimaryEquation = () => {
-    let result = "\\frac{a_1 q + a_2 q^{2}}{\\abs(\\varrho + 10^{-k})}"
+    let result = "\\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho + 10^{-k} \\mid}"
     return result;
 }
 
