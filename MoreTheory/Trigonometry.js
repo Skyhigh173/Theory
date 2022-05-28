@@ -27,7 +27,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_1=2^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3.8))));
+        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3.6))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
@@ -35,14 +35,14 @@ var init = () => {
     {
         let getDesc = (level) => "a_2=2^{" + level + "}";
         let getInfo = (level) => "a_2=" + getA2(level).toString(0);
-        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(100, Math.log2(4)));
+        a2 = theory.createUpgrade(1, currency1, new ExponentialCost(100, Math.log2(3.8)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getInfo(a2.level), getInfo(a2.level + amount));
     }
     // q
     {
         let getDesc = (level) => "q=" + getQ(level);
-        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(5)));
+        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(4.8)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getDesc(q.level), getDesc(q.level + amount));
     }
@@ -68,7 +68,7 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(10)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(8)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
@@ -139,5 +139,5 @@ var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
 var getK = (level) => BigNumber.from(level * 0.05);
-var getDT = (level) => BigNumber.from(10 * level + 8);
+var getDT = (level) => BigNumber.from(15 * level + 8);
 init();
