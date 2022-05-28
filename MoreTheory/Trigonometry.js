@@ -24,15 +24,15 @@ var init = () => {
     
     // a1
     {
-        let getDesc = (level) => "a_1=5^{" + level + "}";
+        let getDesc = (level) => "a_1=4^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3))));
+        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(4))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
     // a2
     {
-        let getDesc = (level) => "a_2=4^{" + level + "}";
+        let getDesc = (level) => "a_2=3^{" + level + "}";
         let getInfo = (level) => "a_2=" + getA2(level).toString(0);
         a2 = theory.createUpgrade(1, currency1, new ExponentialCost(50, Math.log2(2.8)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
@@ -67,7 +67,7 @@ var init = () => {
     }
      // vdt
     {
-        let getDesc = (level) => "\\vartheta=" + getDT(level).toString(0);
+        let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
         vdt = theory.createUpgrade(5, currency1, new ExponentialCost(8, Math.log2(2.5)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
@@ -91,7 +91,7 @@ var tick = (elapsedTime, multiplier) => {
     let bf = (num) => BigNumber.from(num);
     let bpi = BigNumber.PI;
     
-    x += bf(1) * dt;
+    x += bf(0.1) * dt;
     let div = bf(1);
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
     if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi);
@@ -107,7 +107,7 @@ var tick = (elapsedTime, multiplier) => {
 
 var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
-    let result = "\\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho + 10^{-k} \\mid}"
+    let result = "\\dot{\\rho} = \\frac{a_1 q + a_2 q^{2}}{\\mid \\varrho + 10^{-k} \\mid}"
     return result;
 }
 
@@ -125,9 +125,9 @@ var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 //var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-var getA1 = (level) => BigNumber.FIVE.pow(level);
-var getA2 = (level) => BigNumber.FOUR.pow(level);
+var getA1 = (level) => BigNumber.FOUR.pow(level);
+var getA2 = (level) => BigNumber.THREE.pow(level);
 var getQ = (level) => BigNumber.from(1.9).pow(level);
 var getK = (level) => BigNumber.E * level;
-var getDT = (level) => BigNumber.from(level + 5);
+var getDT = (level) => BigNumber.from(level + 10);
 init();
