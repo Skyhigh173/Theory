@@ -58,7 +58,7 @@ var init = () => {
     */
     // k
     {
-        let getDesc = (level) => "k=e \\times " + getK(level).toString(0);
+        let getDesc = (level) => "k=" + getK(level).toString(0);
         let getInfo = (level) => "k=" + getK(level).toString(0);
         k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(100)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
@@ -134,6 +134,6 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 var getA1 = (level) => BigNumber.THREE.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => BigNumber.from(1.9).pow(level);
-var getK = (level) => BigNumber.E * level;
+var getK = (level) => BigNumber.from(level * 0.05 - 0.5);
 var getDT = (level) => BigNumber.from(10 * level + 4);
 init();
