@@ -25,7 +25,7 @@ var init = () => {
     
     // a1
     {
-        let getDesc = (level) => "a_1=4^{" + level + "}";
+        let getDesc = (level) => "a_1=3^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
         a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(4))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
@@ -33,7 +33,7 @@ var init = () => {
     }
     // a2
     {
-        let getDesc = (level) => "a_2=3^{" + level + "}";
+        let getDesc = (level) => "a_2=2^{" + level + "}";
         let getInfo = (level) => "a_2=" + getA2(level).toString(0);
         a2 = theory.createUpgrade(1, currency1, new ExponentialCost(100, Math.log2(3.9)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
@@ -102,7 +102,7 @@ var tick = (elapsedTime, multiplier) => {
     
     let Q = getQ(q.level);
     let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
-    dotrho = upTerm / div2 / bf(10);
+    dotrho = upTerm / div2 / bf(8);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
@@ -130,8 +130,8 @@ var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 //var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
-var getA1 = (level) => BigNumber.FOUR.pow(level);
-var getA2 = (level) => BigNumber.THREE.pow(level);
+var getA1 = (level) => BigNumber.THREE.pow(level);
+var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => BigNumber.from(1.9).pow(level);
 var getK = (level) => BigNumber.E * level;
 var getDT = (level) => BigNumber.from(level + 4);
