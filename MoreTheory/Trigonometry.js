@@ -133,7 +133,7 @@ var setInternalState = (state) => {
 var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
     let result = "\\dot{\\rho} = \\frac{a_1";
-    if (a1Exp.level >= 1) result += "^{" + 1 + a1Exp.level / 10 + "}";
+    if (a1Exp.level >= 1) result += "^{" + (1 + a1Exp.level / 10) + "}";
     result += " q + a_2 q^{2}}{\\mid \\varrho \\mid + 10^{-k}}";
     return result;
 }
