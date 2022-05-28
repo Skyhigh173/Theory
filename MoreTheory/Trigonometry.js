@@ -85,8 +85,8 @@ var init = () => {
     
     {
         a1Exp = theory.createMilestoneUpgrade(0, 2);
-        a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.1");
-        a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.1");
+        a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.15");
+        a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.15");
         a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
@@ -115,7 +115,11 @@ var tick = (elapsedTime, multiplier) => {
     let Q = getQ(q.level);
     Aq += Q * dt / bf(20);
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
-    dotrho = upTerm / div2 / bf(3);
+    
+    let stage = 3;
+    if (currency.value >= bf(1e22)) stage = 2;
+    
+    dotrho = upTerm / div2 / bf(stage);
     if (a1.level == 0) {
         dotrho = bf(0);
         x = bf(0);
