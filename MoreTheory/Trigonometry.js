@@ -16,6 +16,7 @@ var a1, a2;
 var a3, a4, a3Term, a4Term;
 var q, k, vdt;
 var x = BigNumber.ZERO;
+var dotrho;
 
 var init = () => {
     currency1 = theory.createCurrency();
@@ -42,7 +43,7 @@ var init = () => {
     {
         let getDesc = (level) => "q=1.9^{" + level + "}";
         let getInfo = (level) => "q=" + getQ(level).toString(0);
-        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(1.985)));
+        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(2.3)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getInfo(q.level), getInfo(q.level + amount));
     }
@@ -59,7 +60,7 @@ var init = () => {
     {
         let getDesc = (level) => "x=e \\times " + getK(level).toString(0);
         let getInfo = (level) => "x=" + getK(level).toString(0);
-        k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(2.3)));
+        k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(50)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
         k.maxLevel =  30;
@@ -101,7 +102,7 @@ var tick = (elapsedTime, multiplier) => {
     
     let Q = getQ(q.level);
     let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
-    let dotrho = upTerm / div2;
+    dotrho = upTerm / div2 / bf(10);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
@@ -120,6 +121,7 @@ var getSecondaryEquation = () => {
 var getTertiaryEquation = () => {
     let r = theory.latexSymbol + "=\\max\\rho";
     r += "\\qquad x =" + x;
+    r += "\\qquad \\dot{\\rho} =" + dotrho;
     return r;
 }
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
