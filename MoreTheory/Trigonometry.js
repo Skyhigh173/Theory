@@ -57,8 +57,8 @@ var init = () => {
     */
     // k
     {
-        let getDesc = (level) => "x=e \\times " + getX(level).toString(0);
-        let getInfo = (level) => "x=" + getX(level).toString(0);
+        let getDesc = (level) => "x=e \\times " + getK(level).toString(0);
+        let getInfo = (level) => "x=" + getK(level).toString(0);
         k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(2.3)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
@@ -87,18 +87,45 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     
+    // bignumber setup
     let bf = (num) => BigNumber.from(num);
     let bpi = BigNumber.PI;
     
     x += bf(1) * dt;
     let div = bf(1);
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
-    if (x > vdt * bpi / bf(4)) div = (x - vdt * bpi / bf(4)).pow(bpi);
+    if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi);
     else div = x.sin();
-    let div2 = div + BigNumber.TEN.pow(bf(0) - k); //10^(-k)
+    let div2 = div + BigNumber.TEN.pow(bf(0) - getK(k.level)); //10^(-k)
     div2 = div2.abs();
     
-    let upTerm = getA1(a1.level) * q + getA2(a2.level) * q.pow(bf(2));
+    let Q = getQ(q.level);
+    let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
     let dotrho = upTerm / div2;
     currency1.value += dotrho * bonus * dt;
 }
+
+var getPrimaryEquation = () => {
+    let result = "\\frac{a_1 q + a_2 q^{2}}{\\abs(\\varrho + 10^{-k})}"
+    return result;
+}
+
+var getSecondaryEquation = () => {
+    let result = "\\varrho = \\sum_{n=0}^{\\vartheta} \\frac{(-1)^{n} x^{2n+1}}{(2n+1)!}";
+    return result;
+}
+var getTertiaryEquation = () => {
+    return theory.latexSymbol + "=\\max\\rho";
+}
+var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.164}}{3}";
+var getTau = () => currency.value;
+var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
+
+//var getA1 = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
+var getA1 = (level) => BigNumber.FIVE.pow(level);
+var getA2 = (level) => BigNumber.FOUR.pow(level);
+var getQ = (level) => BigNumber.from(1.9).pow(level);
+var getK = (level) => BigNumber.E * level;
+var getDT = (level) => BigNumber.from(level + 5);
+init();
