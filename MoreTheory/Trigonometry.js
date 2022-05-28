@@ -15,6 +15,7 @@ var currency1;
 var a1, a2;
 var a3, a4, a3Term, a4Term;
 var q, k, vdt;
+var Aq = BigNumber.ONE;
 var x = BigNumber.ZERO;
 var dotrho, div;
 
@@ -41,7 +42,7 @@ var init = () => {
     }
     // q
     {
-        let getDesc = (level) => "q=" + getQ(level);
+        let getDesc = (level) => "\\dot{q}=" + getQ(level) / BigNumber.from(25);
         q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(4.8)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getDesc(q.level), getDesc(q.level + amount));
@@ -100,15 +101,17 @@ var tick = (elapsedTime, multiplier) => {
     
     
     let Q = getQ(q.level);
-    let upTerm = getA1(a1.level) * Q + getA2(a2.level) * Q.pow(bf(2));
+    Aq += Q * dt / bf(25);
+    let upTerm = getA1(a1.level) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     dotrho = upTerm / div2 / bf(5);
     currency1.value += dotrho * bonus * dt;
     theory.invalidateTertiaryEquation();
 }
-var getInternalState = () => `${x}`;
+var getInternalState = () => `${x} ${Aq}`;
 var setInternalState = (state) => {
     let values = state.split(" ");
     if (values.length > 0) x = parseBigNumber(values[0]);
+    if (values.length > 1) Aq = parseBigNumber(values[1]);
 }
 
 var getPrimaryEquation = () => {
@@ -142,7 +145,7 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
-var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 1);
+var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getK = (level) => BigNumber.from(level * 0.05);
 var getDT = (level) => BigNumber.from(15 * level + 8);
 init();
