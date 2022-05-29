@@ -8,9 +8,9 @@ import { Utils } from "./api/Utils";
 // at start i dont think it will be well balanced :O
 var id = "Triangle?";
 var name = "Trigonometry";
-var description = "Trigonometry, talks about sin() cos() tan() and more!";
+var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/2 of Q when you pub.";
 var authors = "Skyhigh173#3120";
-var version = 1.1;
+var version = 1.2;
 
 var currency1;
 var a1, a2;
@@ -164,11 +164,11 @@ var getTertiaryEquation = () => {
 
 var postPublish = () => {
     x = BigNumber.ZERO;
-    Aq = BigNumber.ONE;
+    Aq = Aq / BigNumber.TWO;
 }
 
-var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.TWO;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.23}}{2}";
+var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.23}}{3}";
 var getTau = () => currency1.value;
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
