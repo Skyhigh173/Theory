@@ -154,7 +154,7 @@ var tick = (elapsedTime, multiplier) => {
     let Q = getQ(q.level);
     
     Aq += Q * dt / bf(20);
-    Aq = Aq.min(Q * 4000);
+    Aq = Aq.min(Q * 4000 + 1);
     
     // final calc
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
