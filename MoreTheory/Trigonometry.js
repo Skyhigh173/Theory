@@ -120,7 +120,7 @@ var tick = (elapsedTime, multiplier) => {
     let ExpA1 = bf(1 + a1Exp.level / 10);
     
     let Q = getQ(q.level);
-    Aq += Q * dt / bf(20) * (bf(1) + (bonus / bf(50)));
+    Aq += Q * dt / bf(20);
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     
     let stage = 2;
