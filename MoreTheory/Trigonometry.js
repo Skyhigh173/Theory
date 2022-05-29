@@ -70,7 +70,7 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(4)));
+        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(3.5)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
@@ -177,5 +177,5 @@ var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getK = (level) => BigNumber.from(level * 0.05);
-var getDT = (level) => BigNumber.from(10 * level + 8);
+var getDT = (level) => BigNumber.from(12 * level + 8);
 init();
