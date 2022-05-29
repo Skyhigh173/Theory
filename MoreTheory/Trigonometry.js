@@ -19,6 +19,7 @@ var q, k, vdt;
 var Aq = BigNumber.ONE;
 var x = BigNumber.ZERO;
 var dotrho, div;
+var postQ;
 
 var init = () => {
     currency1 = theory.createCurrency();
@@ -120,6 +121,7 @@ var tick = (elapsedTime, multiplier) => {
     let ExpA1 = bf(1 + a1Exp.level / 10);
     
     let Q = getQ(q.level);
+    postQ = Q / bf(20);
     Aq += Q * dt / bf(20);
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     
@@ -165,6 +167,7 @@ var getTertiaryEquation = () => {
 var postPublish = () => {
     x = BigNumber.ZERO;
     Aq = Aq / BigNumber.TWO;
+    if (Aq >= postQ * 6000) Aq = postQ * 6000;
 }
 
 var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
