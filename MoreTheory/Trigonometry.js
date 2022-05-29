@@ -179,7 +179,7 @@ var getInternalState = () => `${x} ${Aq}`;
 var setInternalState = (state) => {
     let values = state.split(" ");
     if (values.length > 0) x = parseBigNumber(values[0]);
-    if (values.length > 1) Aq = parseBigNumber(values[1]);
+    //if (values.length > 1) Aq = parseBigNumber(values[1]);
 }
 
 var getPrimaryEquation = () => {
