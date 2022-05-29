@@ -8,13 +8,13 @@ import { Utils } from "./api/Utils";
 // at start i dont think it will be well balanced :O
 var id = "Triangle?";
 var name = "Trigonometry";
-var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/2 of Q when you pub.";
+var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
 var authors = "Skyhigh173#3120";
 var version = 1.2;
 
 
 var currency1;
-var a1, a2;
+var a1, a2, a3, a4;
 var a1Exp, GameSpeed, moreK, moreTerm;
 var q, k, vdt;
 var Aq = BigNumber.ONE;
@@ -43,6 +43,14 @@ var init = () => {
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getInfo(a2.level), getInfo(a2.level + amount));
     }
+    // a3
+    {
+        let getDesc = (level) => "a_3=2^{" + level + "}";
+        let getInfo = (level) => "a_3=" + getA3(level).toString(0);
+        a3 = theory.createUpgrade(1, currency1, new ExponentialCost(1e100, Math.log2(4.2)));
+        a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
+        a3.getInfo = (amount) => Utils.getMathTo(getInfo(a3.level), getInfo(a3.level + amount));
+    }
     // q
     {
         let getDesc = (level) => "\\dot{q}=" + getQ(level) / BigNumber.from(20);
@@ -70,7 +78,7 @@ var init = () => {
     
     // Permanent Upgrades
     theory.createPublicationUpgrade(0, currency1, 1e10);
-    theory.createBuyAllUpgrade(1, currency1, 1e13);
+    theory.createBuyAllUpgrade(1, currency1, 1e15);
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
     
     // milestone upgrades
@@ -95,7 +103,14 @@ var init = () => {
         moreK.description = "$\\uparrow$ K max level by 10";
         moreK.info = "Increases maximum level of K by 10";
         moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-        moreK.canBeRefunded = (_) => k.level <= 10;
+        moreK.canBeRefunded = (_) => k.level <= 20;
+    }
+    
+    {
+        moreTerm = theory.createMilestoneUpgrade(4, 1);
+        moreTerm.description = Localization.getUpgradeAddTermDesc("a_3");
+        moreTerm.info = Localization.getUpgradeAddTermInfo("a_3");
+        moreTerm.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     updateAvailability();
@@ -105,7 +120,9 @@ var updateAvailability = () => {
     
     GameSpeed.isAvailable = theory.tau >= bf(1e50);
     moreK.isAvailable = theory.tau >= bf(1e40);
+    moreTerm.isAvailable = theory.tau >= bf(1e100);
     
+    a3.isAvailable = moreTerm.level >= 1;
     
     if (moreK.level >= 1) k.maxLevel = 30;
     else k.maxLevel = 20;
@@ -131,7 +148,9 @@ var tick = (elapsedTime, multiplier) => {
     postQ = Q / bf(20);
     if(Aq < postQ * 4000) Aq += Q * dt / bf(20);
     else Aq = postQ * 4000;
-    let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
+    let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
+    upTerm += getA2(a2.level) * Aq.pow(bf(2));
+    if (moreTerm.level >= 1) upterm += getA3(a3.level) * Aq.pow(bf(3));
     
     let stage = 2;
     
@@ -141,7 +160,9 @@ var tick = (elapsedTime, multiplier) => {
         x = bf(0);
     }
     currency1.value += dotrho * bonus * dt;
+    
     theory.invalidateTertiaryEquation();
+    updateAvailability();
 }
 var getInternalState = () => `${x} ${Aq}`;
 var setInternalState = (state) => {
@@ -154,7 +175,9 @@ var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
     let result = "\\dot{\\rho} = \\frac{a_1";
     if (a1Exp.level >= 1) result += "^{" + (1 + a1Exp.level / 10) + "}";
-    result += " q + a_2 q^{2}}{\\mid \\varrho \\mid + 10^{-k}}";
+    result += " q + a_2 q^{2}"
+    if (moreTerm.level >= 1) result += " + a_3 q^{3} ";
+    result += "}{\\mid \\varrho \\mid + 10^{-k}}";
     return result;
 }
 
@@ -174,7 +197,7 @@ var getTertiaryEquation = () => {
 
 var postPublish = () => {
     x = BigNumber.ZERO;
-    Aq = Aq / BigNumber.TWO;
+    Aq = Aq / BigNumber.THREE;
     if (Aq >= postQ * 1500) Aq = postQ * 1500;
 }
 
@@ -186,6 +209,7 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
+var getA3 = (level) => BigNumber.TWO.pow(level);
 var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getK = (level) => BigNumber.from(level * 0.05);
 var getDT = (level) => BigNumber.from(12 * level + 8);
