@@ -206,7 +206,7 @@ var getTertiaryEquation = () => {
     return r;
 }
 var prePublish = () => {
-    postQ = getQ(q.level) / bf(20);
+    postQ = getQ(q.level) / BigNumber.from(20);
 }
 var postPublish = () => {
     x = BigNumber.ZERO;
