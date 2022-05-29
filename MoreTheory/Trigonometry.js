@@ -153,8 +153,8 @@ var tick = (elapsedTime, multiplier) => {
     // Q calc
     let Q = getQ(q.level);
     
-    if(Aq < postQ * 4000) Aq += Q * dt / bf(20);
-    else Aq = postQ * 4000;
+    if(Aq < Q * 4000) Aq += Q * dt / bf(20);
+    else Aq = Q * 4000;
     
     // final calc
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
@@ -179,7 +179,7 @@ var getInternalState = () => `${x} ${Aq}`;
 var setInternalState = (state) => {
     let values = state.split(" ");
     if (values.length > 0) x = parseBigNumber(values[0]);
-    //if (values.length > 1) Aq = parseBigNumber(values[1]);
+    if (values.length > 1) Aq = parseBigNumber(values[1]);
 }
 
 var getPrimaryEquation = () => {
