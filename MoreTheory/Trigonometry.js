@@ -122,7 +122,8 @@ var tick = (elapsedTime, multiplier) => {
     
     let Q = getQ(q.level);
     postQ = Q / bf(20);
-    Aq += Q * dt / bf(20);
+    if(Aq < postQ * 4000) Aq += Q * dt / bf(20);
+    else Aq = postQ * 4000;
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     
     let stage = 2;
