@@ -14,7 +14,7 @@ var version = 1.1;
 
 var currency1;
 var a1, a2;
-var a1Exp;
+var a1Exp, GameSpeed;
 var q, k, vdt;
 var Aq = BigNumber.ONE;
 var x = BigNumber.ZERO;
@@ -81,13 +81,20 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
     
     // milestone upgrades
-    theory.setMilestoneCost(new LinearCost(20, 20));
+    theory.setMilestoneCost(new LinearCost(20, 10));
     
     {
         a1Exp = theory.createMilestoneUpgrade(0, 2);
         a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.1");
         a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.1");
         a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
+    
+    {
+        GameSpeed = theory.createMilestoneUpgrade(1, 1);
+        GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
+        GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
+        GameSpeed.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     updateAvailability();
@@ -117,9 +124,8 @@ var tick = (elapsedTime, multiplier) => {
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     
     let stage = 3;
-    if (currency1.value >= bf(1e22)) stage = 2;
     
-    dotrho = upTerm / div2 / bf(stage);
+    dotrho = upTerm / div2 / bf(stage) * bf(2).pow(bf(GameSpeed.level));
     if (a1.level == 0) {
         dotrho = bf(0);
         x = bf(0);
@@ -145,12 +151,12 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => {
     theory.secondaryEquationHeight = 80;
     let result = "\\varrho = \\sum_{n=0}^{\\vartheta} \\frac{(-1)^{n} x^{2n+1}}{(2n+1)!}";
+    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho";
     return result;
 }
 var getTertiaryEquation = () => {
-    let r = theory.latexSymbol + "=\\max\\rho";
-    r += "\\qquad x =" + x;
-    r += "\\qquad \\dot{\\rho} =" + dotrho;
+    let r = " x =" + x;
+    r += "\\qquad \\dot{\\rho} =" + (dotrho * theory.publicationMultiplier);
     r += "\\qquad \\varrho =" + div;
     r += "\\qquad q =" + Aq;
     return r;
@@ -158,6 +164,7 @@ var getTertiaryEquation = () => {
 
 var postPublish = () => {
     x = BigNumber.ZERO;
+    Aq = BigNumber.ONE;
 }
 
 var getPublicationMultiplier = (tau) => tau.pow(0.164) / BigNumber.THREE;
