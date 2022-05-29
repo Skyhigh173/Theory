@@ -11,7 +11,7 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.0.3-0x0001";
+var version = "Beta v1.0.3  0x0002";
 
 
 var currency1;
@@ -152,7 +152,7 @@ var tick = (elapsedTime, multiplier) => {
     
     // Q calc
     let Q = getQ(q.level);
-    postQ = Q / bf(20);
+    
     if(Aq < postQ * 4000) Aq += Q * dt / bf(20);
     else Aq = postQ * 4000;
     
@@ -205,11 +205,14 @@ var getTertiaryEquation = () => {
     r += "\\qquad q =" + Aq;
     return r;
 }
-
+var prePublish = () => {
+    postQ = getQ(q.level) / bf(20);
+}
 var postPublish = () => {
     x = BigNumber.ZERO;
     Aq = Aq / BigNumber.THREE;
     if (Aq >= postQ * 1500) Aq = postQ * 1500;
+    Aq += BigNumber.ONE;
 }
 
 var getEquationOverlay = (_) => {
