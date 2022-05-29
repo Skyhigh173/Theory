@@ -12,9 +12,10 @@ var description = "You need some (a little) skills to play this theory.\nif your
 var authors = "Skyhigh173#3120";
 var version = 1.2;
 
+
 var currency1;
 var a1, a2;
-var a1Exp, GameSpeed;
+var a1Exp, GameSpeed, moreK, moreTerm;
 var q, k, vdt;
 var Aq = BigNumber.ONE;
 var x = BigNumber.ZERO;
@@ -45,33 +46,24 @@ var init = () => {
     // q
     {
         let getDesc = (level) => "\\dot{q}=" + getQ(level) / BigNumber.from(20);
-        q = theory.createUpgrade(2, currency1, new ExponentialCost(10, Math.log2(4.8)));
+        q = theory.createUpgrade(10, currency1, new ExponentialCost(10, Math.log2(4.8)));
         q.getDescription = (_) => Utils.getMath(getDesc(q.level));
         q.getInfo = (amount) => Utils.getMathTo(getDesc(q.level), getDesc(q.level + amount));
     }
-    /* x
-    {
-        let getDesc = (level) => "x=e \\times " + getX(level).toString(0);
-        let getInfo = (level) => "x=" + getX(level).toString(0);
-        x = theory.createUpgrade(3, currency, new ExponentialCost(100, Math.log2(2.3)));
-        x.getDescription = (_) => Utils.getMath(getDesc(x.level));
-        x.getInfo = (amount) => Utils.getMathTo(getInfo(x.level), getInfo(x.level + amount));
-    }
-    */
     // k
     {
         let getDesc = (level) => "k=" + getK(level).toString(2);
         let getInfo = (level) => "k=" + getK(level).toString(2);
-        k = theory.createUpgrade(4, currency1, new ExponentialCost(100, Math.log2(90)));
+        k = theory.createUpgrade(11, currency1, new ExponentialCost(100, Math.log2(90)));
         k.getDescription = (_) => Utils.getMath(getDesc(k.level));
         k.getInfo = (amount) => Utils.getMathTo(getInfo(k.level), getInfo(k.level + amount));
-        k.maxLevel = 20;
+        //k.maxLevel = 20;
         // k = -0 -> k = 1 (step = 0.05)
     }
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(5, currency1, new ExponentialCost(25, Math.log2(3.5)));
+        vdt = theory.createUpgrade(12, currency1, new ExponentialCost(25, Math.log2(3.5)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
@@ -92,16 +84,31 @@ var init = () => {
     }
     
     {
-        GameSpeed = theory.createMilestoneUpgrade(1, 1);
+        GameSpeed = theory.createMilestoneUpgrade(1, 2);
         GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
         GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
         GameSpeed.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
+    {
+        moreK = theory.createMilestoneUpgrade(3, 1);
+        moreK.description = "$\\uparrow$ K max level by 10";
+        moreK.info = "Increases maximum level of K by 10";
+        moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+        moreK.canBeRefunded = (_) => k.level <= 10;
+    }
+    
     updateAvailability();
 }
 var updateAvailability = () => {
+    let bf = (num) => BigNumber.from(num);
     
+    GameSpeed.isAvailable = theory.tau >= bf(1e50);
+    moreK.isAvailable = theory.tau >= bf(1e40);
+    
+    
+    if (moreK.level >= 1) k.maxLevel = 30;
+    else k.maxLevel = 20;
 }
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
