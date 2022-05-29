@@ -3,6 +3,7 @@ import { Localization } from "./api/Localization";
 import { BigNumber } from "./api/BigNumber";
 import { theory } from "./api/Theory";
 import { Utils } from "./api/Utils";
+import {ui} from "./api/ui/UI";
 
 // Trigonometry
 // at start i dont think it will be well balanced :O
@@ -10,7 +11,7 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
 var authors = "Skyhigh173#3120";
-var version = 1.2;
+var version = "Beta v1.0.3-0x0001";
 
 
 var currency1;
@@ -133,27 +134,37 @@ var tick = (elapsedTime, multiplier) => {
     
     // bignumber setup
     let bf = (num) => BigNumber.from(num);
-    let bpi = BigNumber.TWO;
+    let b2 = BigNumber.TWO;
     
+    // x calc
     x += bf(0.125) * dt;
-    div = bf(1);
+    
+    
+    // x diverge calc
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
-    if (x > getDT(vdt.level) * bpi / bf(4)) div = (x - getDT(vdt.level) * bpi / bf(4)).pow(bpi) + x.sin();
+    div = bf(1);
+    if (x > getDT(vdt.level) * b2 / bf(4)) div = (x - getDT(vdt.level) * b2 / bf(4)).pow(b2) + x.sin();
     else div = x.sin();
     let div2 = div.abs() + BigNumber.TEN.pow(bf(0) - getK(k.level)); //10^(-k)
     
+    // Exp Calc
     let ExpA1 = bf(1 + a1Exp.level / 10);
     
+    // Q calc
     let Q = getQ(q.level);
     postQ = Q / bf(20);
     if(Aq < postQ * 4000) Aq += Q * dt / bf(20);
     else Aq = postQ * 4000;
+    
+    // final calc
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
-    upTerm += getA2(a2.level) * Aq.pow(bf(2));
+    upTerm += getA2(a2.level) * Aq.pow(b2);
     if (moreTerm.level >= 1) upterm += getA3(a3.level) * Aq.pow(bf(3));
     
+    // game speed
     let stage = 2;
     
+    // rho adding
     dotrho = upTerm / div2 / bf(stage) * bf(2).pow(bf(GameSpeed.level));
     if (a1.level == 0) {
         dotrho = bf(0);
@@ -199,6 +210,11 @@ var postPublish = () => {
     x = BigNumber.ZERO;
     Aq = Aq / BigNumber.THREE;
     if (Aq >= postQ * 1500) Aq = postQ * 1500;
+}
+
+var getEquationOverlay = (_) => {
+    let result = ui.createLatexLabel({text: version, displacementY: 4, displacementX: 4, fontSize: 9, textColor: Color.TEXT_MEDIUM});
+    return result;
 }
 
 var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
