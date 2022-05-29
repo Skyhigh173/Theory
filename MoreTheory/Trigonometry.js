@@ -153,7 +153,7 @@ var tick = (elapsedTime, multiplier) => {
     // Q calc
     let Q = getQ(q.level);
     
-    if(Aq < Q * 4000) Aq += Q * dt / bf(20);
+    if(Aq < Q * 4000 && Aq > bf(0)) Aq += Q * dt / bf(20);
     else Aq = Q * 4000;
     
     // final calc
