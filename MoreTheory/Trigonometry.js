@@ -123,7 +123,7 @@ var tick = (elapsedTime, multiplier) => {
     Aq += Q * dt / bf(20);
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq + getA2(a2.level) * Aq.pow(bf(2));
     
-    let stage = 3;
+    let stage = 2;
     
     dotrho = upTerm / div2 / bf(stage) * bf(2).pow(bf(GameSpeed.level));
     if (a1.level == 0) {
