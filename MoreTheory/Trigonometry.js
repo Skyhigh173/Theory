@@ -167,7 +167,7 @@ var getTertiaryEquation = () => {
 var postPublish = () => {
     x = BigNumber.ZERO;
     Aq = Aq / BigNumber.TWO;
-    if (Aq >= postQ * 6000) Aq = postQ * 6000;
+    if (Aq >= postQ * 1500) Aq = postQ * 1500;
 }
 
 var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
