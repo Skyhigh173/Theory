@@ -11,7 +11,7 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.0  0x0002";
+var version = "Beta v1.1.1  0x0002";
 
 
 var currency1;
@@ -83,7 +83,7 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
     
     // milestone upgrades
-    theory.setMilestoneCost(new LinearCost(20, 10));
+    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(100, 5)));
     
     {
         a1Exp = theory.createMilestoneUpgrade(0, 2);
@@ -262,7 +262,7 @@ function CreateAch () {
 }
 var TauExp = 0.2;
 var getPublicationMultiplier = (tau) => tau.pow(0.23 * (1 / TauExp)) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.23}}{3}";
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (0.23 * (1 / TauExp)) + "}}{3}";
 var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
