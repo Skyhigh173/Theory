@@ -11,7 +11,7 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.0  0x0001";
+var version = "Beta v1.1.0  0x0002";
 
 
 var currency1;
@@ -260,8 +260,8 @@ function CreateAch () {
     theory.createAchievement(200, ac4, "When did this theory become EF", "Tips:can you reach e250 rho?", () => currency.value > bf(1e250) && vdt.level < 10);
     theory.createAchievement(201, ac4, "Sounds like bt", "Tips: fast", () => currency.value > 1e10 && x < 10);
     
-    theory.createSecretAchievement(500, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", theory.tau >= bf(6.9e420));
-    theory.createSecretAchievement(501, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", t >= 20000);
+    theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf(6.9e420));
+    theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
 }
 
 var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
