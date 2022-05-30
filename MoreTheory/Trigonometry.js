@@ -162,7 +162,7 @@ var tick = (elapsedTime, multiplier) => {
     // final calc
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
     upTerm += getA2(a2.level) * bf(Aq).pow(bf(2));
-    if (moreTerm.level >= 1) upterm += getA3(a3.level) * Aq.pow(bf(3));
+    if (moreTerm.level >= 1) upTerm += getA3(a3.level) * Aq.pow(bf(3));
     
     // game speed
     let stage = 2;
