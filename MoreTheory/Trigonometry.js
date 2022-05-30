@@ -104,7 +104,7 @@ var init = () => {
         moreK.description = "$\\uparrow$ K max level by 20";
         moreK.info = "Increases maximum level of K by 20";
         moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-        moreK.canBeRefunded = (_) => k.level <= 20;
+        moreK.canBeRefunded = (_) => (k.level <= 20 && moreK.level == 1) || (k.level <= 40 && moreK.level == 2) ;
     }
     
     {
@@ -198,7 +198,7 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => {
     theory.secondaryEquationHeight = 80;
     let result = "\\varrho = \\sum_{n=0}^{\\vartheta} \\frac{(-1)^{n} x^{2n+1}}{(2n+1)!}";
-    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho";
+    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho^{0.2}";
     return result;
 }
 var getTertiaryEquation = () => {
@@ -243,9 +243,9 @@ function CreateAch () {
     theory.createAchievement(6, ac1, "Lets goo!", "reach 1e100 rho", () => tau >= 1e100);
     theory.createAchievement(7, ac1, "GAS GAS GAS", "reach 1e200 rho", () => tau >= 1e200);
     theory.createAchievement(8, ac1, "Master", "reach 1e300 rho", () => tau >= bf("1e300"));
-    theory.createAchievement(9, ac1, "True. Master", "reach 1e500 rho", () => tau >= bf("1e500"));
-    theory.createAchievement(10, ac1, "Near the end...?", "reach 1e750 rho", () => tau >= bf("1e750"));
-    theory.createAchievement(11, ac1, "The end.", "reach 1e1000 rho", () => tau >= bf("1e1000"));
+    //theory.createAchievement(9, ac1, "True. Master", "reach 1e500 rho", () => tau >= bf("1e500"));
+    //theory.createAchievement(10, ac1, "Near the end...?", "reach 1e750 rho", () => tau >= bf("1e750"));
+    //theory.createAchievement(11, ac1, "The end.", "reach 1e1000 rho", () => tau >= bf("1e1000"));
     
     theory.createAchievement(100, ac2, "linear growth", "have q's value greater then 1000 ", () => Aq >= 1000);
     theory.createAchievement(101, ac2, "x^2", "have q's value greater then 1e5 ", () => Aq >= 1e5);
@@ -263,7 +263,7 @@ function CreateAch () {
 }
 var TauExp = 0.2;
 var getPublicationMultiplier = (tau) => tau.pow(0.23 * (1 / TauExp)) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (0.23 * (1 / TauExp)) + "}}{3}";
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (Math.floor(100 * 0.23 * (1 / TauExp)) / 100) + "}}{3}";
 var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(5), currency1.symbol];
