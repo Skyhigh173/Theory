@@ -6,7 +6,7 @@ import { Utils } from "./api/Utils";
 import {ui} from "./api/ui/UI";
 
 // Trigonometry
-// at start i dont think it will be well balanced :O
+
 var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
@@ -83,7 +83,7 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
     
     // milestone upgrades
-    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(100, 5)));
+    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(10, 5)));
     
     {
         a1Exp = theory.createMilestoneUpgrade(0, 2);
@@ -230,21 +230,21 @@ function CreateAch () {
     let ac4 = theory.createAchievementCategory(3, "Miscellaneous");
     let acs = theory.createAchievementCategory(10, "Secret");
     let bf = (num) => BigNumber.from(num);
-    let Prog1 = (reach) => theory.tau > bf(reach) ? theory.tau.log() / bf(reach).log() : 1;
+    let tau = theory.tau.pow(bf(5));
     let t = getDT(vdt.level);
     
-    theory.createAchievement(0, ac1, "Where it begins", "Begin the theory", () => theory.tau >= 1);
-    theory.createAchievement(1, ac1, "Need faster", "reach 1e10 rho", () => theory.tau >= 1e10);
-    theory.createAchievement(2, ac1, "Milestone get!", "reach 1e20 rho", () => theory.tau >= 1e20);
-    theory.createAchievement(3, ac1, "Full Speed : ON", "reach 1e30 rho", () => theory.tau >= 1e30);
-    theory.createAchievement(4, ac1, "Skillful Pro Player", "reach 1e50 rho", () => theory.tau >= 1e50);
-    theory.createAchievement(5, ac1, "Such a waste of time", "reach 1e75 rho", () => theory.tau >= 1e75);
-    theory.createAchievement(6, ac1, "Lets goo!", "reach 1e100 rho", () => theory.tau >= 1e100);
-    theory.createAchievement(7, ac1, "GAS GAS GAS", "reach 1e200 rho", () => theory.tau >= 1e200);
-    theory.createAchievement(8, ac1, "Master", "reach 1e300 rho", () => theory.tau >= bf("1e300"));
-    theory.createAchievement(9, ac1, "True. Master", "reach 1e500 rho", () => theory.tau >= bf("1e500"));
-    theory.createAchievement(10, ac1, "Near the end...?", "reach 1e750 rho", () => theory.tau >= bf("1e750"));
-    theory.createAchievement(11, ac1, "The end.", "reach 1e1000 rho", () => theory.tau >= bf("1e1000"));
+    theory.createAchievement(0, ac1, "Where it begins", "Begin the theory", () => tau >= 1);
+    theory.createAchievement(1, ac1, "Need faster", "reach 1e10 rho", () => tau >= 1e10);
+    theory.createAchievement(2, ac1, "Milestone get!", "reach 1e20 rho", () => tau >= 1e20);
+    theory.createAchievement(3, ac1, "Full Speed : ON", "reach 1e30 rho", () => tau >= 1e30);
+    theory.createAchievement(4, ac1, "Skillful Pro Player", "reach 1e50 rho", () => tau >= 1e50);
+    theory.createAchievement(5, ac1, "Such a waste of time", "reach 1e75 rho", () => tau >= 1e75);
+    theory.createAchievement(6, ac1, "Lets goo!", "reach 1e100 rho", () => tau >= 1e100);
+    theory.createAchievement(7, ac1, "GAS GAS GAS", "reach 1e200 rho", () => tau >= 1e200);
+    theory.createAchievement(8, ac1, "Master", "reach 1e300 rho", () => tau >= bf("1e300"));
+    theory.createAchievement(9, ac1, "True. Master", "reach 1e500 rho", () => tau >= bf("1e500"));
+    theory.createAchievement(10, ac1, "Near the end...?", "reach 1e750 rho", () => tau >= bf("1e750"));
+    theory.createAchievement(11, ac1, "The end.", "reach 1e1000 rho", () => tau >= bf("1e1000"));
     
     theory.createAchievement(100, ac2, "linear growth", "have q's value greater then 1000 ", () => Aq >= 1000);
     theory.createAchievement(101, ac2, "x^2", "have q's value greater then 1e5 ", () => Aq >= 1e5);
