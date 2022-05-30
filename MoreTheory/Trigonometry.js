@@ -230,6 +230,8 @@ function CreateAch () {
     let ac4 = theory.createAchievementCategory(3, "Miscellaneous");
     let acs = theory.createAchievementCategory(10, "Secret");
     let bf = (num) => BigNumber.from(num);
+    let Prog1 = (reach) => theory.tau > bf(reach) ? theory.tau.log() / bf(reach).log() : 1;
+    let t = getDT(vdt.level);
     
     theory.createAchievement(0, ac1, "Where it begins", "Begin the theory", () => theory.tau >= 1, Prog1(1));
     theory.createAchievement(1, ac1, "Need faster", "reach 1e10 rho", () => theory.tau >= 1e10, Prog1(1e10));
@@ -250,9 +252,16 @@ function CreateAch () {
     theory.createAchievement(103, ac2, "Tetration?", "have q's value greater then 1e15 ", () => Aq >= 1e15);
     theory.createAchievement(104, ac2, "King of derivative", "have q's value greater then 1e30 ", () => Aq >= 1e30);
     
-    let Prog1 = (reach) => theory.tau > bf(reach) ? theory.tau.log() / bf(reach).log() : 1;
+    theory.createAchievement(150, ac3, "A lots of loop", "Reach 1000 in vartheta", () => t >= 1000);
+    theory.createAchievement(151, ac3, "Dont you think its possible", "Reach 5000 in vartheta", () => t >= 5000);
+    theory.createAchievement(152, ac3, "Fractal", "Reach 10000 in vartheta", () => t >= 10000);
     
+    // remove later on gg
+    theory.createAchievement(200, ac4, "When did this theory become EF", "Tips:can you reach e250 rho?", () => currency.value > bf(1e250) && vdt.level < 10);
+    theory.createAchievement(201, ac4, "Sounds like bt", "Tips: fast", () => currency.value > 1e10 && x < 10);
     
+    theory.createSecretAchievement(500, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", theory.tau >= bf(6.9e420));
+    theory.createSecretAchievement(501, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", t >= 20000);
 }
 
 var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
