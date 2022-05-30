@@ -229,7 +229,7 @@ function CreateAch () {
     let ac3 = theory.createAchievementCategory(2, "Sigma");
     let ac4 = theory.createAchievementCategory(3, "Miscellaneous");
     let acs = theory.createAchievementCategory(10, "Secret");
-    let bf = (num) => BigNumber.from(num);
+    let bf = (num) => BigNumber.from(num.toString());
     let Prog1 = (reach) => theory.tau > bf(reach) ? theory.tau.log() / bf(reach).log() : 1;
     let t = getDT(vdt.level);
     
