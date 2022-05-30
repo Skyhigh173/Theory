@@ -256,17 +256,14 @@ function CreateAch () {
     theory.createAchievement(151, ac3, "Dont you think its possible", "Reach 5000 in vartheta", () => t >= 5000);
     theory.createAchievement(152, ac3, "Fractal", "Reach 10000 in vartheta", () => t >= 10000);
     
-    // remove later on gg
-    //theory.createAchievement(200, ac4, "When did this theory become EF", "Tips:can you reach e250 rho?", () => currency.value > bf(1e250) && vdt.level < 10);
-    //theory.createAchievement(201, ac4, "Sounds like bt", "Tips: fast", () => currency.value > 1e10 && x < 10);
-    
-    theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf("6.9e420"));
-    theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
+    // More Secret Achievement soon tm
+    //theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf("6.9e420"));
+    //theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
 }
-
-var getPublicationMultiplier = (tau) => tau.pow(0.23) / BigNumber.THREE;
+var TauExp = 0.2;
+var getPublicationMultiplier = (tau) => tau.pow(0.23 * (1 / TauExp)) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.23}}{3}";
-var getTau = () => currency1.value;
+var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 
 
