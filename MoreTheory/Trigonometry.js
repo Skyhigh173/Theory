@@ -120,10 +120,11 @@ var init = () => {
 }
 var updateAvailability = () => {
     let bf = (num) => BigNumber.from(num);
+    let tbf = (num) => bf(num).pow(bf(0.2))
     
-    GameSpeed.isAvailable = theory.tau >= bf(1e50);
-    moreK.isAvailable = theory.tau >= bf(1e40);
-    moreTerm.isAvailable = theory.tau >= bf(1e100);
+    GameSpeed.isAvailable = theory.tau >= tbf(1e50);
+    moreK.isAvailable = theory.tau >= tbf(1e40);
+    moreTerm.isAvailable = theory.tau >= tbf(1e100);
     
     a3.isAvailable = moreTerm.level >= 1;
     
