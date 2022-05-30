@@ -265,7 +265,7 @@ var getPublicationMultiplier = (tau) => tau.pow(0.23 * (1 / TauExp)) / BigNumber
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (0.23 * (1 / TauExp)) + "}}{3}";
 var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
-var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(5), currency.symbol];
+var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(5), currency1.symbol];
 
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
