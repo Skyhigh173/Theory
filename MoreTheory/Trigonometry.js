@@ -86,7 +86,7 @@ var init = () => {
     theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(10, 5)));
     
     {
-        a1Exp = theory.createMilestoneUpgrade(0, 3);
+        a1Exp = theory.createMilestoneUpgrade(0, 2);
         a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.1");
         a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.1");
         a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
