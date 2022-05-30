@@ -229,7 +229,7 @@ function CreateAch () {
     let ac3 = theory.createAchievementCategory(2, "Sigma");
     let ac4 = theory.createAchievementCategory(3, "Miscellaneous");
     let acs = theory.createAchievementCategory(10, "Secret");
-    let bf = (num) => BigNumber.from(num.toString());
+    let bf = (num) => BigNumber.from(num);
     let Prog1 = (reach) => theory.tau > bf(reach) ? theory.tau.log() / bf(reach).log() : 1;
     let t = getDT(vdt.level);
     
@@ -241,10 +241,10 @@ function CreateAch () {
     theory.createAchievement(5, ac1, "Such a waste of time", "reach 1e75 rho", () => theory.tau >= 1e75);
     theory.createAchievement(6, ac1, "Lets goo!", "reach 1e100 rho", () => theory.tau >= 1e100);
     theory.createAchievement(7, ac1, "GAS GAS GAS", "reach 1e200 rho", () => theory.tau >= 1e200);
-    theory.createAchievement(8, ac1, "Master", "reach 1e300 rho", () => theory.tau >= bf(1e300));
-    theory.createAchievement(9, ac1, "True. Master", "reach 1e500 rho", () => theory.tau >= bf(1e500));
-    theory.createAchievement(10, ac1, "Near the end...?", "reach 1e750 rho", () => theory.tau >= bf(1e750));
-    theory.createAchievement(11, ac1, "The end.", "reach 1e1000 rho", () => theory.tau >= bf(1e1000));
+    theory.createAchievement(8, ac1, "Master", "reach 1e300 rho", () => theory.tau >= bf("1e300"));
+    theory.createAchievement(9, ac1, "True. Master", "reach 1e500 rho", () => theory.tau >= bf("1e500"));
+    theory.createAchievement(10, ac1, "Near the end...?", "reach 1e750 rho", () => theory.tau >= bf("1e750"));
+    theory.createAchievement(11, ac1, "The end.", "reach 1e1000 rho", () => theory.tau >= bf("1e1000"));
     
     theory.createAchievement(100, ac2, "linear growth", "have q's value greater then 1000 ", () => Aq >= 1000);
     theory.createAchievement(101, ac2, "x^2", "have q's value greater then 1e5 ", () => Aq >= 1e5);
@@ -260,7 +260,7 @@ function CreateAch () {
     //theory.createAchievement(200, ac4, "When did this theory become EF", "Tips:can you reach e250 rho?", () => currency.value > bf(1e250) && vdt.level < 10);
     //theory.createAchievement(201, ac4, "Sounds like bt", "Tips: fast", () => currency.value > 1e10 && x < 10);
     
-    theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf(6.9e420));
+    theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf("6.9e420"));
     theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
 }
 
