@@ -48,7 +48,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_3=2^{" + level + "}";
         let getInfo = (level) => "a_3=" + getA3(level).toString(0);
-        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e100, Math.log2(4.2)));
+        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e100, Math.log2(3.8)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => Utils.getMathTo(getInfo(a3.level), getInfo(a3.level + amount));
     }
@@ -86,23 +86,23 @@ var init = () => {
     theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(10, 5)));
     
     {
-        a1Exp = theory.createMilestoneUpgrade(0, 2);
+        a1Exp = theory.createMilestoneUpgrade(0, 3);
         a1Exp.description = Localization.getUpgradeIncCustomExpDesc("a_1", "0.1");
         a1Exp.info = Localization.getUpgradeIncCustomExpInfo("a_1", "0.1");
         a1Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     {
-        GameSpeed = theory.createMilestoneUpgrade(1, 2);
+        GameSpeed = theory.createMilestoneUpgrade(1, 3);
         GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
         GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
         GameSpeed.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     {
-        moreK = theory.createMilestoneUpgrade(3, 1);
-        moreK.description = "$\\uparrow$ K max level by 10";
-        moreK.info = "Increases maximum level of K by 10";
+        moreK = theory.createMilestoneUpgrade(3, 2);
+        moreK.description = "$\\uparrow$ K max level by 20";
+        moreK.info = "Increases maximum level of K by 20";
         moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
         moreK.canBeRefunded = (_) => k.level <= 20;
     }
@@ -128,8 +128,8 @@ var updateAvailability = () => {
     
     a3.isAvailable = moreTerm.level >= 1;
     
-    if (moreK.level >= 1) k.maxLevel = 30;
-    else k.maxLevel = 20;
+    
+    k.maxLevel = 20 + moreK.level * 20;
 }
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
