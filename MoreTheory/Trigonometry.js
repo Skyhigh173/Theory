@@ -257,8 +257,8 @@ function CreateAch () {
     theory.createAchievement(152, ac3, "Fractal", "Reach 10000 in vartheta", () => t >= 10000);
     
     // remove later on gg
-    theory.createAchievement(200, ac4, "When did this theory become EF", "Tips:can you reach e250 rho?", () => currency.value > bf(1e250) && vdt.level < 10);
-    theory.createAchievement(201, ac4, "Sounds like bt", "Tips: fast", () => currency.value > 1e10 && x < 10);
+    //theory.createAchievement(200, ac4, "When did this theory become EF", "Tips:can you reach e250 rho?", () => currency.value > bf(1e250) && vdt.level < 10);
+    //theory.createAchievement(201, ac4, "Sounds like bt", "Tips: fast", () => currency.value > 1e10 && x < 10);
     
     theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf(6.9e420));
     theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
