@@ -9,7 +9,7 @@ import {ui} from "./api/ui/UI";
 
 var id = "Triangle?";
 var name = "Trigonometry";
-var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Play attention to vartheta, it will slow down your theory when it gets bigger!";
+var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
 var version = "Beta v1.1.2  0x0000";
 
@@ -123,7 +123,7 @@ var updateAvailability = () => {
     let tbf = (num) => bf(num).pow(bf(0.2))
     
     GameSpeed.isAvailable = theory.tau >= tbf(1e50);
-    moreK.isAvailable = theory.tau >= tbf(1e40);
+    moreK.isAvailable = theory.tau >= tbf(1e18);
     moreTerm.isAvailable = theory.tau >= tbf(1e100);
     
     a3.isAvailable = moreTerm.level >= 1;
