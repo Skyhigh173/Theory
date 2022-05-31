@@ -262,8 +262,8 @@ function CreateAch () {
     //theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
 }
 var TauExp = 0.2;
-var getPublicationMultiplier = (tau) => tau.pow(0.25 * (1 / TauExp)) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (Math.floor(100 * 0.23 * (1 / TauExp)) / 100) + "}}{3}";
+var getPublicationMultiplier = (tau) => tau.pow(0.24 * (1 / TauExp)) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (Math.floor(100 * 0.24 * (1 / TauExp)) / 100) + "}}{3}";
 var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
 var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(5), currency1.symbol];
