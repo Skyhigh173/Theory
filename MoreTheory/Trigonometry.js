@@ -32,7 +32,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_1=2^{" + level + "}";
         let getInfo = (level) => "a_1=" + getA1(level).toString(0);
-        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3.6))));
+        a1 = theory.createUpgrade(0, currency1, new FirstFreeCost(new ExponentialCost(5, Math.log2(3.5))));
         a1.getDescription = (_) => Utils.getMath(getDesc(a1.level));
         a1.getInfo = (amount) => Utils.getMathTo(getInfo(a1.level), getInfo(a1.level + amount));
     }
@@ -262,7 +262,7 @@ function CreateAch () {
     //theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
 }
 var TauExp = 0.2;
-var getPublicationMultiplier = (tau) => tau.pow(0.23 * (1 / TauExp)) / BigNumber.THREE;
+var getPublicationMultiplier = (tau) => tau.pow(0.25 * (1 / TauExp)) / BigNumber.THREE;
 var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (Math.floor(100 * 0.23 * (1 / TauExp)) / 100) + "}}{3}";
 var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
