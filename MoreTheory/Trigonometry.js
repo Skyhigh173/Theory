@@ -83,7 +83,7 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
     
     // milestone upgrades
-    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(10, 5)));
+    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(15, 5)));
     
     {
         a1Exp = theory.createMilestoneUpgrade(0, 2);
