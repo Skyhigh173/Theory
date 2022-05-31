@@ -9,9 +9,9 @@ import {ui} from "./api/ui/UI";
 
 var id = "Triangle?";
 var name = "Trigonometry";
-var description = "You need some (a little) skills to play this theory.\nif your rho gain is super slow, buy last upgrade.\nYou will also keep 1/3 of Q when you pub.";
+var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Play attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.1  0x0002";
+var version = "Beta v1.1.2  0x0000";
 
 
 var currency1;
@@ -164,11 +164,12 @@ var tick = (elapsedTime, multiplier) => {
     upTerm += getA2(a2.level) * bf(Aq).pow(bf(2));
     if (moreTerm.level >= 1) upTerm += getA3(a3.level) * Aq.pow(bf(3));
     
-    // game speed
-    let stage = 2;
+    // div total prodution bc of balance problem
+    let stage = 2; 
     
-    // rho adding
+    // rho
     dotrho = upTerm / div2 / bf(stage) * bf(2).pow(bf(GameSpeed.level));
+    // stop if no actions
     if (a1.level == 0) {
         dotrho = bf(0);
         x = bf(0);
