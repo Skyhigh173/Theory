@@ -93,20 +93,20 @@ var init = () => {
     }
     
     {
-        a2Exp= theory.createMilestoneUpgrade(1, 2);
+        a2Exp= theory.createMilestoneUpgrade(10, 2);
         a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.1");
         a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.1");
         a2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     {
-        GameSpeed = theory.createMilestoneUpgrade(10, 3);
+        GameSpeed = theory.createMilestoneUpgrade(1, 3);
         GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
         GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
         GameSpeed.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     {
-        moreK = theory.createMilestoneUpgrade(11, 2);
+        moreK = theory.createMilestoneUpgrade(2, 2);
         moreK.description = "$\\uparrow$ K max level by 20";
         moreK.info = "Increases maximum level of K by 20";
         moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
@@ -114,7 +114,7 @@ var init = () => {
     }
     
     {
-        moreTerm = theory.createMilestoneUpgrade(12, 1);
+        moreTerm = theory.createMilestoneUpgrade(3, 1);
         moreTerm.description = Localization.getUpgradeAddTermDesc("a_3");
         moreTerm.info = Localization.getUpgradeAddTermInfo("a_3");
         moreTerm.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
