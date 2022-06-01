@@ -221,7 +221,7 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => {
     theory.secondaryEquationHeight = 80;
     let result = "\\varrho = \\sum_{n=0}^{\\vartheta} \\frac{(-1)^{n} x^{2n+1}}{(2n+1)!}";
-    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho^{" TauExp + "}";
+    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho^{" + TauExp + "}";
     return result;
 }
 var getTertiaryEquation = () => {
