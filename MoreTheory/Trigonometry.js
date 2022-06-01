@@ -11,7 +11,7 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.3  0x0001";
+var version = "Beta v1.1.3  0x0002";
 
 
 var currency1;
@@ -48,7 +48,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_3=4^{" + level + "}";
         let getInfo = (level) => "a_3=" + getA3(level).toString(0);
-        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.2)));
+        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => Utils.getMathTo(getInfo(a3.level), getInfo(a3.level + amount));
     }
