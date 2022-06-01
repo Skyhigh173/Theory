@@ -11,12 +11,12 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.4  0x0003";
+var version = "Beta v1.1.5  0x0001";
 
 var TauExp = 0.4;
 var tauPow = 1 / TauExp;
 
-var currency1;
+var currency1, free;
 var a1, a2, a3, a4;
 var a1Exp, a2Exp, GameSpeed, moreK, moreTerm;
 var q, k, vdt;
@@ -83,6 +83,14 @@ var init = () => {
     theory.createPublicationUpgrade(0, currency1, 1e10);
     theory.createBuyAllUpgrade(1, currency1, 1e15);
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
+    
+    //test
+    {
+        free = theory.createSingularUpgrade(1,currency1,new FreeCost());
+        free.bought = (amount) => getFreeCurrency();
+        free.description = "Test: Get \\(e5\\rho\\) free";
+    }
+    
     
     // milestone upgrades
     let MS = {
@@ -292,10 +300,14 @@ var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.va
 
 var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(tauPow), currency1.symbol];
 
+
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
 var getA3 = (level) => BigNumber.FOUR.pow(level);
 var getQ = (level) => Utils.getStepwisePowerSum(level, 2, 10, 0);
 var getK = (level) => BigNumber.from(level * 0.05);
 var getDT = (level) => BigNumber.from(12 * level + 8);
+
+var getFreeCurrency = () => currency1.value *= BigNumber.from(1e5);
+
 init();
