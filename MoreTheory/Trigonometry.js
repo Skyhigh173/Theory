@@ -93,7 +93,7 @@ var init = () => {
     }
     
     {
-        GameSpeed = theory.createMilestoneUpgrade(1, 3);
+        GameSpeed = theory.createMilestoneUpgrade(1, 4);
         GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
         GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
         GameSpeed.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
