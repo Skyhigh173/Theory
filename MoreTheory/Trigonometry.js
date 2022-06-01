@@ -16,7 +16,7 @@ var version = "Beta v1.1.3  0x0000";
 
 var currency1;
 var a1, a2, a3, a4;
-var a1Exp, GameSpeed, moreK, moreTerm;
+var a1Exp, a2Exp, GameSpeed, moreK, moreTerm;
 var q, k, vdt;
 var Aq = BigNumber.ONE;
 var x = BigNumber.ZERO;
@@ -48,7 +48,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_3=5^{" + level + "}";
         let getInfo = (level) => "a_3=" + getA3(level).toString(0);
-        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.6)));
+        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.4)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => Utils.getMathTo(getInfo(a3.level), getInfo(a3.level + amount));
     }
@@ -93,14 +93,20 @@ var init = () => {
     }
     
     {
-        GameSpeed = theory.createMilestoneUpgrade(1, 3);
+        a2Exp= theory.createMilestoneUpgrade(1, 2);
+        a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.1");
+        a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.1");
+        a2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
+    {
+        GameSpeed = theory.createMilestoneUpgrade(10, 3);
         GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
         GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
         GameSpeed.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
     {
-        moreK = theory.createMilestoneUpgrade(3, 2);
+        moreK = theory.createMilestoneUpgrade(11, 2);
         moreK.description = "$\\uparrow$ K max level by 20";
         moreK.info = "Increases maximum level of K by 20";
         moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
@@ -108,11 +114,12 @@ var init = () => {
     }
     
     {
-        moreTerm = theory.createMilestoneUpgrade(4, 1);
+        moreTerm = theory.createMilestoneUpgrade(12, 1);
         moreTerm.description = Localization.getUpgradeAddTermDesc("a_3");
         moreTerm.info = Localization.getUpgradeAddTermInfo("a_3");
         moreTerm.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
+    
     
     CreateAch();
     
@@ -125,6 +132,7 @@ var updateAvailability = () => {
     GameSpeed.isAvailable = theory.tau >= tbf(1e50);
     moreK.isAvailable = theory.tau >= tbf(1e18);
     moreTerm.isAvailable = theory.tau >= tbf(1e100);
+    a2Exp.isAvailable = theory.tau >= tbf(1e100);
     
     a3.isAvailable = moreTerm.level >= 1;
     
@@ -152,6 +160,7 @@ var tick = (elapsedTime, multiplier) => {
     
     // Exp Calc
     let ExpA1 = bf(1 + a1Exp.level / 10);
+    let ExpA2 = bf(1 + a2Exp.level / 10);
     
     // Q calc
     let Q = getQ(q.level);
@@ -161,8 +170,8 @@ var tick = (elapsedTime, multiplier) => {
     
     // final calc
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
-    upTerm += getA2(a2.level) * bf(Aq).pow(bf(2));
-    if (moreTerm.level >= 1) upTerm += getA3(a3.level) * Aq.pow(bf(3));
+    upTerm += getA2(a2.level).pow(ExpA2) * bf(Aq).pow(bf(2));
+    if (moreTerm.level >= 1) upTerm += getA3(a3.level) * Aq.pow(bf(5));
     
     // div total prodution bc of balance problem
     let stage = 2; 
@@ -190,8 +199,10 @@ var getPrimaryEquation = () => {
     theory.primaryEquationHeight = 90;
     let result = "\\dot{\\rho} = \\frac{a_1";
     if (a1Exp.level >= 1) result += "^{" + (1 + a1Exp.level / 10) + "}";
-    result += " q + a_2 q^{2}"
-    if (moreTerm.level >= 1) result += " + a_3 q^{3} ";
+    result += " q + a_2"
+    if (a2.level >= 1) result += "^{" + (1 + a2Exp.level / 10) + "}";
+    result += "} q^{2}";
+    if (moreTerm.level >= 1) result += " + a_3 q^{5} ";
     result += "}{\\mid \\varrho \\mid + 10^{-k}}";
     return result;
 }
