@@ -93,12 +93,6 @@ var init = () => {
     }
     
     {
-        a2Exp= theory.createMilestoneUpgrade(10, 2);
-        a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.1");
-        a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.1");
-        a2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
-    }
-    {
         GameSpeed = theory.createMilestoneUpgrade(1, 3);
         GameSpeed.description = Localization.getUpgradeIncCustomDesc("Speed", "100 \\%");
         GameSpeed.info = Localization.getUpgradeIncCustomInfo("Speed", "100 \\%");
@@ -120,6 +114,13 @@ var init = () => {
         moreTerm.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
+    
+    {
+        a2Exp= theory.createMilestoneUpgrade(10, 2);
+        a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.1");
+        a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.1");
+        a2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
+    }
     
     CreateAch();
     
