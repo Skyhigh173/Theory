@@ -74,7 +74,7 @@ var init = () => {
      // vdt
     {
         let getDesc = (level) => "\\vartheta =" + getDT(level).toString(0);
-        vdt = theory.createUpgrade(12, currency1, new ExponentialCost(25, Math.log2(3.5)));
+        vdt = theory.createUpgrade(12, currency1, new ExponentialCost(25, Math.log2(3.4)));
         vdt.getDescription = (_) => Utils.getMath(getDesc(vdt.level));
         vdt.getInfo = (amount) => Utils.getMathTo(getDesc(vdt.level), getDesc(vdt.level + amount));
     }
@@ -167,8 +167,8 @@ var tick = (elapsedTime, multiplier) => {
     let b2 = BigNumber.TWO;
     
     // x calc
-    x += bf(0.125) * dt;
-    
+    if (currency.value <= BigNumber.from(1e150)) x += bf(0.125) * dt;
+    else x += bf(0.05) * dt;
     
     // x diverge calc
     // if x is greater then vdt*pi/4, it grows by x^2 not sin(x).
