@@ -167,7 +167,7 @@ var tick = (elapsedTime, multiplier) => {
     let b2 = BigNumber.TWO;
     
     // x calc
-    if (currency.value <= BigNumber.from(1e150)) x += bf(0.125) * dt;
+    if (currency1.value <= BigNumber.from(1e150)) x += bf(0.125) * dt;
     else x += bf(0.05) * dt;
     
     // x diverge calc
