@@ -100,7 +100,7 @@ var init = () => {
     }
     
     {
-        moreK = theory.createMilestoneUpgrade(2, 2);
+        moreK = theory.createMilestoneUpgrade(3, 2);
         moreK.description = "$\\uparrow$ K max level by 20";
         moreK.info = "Increases maximum level of K by 20";
         moreK.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
@@ -108,7 +108,7 @@ var init = () => {
     }
     
     {
-        moreTerm = theory.createMilestoneUpgrade(3, 1);
+        moreTerm = theory.createMilestoneUpgrade(4, 1);
         moreTerm.description = Localization.getUpgradeAddTermDesc("a_3");
         moreTerm.info = Localization.getUpgradeAddTermInfo("a_3");
         moreTerm.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
