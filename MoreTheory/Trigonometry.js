@@ -11,8 +11,10 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.3  0x0002";
+var version = "Beta v1.1.4  0x0002";
 
+var TauExp = 0.4;
+var tauPow = 1 / TauExp;
 
 var currency1;
 var a1, a2, a3, a4;
@@ -83,7 +85,15 @@ var init = () => {
     theory.createAutoBuyerUpgrade(2, currency1, 1e30);
     
     // milestone upgrades
-    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(4, 2), new LinearCost(15, 5)));
+    let MS = {
+        Me10: 10 * tauPow,
+        Me20: 20 * tauPow,
+        Me25: 25 * tauPow,
+        Me75: 75 * tauPow
+    }
+    
+    
+    theory.setMilestoneCost(new CompositeCost(4, new LinearCost(MS.Me20, MS.Me10), new LinearCost(MS.Me75, MS.Me25)));
     
     {
         a1Exp = theory.createMilestoneUpgrade(0, 2);
@@ -128,7 +138,7 @@ var init = () => {
 }
 var updateAvailability = () => {
     let bf = (num) => BigNumber.from(num);
-    let tbf = (num) => bf(num).pow(bf(0.2))
+    let tbf = (num) => bf(num).pow(bf(TauExp))
     
     GameSpeed.isAvailable = theory.tau >= tbf(1e50);
     moreK.isAvailable = theory.tau >= tbf(1e18);
@@ -211,7 +221,7 @@ var getPrimaryEquation = () => {
 var getSecondaryEquation = () => {
     theory.secondaryEquationHeight = 80;
     let result = "\\varrho = \\sum_{n=0}^{\\vartheta} \\frac{(-1)^{n} x^{2n+1}}{(2n+1)!}";
-    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho^{0.2}";
+    result += "\\qquad" + theory.latexSymbol + "=\\max\\rho^{" TauExp + "}";
     return result;
 }
 var getTertiaryEquation = () => {
@@ -244,7 +254,7 @@ function CreateAch () {
     let ac4 = theory.createAchievementCategory(3, "Miscellaneous");
     let acs = theory.createAchievementCategory(10, "Secret");
     let bf = (num) => BigNumber.from(num);
-    let tau = theory.tau.pow(bf(5));
+    let tau = theory.tau.pow(bf(tauPow));
     let t = getDT(vdt.level);
     
     theory.createAchievement(0, ac1, "Where it begins", "Begin the theory", () => tau >= 1);
@@ -274,12 +284,13 @@ function CreateAch () {
     //theory.createSecretAchievement(500, acs, "ouo", "reach 6.9e420 ouo", "do you even need tips for this?", () => theory.tau >= bf("6.9e420"));
     //theory.createSecretAchievement(501, acs, "Why not?", "Reach... 20000 in vartheta??!", "Hey, progress pls?", () => t >= 20000);
 }
-var TauExp = 0.2;
-var getPublicationMultiplier = (tau) => tau.pow(0.24 * (1 / TauExp)) / BigNumber.THREE;
-var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (Math.floor(100 * 0.24 * (1 / TauExp)) / 100) + "}}{3}";
+
+var getPublicationMultiplier = (tau) => tau.pow(0.24 * (tauPow)) / BigNumber.THREE;
+var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{" + (Math.floor(100 * 0.24 * (tauPow)) / 100) + "}}{3}";
 var getTau = () => currency1.value.pow(BigNumber.from(TauExp));
 var get2DGraphValue = () => currency1.value.sign * (BigNumber.ONE + currency1.value.abs()).log10().toNumber();
-var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(5), currency1.symbol];
+
+var getCurrencyFromTau = (tau) => [tau.max(BigNumber.ONE).pow(tauPow), currency1.symbol];
 
 var getA1 = (level) => BigNumber.TWO.pow(level);
 var getA2 = (level) => BigNumber.TWO.pow(level);
