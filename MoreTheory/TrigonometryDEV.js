@@ -9,7 +9,7 @@ var name = "Panel";
 var description = "A custom theory to demonstrate UI capabilities.";
 var authors = "sky \n XLII";
 var version = 1;
-var test = () = {
+var test = () => {
     
 }
 var popup = ui.createPopup({
