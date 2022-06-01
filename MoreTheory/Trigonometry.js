@@ -202,7 +202,7 @@ var getPrimaryEquation = () => {
     if (a1Exp.level >= 1) result += "^{" + (1 + a1Exp.level / 10) + "}";
     result += " q + a_2"
     if (a2.level >= 1) result += "^{" + (1 + a2Exp.level / 10) + "}";
-    result += "} q^{2}";
+    result += " q^{2}";
     if (moreTerm.level >= 1) result += " + a_3 q^{5} ";
     result += "}{\\mid \\varrho \\mid + 10^{-k}}";
     return result;
