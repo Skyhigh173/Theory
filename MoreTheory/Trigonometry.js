@@ -11,7 +11,7 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.4  0x0002";
+var version = "Beta v1.1.4  0x0003";
 
 var TauExp = 0.4;
 var tauPow = 1 / TauExp;
@@ -86,10 +86,10 @@ var init = () => {
     
     // milestone upgrades
     let MS = {
-        Me10: 10 * tauPow,
-        Me20: 20 * tauPow,
-        Me25: 25 * tauPow,
-        Me75: 75 * tauPow
+        Me10: 10 * TauExp,
+        Me20: 20 * TauExp,
+        Me25: 25 * TauExp,
+        Me75: 75 * TauExp
     }
     
     
