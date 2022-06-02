@@ -16,19 +16,19 @@ var popup = ui.createPopup({
     content: ui.createStackLayout({
         children: [
             ui.createFrame({
-                    heightRequest: 70,
+                    heightRequest: 150,
                     cornerRadius: 10,
                     content: ui.createLatexLabel({
-                        text: "\\( \\tau_{99} = \\prod_{i=1}^5 \\lambda_i \\)",
+                        text: "\\( \\tau_{99} = \\prod_i \\lambda_i \\)",
                         horizontalOptions: LayoutOptions.CENTER,
                         verticalOptions: LayoutOptions.CENTER
                     })
             }),
             ui.createFrame({
-                heightRequest: ui.screenHeight - 70,
+                heightRequest: ui.screenHeight - 160,
                 cornerRadius: 6,
                 content : ui.createGrid({
-                    rowDefinitions: ["50*", "50*", "auto", "auto", "auto"],
+                    rowDefinitions: ["auto", "auto", "auto", "auto", "auto"],
                     children: [
                         ui.createButton({text: "λ1", row: 0, column: 0}),
                         ui.createButton({text: "λ2", row: 1, column: 0}),
