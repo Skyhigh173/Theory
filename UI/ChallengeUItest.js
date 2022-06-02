@@ -12,7 +12,7 @@ var version = 1;
 
 var popup = ui.createPopup({
     title: "Challenge Theory",
-    heightRequest: ui.screenHeight(),
+    heightRequest: ui.screenHeight,
     content: ui.createStackLayout({
         children: [
             ui.createFrame({
@@ -25,7 +25,7 @@ var popup = ui.createPopup({
                     })
             }),
             ui.createFrame({
-                heightRequest: ui.screenHeight() - 70,
+                heightRequest: ui.screenHeight - 70,
                 cornerRadius: 6,
                 content : ui.createGrid({
                     rowDefinitions: ["50*", "50*", "auto", "auto", "auto"],
