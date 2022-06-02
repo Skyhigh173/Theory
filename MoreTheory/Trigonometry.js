@@ -50,7 +50,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_3=3^{" + level + "}";
         let getInfo = (level) => "a_3=" + getA3(level).toString(0);
-        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.2)));
+        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.4)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => Utils.getMathTo(getInfo(a3.level), getInfo(a3.level + amount));
     }
@@ -190,7 +190,7 @@ var tick = (elapsedTime, multiplier) => {
     // final calc
     let upTerm = getA1(a1.level).pow(ExpA1) * Aq;
     upTerm += getA2(a2.level).pow(ExpA2) * bf(Aq).pow(bf(2));
-    if (moreTerm.level >= 1) upTerm += getA3(a3.level) * Aq.pow(bf(5));
+    if (moreTerm.level >= 1) upTerm += getA3(a3.level) * Aq.pow(bf(4));
     
     // div total prodution bc of balance problem
     let stage = 2; 
@@ -221,7 +221,7 @@ var getPrimaryEquation = () => {
     result += " q + a_2"
     if (a2.level >= 1) result += "^{" + (1 + a2Exp.level / 10) + "}";
     result += " q^{2}";
-    if (moreTerm.level >= 1) result += " + a_3 q^{5} ";
+    if (moreTerm.level >= 1) result += " + a_3 q^{4} ";
     result += "}{\\mid \\varrho \\mid + 10^{-k}}";
     return result;
 }
