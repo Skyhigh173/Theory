@@ -11,12 +11,13 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.6  0x0002";
+var version = "Beta v1.1.6  1x0001";
 
 var TauExp = 0.4;
 var tauPow = 1 / TauExp;
 
-var currency1, free;
+var currency1;
+var free, skip, skipdt = 0;
 var a1, a2, a3, a4;
 var a1Exp, a2Exp, GameSpeed, moreK, moreTerm;
 var q, k, vdt;
@@ -50,7 +51,7 @@ var init = () => {
     {
         let getDesc = (level) => "a_3=3^{" + level + "}";
         let getInfo = (level) => "a_3=" + getA3(level).toString(0);
-        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.4)));
+        a3 = theory.createUpgrade(2, currency1, new ExponentialCost(1e75, Math.log2(3.7)));
         a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
         a3.getInfo = (amount) => Utils.getMathTo(getInfo(a3.level), getInfo(a3.level + amount));
     }
@@ -89,6 +90,11 @@ var init = () => {
         free = theory.createSingularUpgrade(1,currency1,new FreeCost());
         free.bought = (amount) => getFreeCurrency();
         free.description = "Test: Get \\(e5\\rho\\) free";
+    }
+    {
+        skip = theory.createSingularUpgrade(2,currency1,new FreeCost());
+        skip.bought = (amount) => skipHr(1);
+        skip.description = "Test: Skip 1hr";
     }
     
     
@@ -159,8 +165,9 @@ var updateAvailability = () => {
     k.maxLevel = 20 + moreK.level * 20;
 }
 var tick = (elapsedTime, multiplier) => {
-    let dt = BigNumber.from(elapsedTime * multiplier);
+    let dt = BigNumber.from((elapsedTime + skipdt) * multiplier);
     let bonus = theory.publicationMultiplier;
+    skipdt = 0;
     
     // bignumber setup
     let bf = (num) => BigNumber.from(num);
@@ -313,5 +320,7 @@ var getDT = (level) => {
 }
 
 var getFreeCurrency = () => currency1.value *= BigNumber.from(1e5);
-
+var skipHr = (hr) => {
+    skipdt = hr * 3600;
+}
 init();
