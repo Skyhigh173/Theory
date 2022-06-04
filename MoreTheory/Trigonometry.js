@@ -11,10 +11,12 @@ var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
 var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.6.1  1x0001";
+var version = "Beta v1.1.6.2  1x0001";
 
 var TauExp = 0.4;
 var tauPow = 1 / TauExp;
+
+var a2Cost = 1 / 0.15;
 
 var currency1;
 var free, skip, skipdt = 0;
@@ -141,8 +143,8 @@ var init = () => {
     
     {
         a2Exp= theory.createMilestoneUpgrade(10, 2);
-        a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.2");
-        a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.2");
+        a2Exp.description = Localization.getUpgradeIncCustomExpDesc("a_2", "0.15");
+        a2Exp.info = Localization.getUpgradeIncCustomExpInfo("a_2", "0.15");
         a2Exp.boughtOrRefunded = (_) => theory.invalidatePrimaryEquation();
     }
     
@@ -186,7 +188,7 @@ var tick = (elapsedTime, multiplier) => {
     
     // Exp Calc
     let ExpA1 = bf(1 + a1Exp.level / 10);
-    let ExpA2 = bf(1 + a2Exp.level / 5);
+    let ExpA2 = bf(1 + a2Exp.level / a2Cost);
     
     // Q calc
     let Q = getQ(q.level);
@@ -226,7 +228,7 @@ var getPrimaryEquation = () => {
     let result = "\\dot{\\rho} = \\frac{a_1";
     if (a1Exp.level >= 1) result += "^{" + (1 + a1Exp.level / 10) + "}";
     result += " q + a_2"
-    if (a2.level >= 1) result += "^{" + (1 + a2Exp.level / 5) + "}";
+    if (a2.level >= 1) result += "^{" + (1 + a2Exp.level / a2Cost) + "}";
     result += " q^{2}";
     if (moreTerm.level >= 1) result += " + a_3 q^{4} ";
     result += "}{\\mid \\varrho \\mid + 10^{-k}}";
