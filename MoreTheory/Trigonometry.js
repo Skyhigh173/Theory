@@ -10,8 +10,8 @@ import {ui} from "./api/ui/UI";
 var id = "Triangle?";
 var name = "Trigonometry";
 var description = "You need some (a little) skills to play this theory.\nTrigonometry theory, play with sin() cos() and more. Pay attention to vartheta, it will slow down your theory when it gets bigger!";
-var authors = "Skyhigh173#3120";
-var version = "Beta v1.1.6.5  1x0001";
+var authors = "Skyhigh173#3120 \n XLII for sim making";
+var version = "Beta v1.1.6.6  1x0001";
 
 var TauExp = 0.4;
 var tauPow = 1 / TauExp;
